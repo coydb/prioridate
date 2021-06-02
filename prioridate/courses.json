@@ -2,12 +2,10 @@
 		{
 			"classId":1,
 			"className":"ENGL 202",
-			"professorId":1,
-			"students":[1,2]
+			"professorId":1
 		},{
 			"classId":2,
 			"className":"ECON 101",
-			"professorId":2,
-			"students":[1,2]
+			"professorId":2
 		}
 	]
