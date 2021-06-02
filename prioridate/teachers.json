@@ -1,0 +1,13 @@
+[
+		{
+			"teacherId":1,
+			"firstName":"Harold",
+			"lastName":"Emerson",
+			"classes":[1, 4]
+		},{
+			"teacherId":1,
+			"firstName":"Rachel",
+			"lastName":"West",
+			"classes":[2, 5]
+		}
+	]

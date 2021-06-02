@@ -1,0 +1,17 @@
+[
+		{
+			"assignementId":1,
+			"title":"Essay 2",
+			"dueDate":"05/26/2021",
+			"dueTime":"11:59PM",
+			"class":1,
+			"percentOfGrade":12.5
+		},{
+			"assignementId":2,
+			"title":"Economics Fundamentals Worksheet",
+			"dueDate":"05/25/2021",
+			"dueTime":"11:59PM",
+			"class":2,
+			"percentageOfGrade":2.5
+		}
+	]	
