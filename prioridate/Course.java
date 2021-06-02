@@ -1,5 +1,5 @@
 package prioridate;
 
-public class Class {
+public class Course {
     
 }
