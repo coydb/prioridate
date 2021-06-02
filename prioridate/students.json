@@ -1,0 +1,17 @@
+[
+		{
+			"studentId":1,
+			"firstName":"Charles",
+			"lastName":"Evans",
+			"assignmentsDue":[2],
+			"assignmentsComplete":[1],
+			"classes":[1, 2]
+		},{
+			"studentId":2,
+			"firstName":"Emily",
+			"lastName":"Thompson",
+			"assignmentsDue":[],
+			"assignmentsComplete":[1, 2],
+			"classes":[1, 2]
+		}
+]	
