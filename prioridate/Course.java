@@ -4,17 +4,16 @@ import java.util.ArrayList;
 
 public class Course 
 {
-    protected ArrayList<Student> students;
-    protected ArrayList<Assignment> assignments;
-    protected Teacher teacher;
-    private String name;
+    private int courseId;
+    private String className;
+    private ArrayList<Assignment> assignments;
 
     public Course()
     {
-        this.students = new ArrayList<Student>();
+        this.courseId = courseId;
+        this.className = className;
         this.assignments = new ArrayList<Assignment>();
-        this.teacher = new Teacher();
-        this.name = name;
+
     }
 
     public void viewStudents(Student students)
@@ -37,14 +36,27 @@ public class Course
 
     }
 
-    public void addModule()
-    {
+    //public Student getStudent(String name)
+    //{
 
+    //}
+    
+    public int getCourseId()
+    {
+        return this.courseId;
     }
 
-    public void addGroup()
+    public String getClassName()
     {
-
+        return this.className;
     }
+
+    public ArrayList<Assignment> getAssignments()
+    {
+        return this.assignments;
+    }
+
+
+
     
 }
