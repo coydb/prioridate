@@ -7,27 +7,34 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+/**
+ * A DataLoader for fetching data from JSON
+ */
 public class DataLoader {
   /**
-   * TESTING PURPOSES ONLY
+   * Fetches all students from the JSON database 
+   * and returns them as an ArrayList
+   * @return An ArrayList of all students from the database.
    */
-  public static void main(String[] args) {
-    getAssignments();
-  }
-
   public static ArrayList<Student> getStudents() {
     // default behavior to allow compilation
     return new ArrayList<Student>();
   }
 
+  /**
+   * Fetches all teachers from the JSON database 
+   * and returns them as an ArrayList
+   * @return An ArrayList of all teachers from the database.
+   */
   public static ArrayList<Teacher> getTeachers() {
     // default behavior to allow compilation
     return new ArrayList<Teacher>();
   }
 
   /**
-   * Loads and returns the list of courses.
-   * @return An ArrayList of Courses
+   * Fetches all courses from the JSON database 
+   * and returns them as an ArrayList
+   * @return An ArrayList of all courses from the database.
    */
   public static ArrayList<Course> getCourses() {
     // default behavior to allow compilation
@@ -35,8 +42,9 @@ public class DataLoader {
   }
   
   /**
-   * Loads and returns the list of assignments.
-   * @return An ArrayList of Assignments
+   * Fetches all assignments from the JSON database 
+   * and returns them as an ArrayList
+   * @return An ArrayList of all assignments from the database.
    */
   public static ArrayList<Assignment> getAssignments() {
     ArrayList<Assignment> assignments = new ArrayList<Assignment>();
@@ -55,33 +63,41 @@ public class DataLoader {
           case "quiz":
             assignments.add(processQuiz(courseJSON));
             break;
+          default:
+            // prevents malformed JSON entries from being added to list
+            break;
         }
       }
+      return assignments;
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return assignments;   
+    return null;   
   }
-  public static Homework processHomework(JSONObject courseJSON) {
+
+  /**
+   * Helper method for getAssignments()
+   */
+  private static Homework processHomework(JSONObject courseJSON) {
     int assignmentId = Integer.parseInt((String)courseJSON.get("assignmentId").toString());
-    //int assignmentId = (int)courseJSON.get("assignmentId");
     String title = (String)courseJSON.get("title");
     String type = (String)courseJSON.get("type");
     int numQuestions = Integer.parseInt((String)courseJSON.get("numQuestions").toString());
-    //int numQuestions = (int)courseJSON.get("numQuestions");
     String dueDate = (String)courseJSON.get("dueDate");
     String dueTime = (String)courseJSON.get("dueTime");
     double percentOfGrade = Double.parseDouble((String)courseJSON.get("percentOfGrade").toString());
     return new Homework(assignmentId, title, type, dueDate, dueTime, percentOfGrade, numQuestions);
-  }  
+  }
+  
+  /**
+   * Helper method for getAssignments()
+   */
   public static Quiz processQuiz(JSONObject courseJSON) {
     int assignmentId = Integer.parseInt((String)courseJSON.get("assignmentId").toString());
-    //int assignmentId = courseJSON.get("assignmentId");
     String title = (String)courseJSON.get("title");
     String type = (String)courseJSON.get("type");
     double timeLimit = Double.parseDouble((String)courseJSON.get("timeLimit").toString());
     int numQuestions = Integer.parseInt((String)courseJSON.get("numQuestions").toString());
-    //int numQuestions = (int)courseJSON.get("numQuestions");
     String dueDate = (String)courseJSON.get("dueDate");
     String dueTime = (String)courseJSON.get("dueTime");
     double percentOfGrade = Double.parseDouble((String)courseJSON.get("percentOfGrade").toString());

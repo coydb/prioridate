@@ -1,10 +1,12 @@
 package prioridate;
-
 import java.util.ArrayList;
 
+/**
+ * Stores all assignments in an ArrayList<Assignment>
+ */
 public class AssignmentList {
   private static AssignmentList assignmentList = null;
-  private static ArrayList<Assignment> assignments;
+  private static ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 
   /**
    * For Testing Purposes Only
@@ -12,51 +14,63 @@ public class AssignmentList {
    */
   public static void main(String[] args) {
     AssignmentList assignmentList = AssignmentList.getInstance();
-    AssignmentList.printAssignmentList();
+    assignmentList.printAssignmentList();
+    Homework newHomework = new Homework(0, "Test Assignment", "Homework", "Never", "Never", 0.0, 8000000);
+    assignmentList.addAssignment(newHomework);
+    System.out.println("\n");
+    assignmentList.printAssignmentList();
   }
 
-
+  /**
+   * Private Constructor (use AssignmentList.getInstance() for instantiation)
+   */
   private AssignmentList() {
     assignments = DataLoader.getAssignments();
   }
+
+  /**
+   * Returns the current instance of AssignmentList if one exists,
+   * or creates and returns an instance of AssignmentList if one doesn't exist
+   * @return The current instance of AssignmentList
+   */
   public static AssignmentList getInstance() {
     if (assignmentList == null) {
-      return new AssignmentList();
-    } else {
-      return assignmentList;
+      assignmentList = new AssignmentList();
     }
+    return assignmentList;
   }
-  public Assignment getAssignment(int assignmentId) {
+
+  /**
+   * Accessor for the currently loaded list of assignments
+   * @return An ArrayList of Assignments
+   */
+  public ArrayList<Assignment> getAssignments() {
     // default behavior to allow compilation
-    return new Homework(0, "test", "test", "test", "test", 0.0, 0);
+    return assignments;
     
   }
-  public void addAssignment(Assignment assignmentToAdd) {
 
+  /**
+   * Adds an assignment to the current list of assignments
+   * @param assignmentToAdd The Assignment to be added to the list
+   */
+  public void addAssignment(Assignment assignmentToAdd) {
+    assignments.add(assignmentToAdd);
   }
-  public static void printAssignmentList() {
+
+  /**
+   * Helper method for testing
+   */
+  private void printAssignmentList() {
     for (int i = 0;i < assignments.size();i++) {
       Assignment currentAssignment = assignments.get(i);
       if(currentAssignment.getType().equalsIgnoreCase("homework")) {
         Homework currentHomework = (Homework)assignments.get(i);
-        System.out.println("Assignment Id: "+currentHomework.getAssignmentId());
-        System.out.println("Title: "+currentHomework.getTitle());
-        System.out.println("Type: "+currentHomework.getType());
-        System.out.println("Number of Questions: "+currentHomework.getNumQuestions());
-        System.out.println("Due Date: "+currentHomework.getDueDate());
-        System.out.println("Due Time: "+currentHomework.getDueTime());
-        System.out.println("Percent of Grade: "+currentHomework.getPercentOfGrade()+"\n");
+        System.out.println(currentHomework.toString());
       }
       if(currentAssignment.getType().equalsIgnoreCase("quiz")) {
         Quiz currentQuiz = (Quiz)assignments.get(i);
-        System.out.println("Assignment Id: "+currentQuiz.getAssignmentId());
-        System.out.println("Title: "+currentQuiz.getTitle());
-        System.out.println("Type: "+currentQuiz.getType());
-        System.out.println("Time Limit: "+currentQuiz.getTimeLimit());
-        System.out.println("Number of Questions: "+currentQuiz.getNumQuestions());
-        System.out.println("Due Date: "+currentQuiz.getDueDate());
-        System.out.println("Due Time: "+currentQuiz.getDueTime());
-        System.out.println("Percent of Grade: "+currentQuiz.getPercentOfGrade());
+        System.out.println(currentQuiz.toString());
       }
     }
   }
