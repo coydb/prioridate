@@ -1,11 +1,12 @@
 package prioridate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AccountList {
   private static AccountList accountList;
-  private HashMap<String, Account> students;
-  private HashMap<String, Account> teachers;
+  private ArrayList<Account> studentsList;
+  private ArrayList<Account> teachersList;
 
   private AccountList() {
 
