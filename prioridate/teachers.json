@@ -1,13 +1,15 @@
 [
 		{
 			"teacherId":1,
-			"firstName":"Harold",
-			"lastName":"Emerson",
-			"classes":[1, 4]
+			"teacherName":"Harold Emerson",
+			"userame": "emersonh",
+			"password": "password1",
+			"courses":[1, 4]
 		},{
-			"teacherId":1,
-			"firstName":"Rachel",
-			"lastName":"West",
-			"classes":[2, 5]
+			"teacherId":2,
+			"teacherName":"Rachel West",
+			"username":"westr",
+			"password":"password2",
+			"courses":[2, 5]
 		}
 	]

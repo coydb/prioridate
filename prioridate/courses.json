@@ -1,11 +1,11 @@
 [
 		{
-			"classId":1,
+			"courseId":1,
 			"className":"ENGL 202",
-			"professorId":1
+			"assignments":[1]
 		},{
-			"classId":2,
+			"courseId":2,
 			"className":"ECON 101",
-			"professorId":2
+			"assignments":[2]
 		}
 	]

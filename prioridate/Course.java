@@ -2,9 +2,6 @@ package prioridate;
 
 import java.util.ArrayList;
 
-/**
- * ***NON-FUNCTIONAL TESTING IMPLEMENTATION***
- */
 public class Course 
 {
     protected ArrayList<Student> students;
