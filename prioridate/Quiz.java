@@ -36,11 +36,8 @@ public class Quiz extends Assignment {
     }
 
     public String toString(){
-        return "AssignmentID: " + this.assignmentId 
-        + "\nTitle: " + this.title + "\nType: " + this.type
-        + "\nDue Date: " + this.dueDate + "\nDue Time: "
-        + this.dueTime + "\nPercent of Grade: " + this.percentOfGrade
-        + "\nTime Limit: " + this.timeLimit + "\nNumber of Questions: "
-        + this.numQuestions + "\nPriority: " + this.priority;
+        return super.toString()
+        + "\nTime Limit: " + getTimeLimit() + "\nNumber of Questions: "
+        + getNumQuestions() + "\nPriority: " + getPriority();
     }
 }

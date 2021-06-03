@@ -28,11 +28,8 @@ public class Homework extends Assignment {
     }
 
     public String toString() {
-        return "AssignmentID: " + this.assignmentId 
-        + "\nTitle: " + this.title + "\nType: " + this.type
-        + "\nDue Date: " + this.dueDate + "\nDue Time: "
-        + this.dueTime + "\nPercent of Grade: " + this.percentOfGrade
-        + "\nNumber of Questions: " + numQuestions
-        + "\nPriority: " + this.priority;
+        return super.toString()
+        + "\nNumber of Questions: " + getNumQuestions()
+        + "\nPriority: " + getPriority();
     }
 }

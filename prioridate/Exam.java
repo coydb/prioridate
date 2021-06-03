@@ -60,13 +60,10 @@ public class Exam extends Assignment {
     }
 
     public String toString() {
-        return "AssignmentID: " + this.assignmentId 
-        + "\nTitle: " + this.title + "\nType: " + this.type
-        + "\nDue Date: " + this.dueDate + "\nDue Time: "
-        + this.dueTime + "\nPercent of Grade: " + this.percentOfGrade
-        + "\nTime Limit: " + this.timeLimit + "\nNumber of Questions: "
-        + this.numQuestions + "\nQuestion Type: " + this.questionType
-        + "\nLocation: " + this.location + "\nPriority: " + this.priority;
+        return super.toString()
+        + "\nTime Limit: " + getTimeLimit() + "\nNumber of Questions: "
+        + getNumQuestions() + "\nQuestion Type: " + getQuestionType()
+        + "\nLocation: " + getLocation() + "\nPriority: " + getPriority();
     }
 
 

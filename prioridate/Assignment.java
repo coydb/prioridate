@@ -20,10 +20,10 @@ public abstract class Assignment {
     }
 
     public String toString() {
-        return "AssignmentID: " + this.assignmentId 
-        + "\nTitle: " + this.title + "\nType: " + this.type
-        + "\nDue Date: " + this.dueDate + "\nDue Time: "
-        + this.dueTime + "\nPercent of Grade: " + this.percentOfGrade;
+        return "AssignmentID: " + getAssignmentId() 
+        + "\nTitle: " + getTitle() + "\nType: " + getType()
+        + "\nDue Date: " + getDueDate() + "\nDue Time: "
+        + getDueTime() + "\nPercent of Grade: " + getPercentOfGrade();
     }
 
     public abstract void setPriority();
