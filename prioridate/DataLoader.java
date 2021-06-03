@@ -49,7 +49,7 @@ public class DataLoader {
   public static ArrayList<Assignment> getAssignments() {
     ArrayList<Assignment> assignments = new ArrayList<Assignment>();
     try {
-      FileReader reader = new FileReader("prioridate/assignments.json");
+      FileReader reader = new FileReader("prioridate/json/assignments.json");
       JSONParser parser = new JSONParser();
       JSONArray coursesJSON = (JSONArray)parser.parse(reader);
 
