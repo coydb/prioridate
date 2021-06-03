@@ -12,10 +12,10 @@ public class Exam extends Assignment {
                 double percentOfGrade, double timeLimit, int numQuestions, 
                 String questionType, String location, String dateAndTime) {
         super(assignmentId, title, type, dueDate, dueTime, percentOfGrade);
-        this.timeLimit = timeLimit;
-        this.numQuestions = numQuestions;
-        this.questionType = questionType;
-        this.location = location;
+        setTimeLimit(timeLimit);
+        setNumQuestions(numQuestions);
+        setQuestionType(questionType);
+        setLocation(location);
         setPriority();
     }
 

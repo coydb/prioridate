@@ -1,23 +1,29 @@
 package prioridate;
-
+// TO-DO:
+// - setPriority - do actual calc.
+// - flesh out setters with checks
 public class Homework extends Assignment {
     private int numQuestions;
 
-    public Homework(String title, String subject, String dueDate, double percentage, boolean isCompleted, int priority, int numQuestions) {
-        super(title, subject, dueDate, percentage, isCompleted, priority);
-        this.numQuestions = numQuestions;
+    public Homework(int assignmentId, String title, String type, String dueDate, String dueTime, double percentOfGrade, int numQuestions) {
+        super(assignmentId, title, type, dueDate, dueTime, percentOfGrade);
+        setNumQuestions(numQuestions);
+        setPriority();
     }
 
-    public double getPercentage() {
-        return this.percentage;
-    }
-
-    public String getDueDate() {
-        return this.dueDate;
+    public void setPriority() {
+        int priority = 0;
     }
 
     public int getPriority() {
-        int priority = 0;
-        return priority;
+        return this.priority;
+    }
+
+    public void setNumQuestions(int numQuestions) {
+        this.numQuestions = numQuestions;
+    }
+
+    public int getNumQuestions() {
+        return this.numQuestions;
     }
 }

@@ -4,22 +4,34 @@ public class Quiz extends Assignment {
     private double timeLimit;
     private int numQuestions;
 
-    public Quiz(String title, String subject, String dueDate, double percentage, boolean isCompleted, int priority, double timeLimit, int numQuestions) {
-        super(title, subject, dueDate, percentage, isCompleted, priority);
-        this.timeLimit = timeLimit;
-        this.numQuestions = numQuestions;
+    public Quiz(int assignmentId, String title, String type, String dueDate, String dueTime, double percentOfGrade, double timeLimit, int numQuestions) {
+        super(assignmentId, title, type, dueDate, dueTime, percentOfGrade);
+        setTimeLimit(timeLimit);
+        setNumQuestions(numQuestions);
+        setPriority();
     }
 
-    public double getPercentage() {
-        return this.percentage;
-    }
-
-    public String getDueDate() {
-        return this.dueDate;
+    public void setPriority() {
+        int priority = 0;
     }
 
     public int getPriority() {
-        int priority = 0;
-        return priority;
+        return this.priority;
+    }
+
+    public void setTimeLimit(double timeLimit) {
+        this.timeLimit = timeLimit;
+    }
+
+    public double getTimeLimit() {
+        return this.timeLimit;
+    }
+
+    public void setNumQuestions(int numQuestions) {
+        this.numQuestions = numQuestions;
+    }
+
+    public int getNumQuestions() {
+        return this.numQuestions;
     }
 }

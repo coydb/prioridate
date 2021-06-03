@@ -1,5 +1,6 @@
 package prioridate;
-
+// TO-DO:
+// - flesh out setters with checks
 public abstract class Assignment {
     protected int assignmentId;
     protected String title;

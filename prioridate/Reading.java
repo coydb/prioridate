@@ -1,25 +1,39 @@
 package prioridate;
-
+// TO-DO:
+// - flesh out setters with checks
+// - setPriority calculation
 public class Reading extends Assignment {
     private String[] chapters;
     private int numPages;
 
-    public Reading(String title, String subject, String dueDate, double percentage, boolean isCompleted, int priority, String[] chapters, int numPages) {
-        super(title, subject, dueDate, percentage, isCompleted, priority);
-        this.chapters = chapters;
-        this.numPages = numPages;
+    public Reading(int assignmentId, String title, String type, String dueDate, String dueTime, double percentOfGrade, String[] chapters, int numPages) {
+        super(assignmentId, title, type, dueDate, dueTime, percentOfGrade);
+        setChapters(chapters);
+        setNumPages(numPages);
+        setPriority();
     }
 
-    public double getPercentage() {
-        return this.percentage;
-    }
-
-    public String getDueDate() {
-        return this.dueDate;
+    public void setPriority() {
+        int priority = 0;
     }
 
     public int getPriority() {
-        int priority = 0;
-        return priority;
+        return this.priority;
+    }
+
+    public void setChapters(String[] chapters) {
+        this.chapters = chapters;
+    }
+
+    public String[] getChapters() {
+        return this.chapters;
+    }
+
+    public void setNumPages(int numPages) {
+        this.numPages = numPages;
+    }
+
+    public int getNumPages() {
+        return this.numPages;
     }
 }
