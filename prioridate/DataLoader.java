@@ -63,6 +63,12 @@ public class DataLoader {
           case "quiz":
             assignments.add(processQuiz(courseJSON));
             break;
+          case "exam":
+            assignments.add(processExam(courseJSON));
+            break;
+          case "reading":
+            assignments.add(processReading(courseJSON));
+            break;
           default:
             // prevents malformed JSON entries from being added to list
             break;
@@ -82,26 +88,65 @@ public class DataLoader {
     int assignmentId = Integer.parseInt((String)courseJSON.get("assignmentId").toString());
     String title = (String)courseJSON.get("title");
     String type = (String)courseJSON.get("type");
-    int numQuestions = Integer.parseInt((String)courseJSON.get("numQuestions").toString());
     String dueDate = (String)courseJSON.get("dueDate");
     String dueTime = (String)courseJSON.get("dueTime");
     double percentOfGrade = Double.parseDouble((String)courseJSON.get("percentOfGrade").toString());
+    int numQuestions = Integer.parseInt((String)courseJSON.get("numQuestions").toString());
     return new Homework(assignmentId, title, type, dueDate, dueTime, percentOfGrade, numQuestions);
   }
   
   /**
    * Helper method for getAssignments()
    */
-  public static Quiz processQuiz(JSONObject courseJSON) {
+  private static Quiz processQuiz(JSONObject courseJSON) {
     int assignmentId = Integer.parseInt((String)courseJSON.get("assignmentId").toString());
     String title = (String)courseJSON.get("title");
     String type = (String)courseJSON.get("type");
-    double timeLimit = Double.parseDouble((String)courseJSON.get("timeLimit").toString());
-    int numQuestions = Integer.parseInt((String)courseJSON.get("numQuestions").toString());
     String dueDate = (String)courseJSON.get("dueDate");
     String dueTime = (String)courseJSON.get("dueTime");
     double percentOfGrade = Double.parseDouble((String)courseJSON.get("percentOfGrade").toString());
+    double timeLimit = Double.parseDouble((String)courseJSON.get("timeLimit").toString());
+    int numQuestions = Integer.parseInt((String)courseJSON.get("numQuestions").toString());
     return new Quiz(assignmentId, title, type, dueDate, dueTime, percentOfGrade, timeLimit, numQuestions);
   } 
+
+  /**
+   * Helper method for getAssignments()
+   */
+  private static Exam processExam(JSONObject courseJSON) {
+    int assignmentId = Integer.parseInt((String)courseJSON.get("assignmentId").toString());
+    String title = (String)courseJSON.get("title");
+    String type = (String)courseJSON.get("type");
+    String dueDate = (String)courseJSON.get("dueDate");
+    String dueTime = (String)courseJSON.get("dueTime");
+    double percentOfGrade = Double.parseDouble((String)courseJSON.get("percentOfGrade").toString());
+    double timeLimit = Double.parseDouble((String)courseJSON.get("timeLimit").toString());
+    int numQuestions = Integer.parseInt((String)courseJSON.get("numQuestions").toString());
+    String questionType = (String)courseJSON.get("questionType");
+    String location = (String)courseJSON.get("location");
+    String dateAndTime = (String)courseJSON.get("dateAndTime");
+    return new Exam(assignmentId, title, type, dueDate, dueTime, percentOfGrade,
+                   timeLimit, numQuestions, questionType, location, dateAndTime);
+
+  }
+
+  /**
+   * Helper method for getAssignments()
+   */
+  private static Reading processReading(JSONObject courseJSON) {
+    int assignmentId = Integer.parseInt((String)courseJSON.get("assignmentId").toString());
+    String title = (String)courseJSON.get("title");
+    String type = (String)courseJSON.get("type");
+    String dueDate = (String)courseJSON.get("dueDate");
+    String dueTime = (String)courseJSON.get("dueTime");
+    double percentOfGrade = Double.parseDouble((String)courseJSON.get("percentOfGrade").toString());
+    JSONArray arrayFromJSON = (JSONArray)courseJSON.get("chapters");
+    String[] chapters = new String[arrayFromJSON.size()];
+    for(int i = 0; i < arrayFromJSON.size();i++) {
+      chapters[i] = (String)arrayFromJSON.get(i);
+    }
+    int numPages = Integer.parseInt((String)courseJSON.get("numPages").toString());
+    return new Reading(assignmentId, title, type, dueDate, dueTime, percentOfGrade, chapters, numPages);
+  }
 }
 

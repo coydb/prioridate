@@ -3,19 +3,40 @@
 			"assignmentId":1,
 			"title":"Writing Techniques Worksheet",
 			"type":"Homework",
-			"numQuestions":5,
 			"dueDate":"06/26/2021",
 			"dueTime":"11:59PM",
-			"percentOfGrade":12.5
+			"percentOfGrade":12.5,
+			"numQuestions":5
 		},{
 			"assignmentId":2,
 			"title":"Economics Fundamentals Quiz",
 			"type":"Quiz",
-			"timeLimit":30,
-			"numQuestions":10,
 			"dueDate":"06/25/2021",
 			"dueTime":"11:59PM",
-			"percentOfGrade":13.5
+			"percentOfGrade":13.5,
+			"timeLimit":30,
+			"numQuestions":10
+		},{
+			"assignmentId":3,
+			"title":"Economy Exam 1",
+			"type":"Exam",
+			"dueDate":"06/28/2021",
+			"dueTime":"10:30PM",
+			"percentOfGrade":14.5,
+			"timeLimit":30,
+			"numQuestions":10,
+			"questionType":"Multiple Choice",
+			"location":"Room 115 Bldg 215",
+			"dateAndTime":"06/28/2021 10:00PM"
+		},{
+			"assignmentId":4,
+			"title":"Reading Assignment 1",
+			"type":"Reading",
+			"dueDate":"06/29/2021",
+			"dueTime":"11:59PM",
+			"percentOfGrade":15.5,
+			"chapters":["Chapter 1", "Chapter 2"],
+			"numPages":15
 		}
 
 	]	
