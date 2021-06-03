@@ -9,6 +9,14 @@ public class Course
     protected Teacher teacher;
     private String name;
 
+    public Course()
+    {
+        this.students = new ArrayList<Student>();
+        this.assignments = new ArrayList<Assignment>();
+        this.teacher = new Teacher();
+        this.name = name;
+    }
+
     public void viewStudents(Student students)
     {
 
