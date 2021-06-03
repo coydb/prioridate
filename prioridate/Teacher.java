@@ -10,6 +10,7 @@ public class Teacher
 
     public Teacher()
     {
+        this.teacherId = teacherId;
         this.teacherName = teacherName;
         this.courses = new ArrayList<Course>();
     }
@@ -38,5 +39,22 @@ public class Teacher
     {
 
     }
+
+    public int getTeacherId()
+    {
+        return this.teacherId;
+    }
+
+    public String getTeacherName()
+    {
+        return this.teacherName;
+    }
+
+    public ArrayList<Course> getCourses()
+    {
+        return this.courses;
+    }
+
+
     
 }
