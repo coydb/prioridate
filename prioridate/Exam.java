@@ -1,33 +1,63 @@
 package prioridate;
-
+// TO-DO:
+// - getPriority (just stub rn)
+// - flesh out setters, need to have checks for setting. basic rn for compilation
 public class Exam extends Assignment {
     private double timeLimit;
     private int numQuestions;
     private String questionType; //enumeration?
     private String location;
-    private String dateAndTime; //need method to parse?
 
-    public Exam(String title, String subject, String dueDate, double percentage, 
-                boolean isCompleted, int priority, double timeLimit, int numQuestions, 
+    public Exam(int assignmentId, String title, String type, String dueDate, String dueTime, 
+                double percentOfGrade, double timeLimit, int numQuestions, 
                 String questionType, String location, String dateAndTime) {
-        super(title, subject, dueDate, percentage, isCompleted, priority);
+        super(assignmentId, title, type, dueDate, dueTime, percentOfGrade);
         this.timeLimit = timeLimit;
         this.numQuestions = numQuestions;
         this.questionType = questionType;
         this.location = location;
-        this.dateAndTime = dateAndTime;
+        setPriority();
     }
 
-    public double getPercentage() {
-        return this.percentage;
-    }
-
-    public String getDueDate() {
-        return this.dueDate;
+    public void setPriority() {
+        int priority = 0;
     }
 
     public int getPriority() {
-        int priority = 0;
-        return priority;
+        return this.priority;
     }
+
+    public double getTimeLimit() {
+        return this.timeLimit;
+    }
+
+    public void setTimeLimit(double timeLimit) {
+        this.timeLimit = timeLimit;
+    }
+
+    public int getNumQuestions() {
+        return this.numQuestions;
+    }
+
+    public void setNumQuestions(int numQuestions) {
+        this.numQuestions = numQuestions;
+    }
+
+    public String getQuestionType() {
+        return this.questionType;
+    }
+
+    public void setQuestionType(String questionType) {
+        this.questionType = questionType;
+    }
+
+    public String getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+
 }
