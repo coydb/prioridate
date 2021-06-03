@@ -1,0 +1,11 @@
+[
+		{
+			"courseId":1,
+			"className":"ENGL 202",
+			"assignments":[1]
+		},{
+			"courseId":2,
+			"className":"ECON 101",
+			"assignments":[2]
+		}
+	]

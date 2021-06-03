@@ -1,5 +1,8 @@
 package prioridate;
 
+import java.util.ArrayList;
+import org.json.simple.JSONArray;
+
 public class DataWriter {
   public void saveStudents() {
 
@@ -7,7 +10,7 @@ public class DataWriter {
   public void saveTeachers() {
 
   }
-  public void saveCourses() {
+  public static void saveCourses() {
 
   }
   public void saveAssignments() {

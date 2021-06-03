@@ -3,14 +3,18 @@ package prioridate;
 import java.util.ArrayList;
 
 public class CourseList {
-  private static CourseList courseList;
-  private ArrayList<Course> courses;
+  private static CourseList courseList = null;
+  private static ArrayList<Course> courses;
 
   private CourseList() {
-    
+    courses = DataLoader.getCourses();
   }
-  public CourseList getInstance() {
-    return this;
+  public static CourseList getInstance() {
+    if(courseList == null) {
+      return new CourseList();
+    } else {
+      return courseList;
+    }
   }
   public void addCourse(Course courseToAdd) {
 
@@ -19,5 +23,7 @@ public class CourseList {
     // default behavior to allow compilation
     return new Course();
   }
-  
+  public static ArrayList<Course> getCourses() {
+    return courses;
+  }
 }
