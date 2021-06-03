@@ -14,7 +14,7 @@ public class Reading extends Assignment {
     }
 
     public void setPriority() {
-        int priority = 0;
+        this.priority = 0;
     }
 
     public int getPriority() {
@@ -35,5 +35,14 @@ public class Reading extends Assignment {
 
     public int getNumPages() {
         return this.numPages;
+    }
+
+    public String toString() {
+        return "AssignmentID: " + this.assignmentId 
+        + "\nTitle: " + this.title + "\nType: " + this.type
+        + "\nDue Date: " + this.dueDate + "\nDue Time: "
+        + this.dueTime + "\nPercent of Grade: " + this.percentOfGrade
+        + "\nChapters: " + this.chapters + "\nNumber of Pages: "
+        + this.numPages + "\nPriority: " + this.priority;
     }
 }

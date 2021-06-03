@@ -19,6 +19,13 @@ public abstract class Assignment {
         setPercentOfGrade(percentOfGrade);
     }
 
+    public String toString() {
+        return "AssignmentID: " + this.assignmentId 
+        + "\nTitle: " + this.title + "\nType: " + this.type
+        + "\nDue Date: " + this.dueDate + "\nDue Time: "
+        + this.dueTime + "\nPercent of Grade: " + this.percentOfGrade;
+    }
+
     public abstract void setPriority();
 
     public int getPriority() {

@@ -12,7 +12,7 @@ public class Quiz extends Assignment {
     }
 
     public void setPriority() {
-        int priority = 0;
+        this.priority = 0;
     }
 
     public int getPriority() {
@@ -33,5 +33,14 @@ public class Quiz extends Assignment {
 
     public int getNumQuestions() {
         return this.numQuestions;
+    }
+
+    public String toString(){
+        return "AssignmentID: " + this.assignmentId 
+        + "\nTitle: " + this.title + "\nType: " + this.type
+        + "\nDue Date: " + this.dueDate + "\nDue Time: "
+        + this.dueTime + "\nPercent of Grade: " + this.percentOfGrade
+        + "\nTime Limit: " + this.timeLimit + "\nNumber of Questions: "
+        + this.numQuestions + "\nPriority: " + this.priority;
     }
 }
