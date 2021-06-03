@@ -22,12 +22,14 @@ public class Student
 
     public double calculateCompletionPercent(Assignment assignmentsDue)
     {
-
+        double percent = 100.0;
+        return percent;
     }
 
     public double calculateGradePercent(Assignment assignmentsDue, Assignment assignmentsCompleted)
     {
-
+        double percent = 100.0;
+        return percent;
     }
 
     public void checkOffAssignment(Assignment assignmentsDue)
