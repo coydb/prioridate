@@ -12,7 +12,7 @@ public class Homework extends Assignment {
     }
 
     public void setPriority() {
-        int priority = 0;
+        this.priority = 0;
     }
 
     public int getPriority() {
@@ -25,5 +25,11 @@ public class Homework extends Assignment {
 
     public int getNumQuestions() {
         return this.numQuestions;
+    }
+
+    public String toString() {
+        return super.toString()
+        + "\nNumber of Questions: " + getNumQuestions()
+        + "\nPriority: " + getPriority();
     }
 }
