@@ -1,17 +1,19 @@
 [
 		{
 			"studentId":1,
-			"firstName":"Charles",
-			"lastName":"Evans",
+			"studentName":"Charles Evans",
+			"username":"evansc",
+			"password":"password3",
+			"classes":[1,2],
 			"assignmentsDue":[2],
-			"assignmentsComplete":[1],
-			"classes":[1, 2]
+			"assignmentsComplete":[1]
 		},{
 			"studentId":2,
-			"firstName":"Emily",
-			"lastName":"Thompson",
+			"studentName":"Emily Thompson",
+			"username":"thompsone",
+			"password":"password4",
+			"classes":[1,2],
 			"assignmentsDue":[],
-			"assignmentsComplete":[1, 2],
-			"classes":[1, 2]
+			"assignmentsComplete":[1, 2]
 		}
 ]	

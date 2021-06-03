@@ -1,17 +1,21 @@
 [
 		{
-			"assignementId":1,
-			"title":"Essay 2",
-			"dueDate":"05/26/2021",
+			"assignmentId":1,
+			"title":"Writing Techniques Worksheet",
+			"type":"Homework",
+			"numQuestions":5,
+			"dueDate":"06/26/2021",
 			"dueTime":"11:59PM",
-			"class":1,
 			"percentOfGrade":12.5
 		},{
-			"assignementId":2,
-			"title":"Economics Fundamentals Worksheet",
-			"dueDate":"05/25/2021",
+			"assignmentId":2,
+			"title":"Economics Fundamentals Quiz",
+			"type":"Quiz",
+			"timeLimit":"30 Minutes",
+			"numQuestions":10,
+			"dueDate":"06/25/2021",
 			"dueTime":"11:59PM",
-			"class":2,
 			"percentageOfGrade":2.5
 		}
+
 	]	
