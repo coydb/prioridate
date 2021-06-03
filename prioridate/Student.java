@@ -10,6 +10,15 @@ public class Student
     protected ArrayList<Assignment> assignmentsCompleted;
     protected ArrayList<Assignment> assignmentsDue;
 
+    public Student()
+    {
+        this.name = name;
+        this.gradePercent = gradePercent;
+        this.completionPercent = completionPercent;
+        this.assignmentsCompleted = new ArrayList<Assignment>();
+        this.assignmentsDue = new ArrayList<Assignment>();
+    }
+
     private void viewAssignmentsCompleted(Assignment assignmentCompleted)
     {
 
@@ -22,14 +31,12 @@ public class Student
 
     public double calculateCompletionPercent(Assignment assignmentsDue)
     {
-        double percent = 100.0;
-        return percent;
+        return this.completionPercent;
     }
 
     public double calculateGradePercent(Assignment assignmentsDue, Assignment assignmentsCompleted)
     {
-        double percent = 100.0;
-        return percent;
+        return this.gradePercent;
     }
 
     public void checkOffAssignment(Assignment assignmentsDue)
