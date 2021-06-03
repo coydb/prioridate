@@ -12,11 +12,10 @@ public class DataLoader {
    * TESTING PURPOSES ONLY
    */
   public static void main(String[] args) {
-    getCourses();
+    getAssignments();
   }
 
   public static ArrayList<Student> getStudents() {
-    ArrayList<Student> students = new ArrayList<Student>();
     // default behavior to allow compilation
     return new ArrayList<Student>();
   }
@@ -27,21 +26,24 @@ public class DataLoader {
   }
 
   /**
-   * ***IN-PROGRESS*** RETURN IS NON-FUNCTIONAL
-   * UNTIL CONSTRUCTORS ARE IMPLEMENTED
-   * @return NON-FUNCTIONAL***
+   * Loads and returns the list of courses.
+   * @return An ArrayList of Courses
    */
   public static ArrayList<Course> getCourses() {
     // default behavior to allow compilation
     return new ArrayList<Course>();
   }
   
+  /**
+   * Loads and returns the list of assignments.
+   * @return An ArrayList of Assignments
+   */
   public static ArrayList<Assignment> getAssignments() {
     ArrayList<Assignment> assignments = new ArrayList<Assignment>();
     try {
       FileReader reader = new FileReader("prioridate/assignments.json");
       JSONParser parser = new JSONParser();
-      JSONArray coursesJSON = (JSONArray)new JSONParser().parse(reader);
+      JSONArray coursesJSON = (JSONArray)parser.parse(reader);
 
       for(int i=0; i< coursesJSON.size(); i++) {
         JSONObject courseJSON = (JSONObject)coursesJSON.get(i);
@@ -58,28 +60,32 @@ public class DataLoader {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return new ArrayList<Assignment>();   
+    return assignments;   
   }
   public static Homework processHomework(JSONObject courseJSON) {
-    int assignmentId = (int)courseJSON.get("assignmentId");
+    int assignmentId = Integer.parseInt((String)courseJSON.get("assignmentId").toString());
+    //int assignmentId = (int)courseJSON.get("assignmentId");
     String title = (String)courseJSON.get("title");
     String type = (String)courseJSON.get("type");
-    int numQuestions = (int)courseJSON.get("numQuestions");
+    int numQuestions = Integer.parseInt((String)courseJSON.get("numQuestions").toString());
+    //int numQuestions = (int)courseJSON.get("numQuestions");
     String dueDate = (String)courseJSON.get("dueDate");
     String dueTime = (String)courseJSON.get("dueTime");
-    double percentOfGrade = (double)courseJSON.get("percentOfGrade");
-    return new Homework();
+    double percentOfGrade = Double.parseDouble((String)courseJSON.get("percentOfGrade").toString());
+    return new Homework(assignmentId, title, type, dueDate, dueTime, percentOfGrade, numQuestions);
   }  
   public static Quiz processQuiz(JSONObject courseJSON) {
-    int assignmentId = (int)courseJSON.get("assignmentId");
+    int assignmentId = Integer.parseInt((String)courseJSON.get("assignmentId").toString());
+    //int assignmentId = courseJSON.get("assignmentId");
     String title = (String)courseJSON.get("title");
     String type = (String)courseJSON.get("type");
-    String timeLimit = (String)courseJSON.get("timeLimit");
-    int numQuestions = (int)courseJSON.get("numQuestions");
+    double timeLimit = Double.parseDouble((String)courseJSON.get("timeLimit").toString());
+    int numQuestions = Integer.parseInt((String)courseJSON.get("numQuestions").toString());
+    //int numQuestions = (int)courseJSON.get("numQuestions");
     String dueDate = (String)courseJSON.get("dueDate");
     String dueTime = (String)courseJSON.get("dueTime");
-    double percentOfGrade = (double)courseJSON.get("percentOfGrade");
-    return new Quiz();
+    double percentOfGrade = Double.parseDouble((String)courseJSON.get("percentOfGrade").toString());
+    return new Quiz(assignmentId, title, type, dueDate, dueTime, percentOfGrade, timeLimit, numQuestions);
   } 
 }
 

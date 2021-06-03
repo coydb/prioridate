@@ -11,7 +11,7 @@
 			"assignmentId":2,
 			"title":"Economics Fundamentals Quiz",
 			"type":"Quiz",
-			"timeLimit":"30 Minutes",
+			"timeLimit":30,
 			"numQuestions":10,
 			"dueDate":"06/25/2021",
 			"dueTime":"11:59PM",
