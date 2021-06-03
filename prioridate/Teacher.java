@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 public class Teacher 
 {
-    protected String name;
+    private int teacherId;
+    private String teacherName;
     private ArrayList<Course> courses;
 
     public Teacher()
     {
-        this.name = name;
+        this.teacherId = teacherId;
+        this.teacherName = teacherName;
         this.courses = new ArrayList<Course>();
     }
 
@@ -37,5 +39,22 @@ public class Teacher
     {
 
     }
+
+    public int getTeacherId()
+    {
+        return this.teacherId;
+    }
+
+    public String getTeacherName()
+    {
+        return this.teacherName;
+    }
+
+    public ArrayList<Course> getCourses()
+    {
+        return this.courses;
+    }
+
+
     
 }
