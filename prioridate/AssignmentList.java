@@ -49,6 +49,19 @@ public class AssignmentList {
     return assignments;
     
   }
+  /**
+   * Get a single Assignment from the assignment list
+   * @param assignmentId An int representing the Id of the assignment
+   * @return The assignment with the corresponding Id
+   */
+  public Assignment getAssignment(int assignmentId) {
+    for (int i = 0; i < assignments.size();i++) {
+      if (assignments.get(i).getAssignmentId() == assignmentId) {
+        return assignments.get(i);
+      }
+    }
+    return null;
+  }
 
   /**
    * Adds an assignment to the current list of assignments
