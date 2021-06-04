@@ -1,6 +1,5 @@
 package prioridate;
 // TO-DO:
-// - flesh out setters with checks
 // - setPriority calculation
 public class Reading extends Assignment {
     private String[] chapters;
@@ -30,7 +29,10 @@ public class Reading extends Assignment {
     }
 
     public void setNumPages(int numPages) {
-        this.numPages = numPages;
+        if(numPages > 0)
+            this.numPages = numPages;
+        else
+            this.numPages = 1;  // default
     }
 
     public int getNumPages() {

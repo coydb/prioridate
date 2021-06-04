@@ -37,7 +37,10 @@ public abstract class Assignment {
     }
 
     public void setAssignmentId(int assignmentId) {
-        this.assignmentId = assignmentId;
+        if(assignmentId >= 0)
+            this.assignmentId = assignmentId;
+        else
+            this.assignmentId = 0;  // default if left blank
     }
 
     public String getTitle() {
@@ -45,7 +48,10 @@ public abstract class Assignment {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        if(title != null)
+            this.title = title;
+        else
+            this.title = "New Assignment";  // default if no title given
     }
 
     public String getType() {
@@ -53,13 +59,16 @@ public abstract class Assignment {
     }
 
     public void setType(String type) {
-        this.type = type;
+        if(type != null)
+            this.type = type;
+        else
+            this.type = "Homework";  // default type of assignment
     }
 
     public String getDueDate() {
         return this.dueDate;
     }
-
+//DUE DATE AND TIME NEED TO BE DATE OBJECT
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
@@ -77,6 +86,9 @@ public abstract class Assignment {
     }
 
     public void setPercentOfGrade(double percentOfGrade) {
-        this.percentOfGrade = percentOfGrade;
+        if(percentOfGrade >= 0.0)
+            this.percentOfGrade = percentOfGrade;
+        else
+            this.percentOfGrade = 0.0;  // default has no effect on grade
     }
 }
