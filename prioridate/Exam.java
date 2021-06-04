@@ -7,23 +7,19 @@ public class Exam extends Assignment {
     private String questionType; //enumeration?
     private String location;
 
-    public Exam(int assignmentId, String title, String type, String dueDate, String dueTime, 
+    public Exam(int assignmentId, String title, String type, int dueYear,
+                int dueMonth, int dueDay, int dueHour, int dueMin, 
                 double percentOfGrade, double timeLimit, int numQuestions, 
-                String questionType, String location, String dateAndTime) {
-        super(assignmentId, title, type, dueDate, dueTime, percentOfGrade);
+                String questionType, String location) {
+        super(assignmentId, title, type, dueYear, dueMonth, dueDay, dueHour, dueMin, percentOfGrade);
         setTimeLimit(timeLimit);
         setNumQuestions(numQuestions);
         setQuestionType(questionType);
         setLocation(location);
-        setPriority();
     }
 
-    public void setPriority() {
-        this.priority = 0;
-    }
-
-    public int getPriority() {
-        return this.priority;
+    public int calculatePriority() {
+        return 0;
     }
 
     public double getTimeLimit() {
@@ -74,7 +70,7 @@ public class Exam extends Assignment {
         return super.toString()
         + "\nTime Limit: " + getTimeLimit() + "\nNumber of Questions: "
         + getNumQuestions() + "\nQuestion Type: " + getQuestionType()
-        + "\nLocation: " + getLocation() + "\nPriority: " + getPriority();
+        + "\nLocation: " + getLocation() + "\nPriority: " + calculatePriority();
     }
 
 

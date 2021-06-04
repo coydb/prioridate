@@ -4,18 +4,13 @@ package prioridate;
 public class Homework extends Assignment {
     private int numQuestions;
 
-    public Homework(int assignmentId, String title, String type, String dueDate, String dueTime, double percentOfGrade, int numQuestions) {
-        super(assignmentId, title, type, dueDate, dueTime, percentOfGrade);
+    public Homework(int assignmentId, String title, String type, int dueYear, int dueMonth, int dueDay, int dueHour, int dueMin, double percentOfGrade, int numQuestions) {
+        super(assignmentId, title, type, dueYear, dueMonth, dueDay, dueHour, dueMin, percentOfGrade);
         setNumQuestions(numQuestions);
-        setPriority();
     }
 
-    public void setPriority() {
-        this.priority = 0;
-    }
-
-    public int getPriority() {
-        return this.priority;
+    public int calculatePriority() {
+        return 0;
     }
 
     public void setNumQuestions(int numQuestions) {
@@ -32,6 +27,6 @@ public class Homework extends Assignment {
     public String toString() {
         return super.toString()
         + "\nNumber of Questions: " + getNumQuestions()
-        + "\nPriority: " + getPriority();
+        + "\nPriority: " + calculatePriority();
     }
 }
