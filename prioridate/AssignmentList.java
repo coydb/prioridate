@@ -49,6 +49,19 @@ public class AssignmentList {
     return assignments;
     
   }
+  /**
+   * Get a single Assignment from the assignment list
+   * @param assignmentId An int representing the Id of the assignment
+   * @return The assignment with the corresponding Id
+   */
+  public Assignment getAssignment(int assignmentId) {
+    for (int i = 0; i < assignments.size();i++) {
+      if (assignments.get(i).getAssignmentId() == assignmentId) {
+        return assignments.get(i);
+      }
+    }
+    return null;
+  }
 
   /**
    * Adds an assignment to the current list of assignments
@@ -63,15 +76,30 @@ public class AssignmentList {
    */
   private void printAssignmentList() {
     for (int i = 0;i < assignments.size();i++) {
+      System.out.println("==============Assignment #" + (i + 1) + "=============");
       Assignment currentAssignment = assignments.get(i);
-      if(currentAssignment.getType().equalsIgnoreCase("homework")) {
-        Homework currentHomework = (Homework)assignments.get(i);
-        System.out.println(currentHomework.toString());
+      String typeOfCurrentAssignment = currentAssignment.getType();
+      switch (typeOfCurrentAssignment.toLowerCase()) {
+        case "homework":
+          Homework currentHomework = (Homework)assignments.get(i);
+          System.out.println(currentHomework.toString());
+          break;
+        case "quiz":
+          Quiz currentQuiz = (Quiz)assignments.get(i);
+          System.out.println(currentQuiz.toString());
+          break;
+        case "exam":
+          Exam currentExam = (Exam)assignments.get(i);
+          System.out.println(currentExam.toString());
+          break;
+        case "reading":
+          Reading currentReading = (Reading)assignments.get(i);
+          System.out.println(currentReading.toString());
+          break;
+        default:
+          break;
       }
-      if(currentAssignment.getType().equalsIgnoreCase("quiz")) {
-        Quiz currentQuiz = (Quiz)assignments.get(i);
-        System.out.println(currentQuiz.toString());
-      }
+      System.out.println("========================================");
     }
   }
 }

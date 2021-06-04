@@ -38,8 +38,14 @@ public class Reading extends Assignment {
     }
 
     public String toString() {
-        return super.toString()
-        + "\nChapters: " + getChapters() + "\nNumber of Pages: "
-        + getNumPages() + "\nPriority: " + getPriority();
+        String outString = super.toString() + "\nChapters: ";
+        String[] chapters = getChapters();
+        for (int i = 0; i < chapters.length;i++) {
+            outString += chapters[i];
+            outString += (i == chapters.length-1) ? "" : ", ";
+        }
+        outString += "\nNumber of Pages: " + getNumPages()
+                     +"\nPriority: " + getPriority();
+        return outString;
     }
 }
