@@ -20,7 +20,10 @@ public class Quiz extends Assignment {
     }
 
     public void setTimeLimit(double timeLimit) {
-        this.timeLimit = timeLimit;
+        if(timeLimit > 0.0)
+            this.timeLimit = timeLimit;
+        else
+            this.timeLimit = 1.0;  // default time limit
     }
 
     public double getTimeLimit() {

@@ -1,7 +1,6 @@
 package prioridate;
 // TO-DO:
 // - setPriority (just stub rn)
-// - flesh out setters, need to have checks for setting. basic rn for compilation
 public class Exam extends Assignment {
     private double timeLimit;
     private int numQuestions;
@@ -32,7 +31,10 @@ public class Exam extends Assignment {
     }
 
     public void setTimeLimit(double timeLimit) {
-        this.timeLimit = timeLimit;
+        if(timeLimit >= 0.0)
+            this.timeLimit = timeLimit;
+        else
+            this.timeLimit = 1.0;  // default time limit of 1 hour
     }
 
     public int getNumQuestions() {
@@ -40,7 +42,10 @@ public class Exam extends Assignment {
     }
 
     public void setNumQuestions(int numQuestions) {
-        this.numQuestions = numQuestions;
+        if(numQuestions > 0)
+            this.numQuestions = numQuestions;
+        else
+            this.numQuestions = 1;  // default num questions
     }
 
     public String getQuestionType() {
@@ -48,7 +53,10 @@ public class Exam extends Assignment {
     }
 
     public void setQuestionType(String questionType) {
-        this.questionType = questionType;
+        if(questionType != null)
+            this.questionType = questionType;
+        else
+            this.questionType = "Multiple Choice";  // default if left empty
     }
 
     public String getLocation() {
@@ -56,7 +64,10 @@ public class Exam extends Assignment {
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        if(location != null)
+            this.location = location;
+        else
+            this.location = "Classroom";  // default if empty
     }
 
     public String toString() {

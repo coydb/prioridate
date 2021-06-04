@@ -20,7 +20,10 @@ public class Homework extends Assignment {
     }
 
     public void setNumQuestions(int numQuestions) {
-        this.numQuestions = numQuestions;
+        if(numQuestions > 0)
+            this.numQuestions = numQuestions;
+        else
+            this.numQuestions = 1;  // default num questions
     }
 
     public int getNumQuestions() {
