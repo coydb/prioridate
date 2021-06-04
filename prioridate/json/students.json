@@ -4,7 +4,7 @@
 			"studentName":"Charles Evans",
 			"username":"evansc",
 			"password":"password3",
-			"classes":[1,2],
+			"courses":[1,2],
 			"assignmentsDue":[2],
 			"assignmentsComplete":[1]
 		},{
@@ -12,7 +12,7 @@
 			"studentName":"Emily Thompson",
 			"username":"thompsone",
 			"password":"password4",
-			"classes":[1,2],
+			"courses":[1,2],
 			"assignmentsDue":[],
 			"assignmentsComplete":[1, 2]
 		}
