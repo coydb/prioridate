@@ -7,18 +7,19 @@ public class Course
     private int courseId;
     private String className;
     private ArrayList<Assignment> assignments;
+    private ArrayList<Student> students;
 
     public Course()
     {
         this.courseId = courseId;
         this.className = className;
         this.assignments = new ArrayList<Assignment>();
-
+        this.students = new ArrayList<Student>();
     }
 
-    public void viewStudents(Student students)
+    public void viewStudents()
     {
-
+        
     }
 
     public void teacherInfo(Teacher teacher)
