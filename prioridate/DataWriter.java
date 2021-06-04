@@ -1,5 +1,6 @@
 package prioridate;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,10 +38,9 @@ public class DataWriter {
       jsonAssignments.add(getJSONAssignment(assignments.get(i)));
     }
 
-    try (FileWriter outFile = new FileWriter("prioridate/json/test.json")) {
+    try (FileWriter outFile = new FileWriter("prioridate/json/assignments.json")) {
       outFile.write(jsonAssignments.toJSONString());
       outFile.flush();
-      outFile.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -48,7 +48,7 @@ public class DataWriter {
 
   private static JSONObject getJSONAssignment(Assignment assignment) {
     JSONObject assignmentJSONObject = new JSONObject();
-    assignmentJSONObject.put("assignmentID",assignment.getAssignmentId());
+    assignmentJSONObject.put("assignmentId",assignment.getAssignmentId());
     assignmentJSONObject.put("title", assignment.getTitle());
     assignmentJSONObject.put("type", assignment.getType());
     assignmentJSONObject.put("dueYear", assignment.getDueDate().get(Calendar.YEAR));
