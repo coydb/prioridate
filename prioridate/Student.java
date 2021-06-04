@@ -9,47 +9,61 @@ public class Student
     private String studentName;
     private HashMap<Boolean, Assignment> assignments;
 
-    public ArrayList<String> TEST;
-
     public Student()
     {
         this.studentId = studentId;
         this.studentName = studentName;
         this.assignments = new HashMap<Boolean, Assignment>();
-        
-        this.TEST = new ArrayList<String>();
+          
     }
 
-    public void run()
+    private void viewAssignmentsCompleted() 
     {
-        TEST.add("assignment 1");
-        TEST.add("assignment 2");
-        TEST.add("assignment 3");
-        viewAssignmentsCompleted(TEST);
-
-    }
-
-    private void viewAssignmentsCompleted(ArrayList<String> assignmentCompleted)
-    {
-        for(int i = 0; i < assignmentCompleted.size(); i++)
+        for(Boolean key : assignments.keySet())
         {
-            System.out.println((i+1) + ". " + assignmentCompleted.get(i));
+            if(assignments.containsKey(true))
+            {
+                System.out.println(assignments.get(key).getTitle());
+            }
         }
     }
 
-    private void viewAssignmentsDue(ArrayList<Assignment> assignmentsDue)
+    private void viewAssignmentsDue()
     {
-
+        for(Boolean key : assignments.keySet())
+        {
+            if(assignments.containsKey(false))
+            {
+                System.out.println(assignments.get(key).getTitle());
+            }
+        }
     }
 
-    public double calculateCompletionPercent(ArrayList<Assignment> assignmentsDue, ArrayList<Assignment> assignmentsCompleted)
+    public double calculateCompletionPercent()
     {
-        return 1.0;
+        int assignmentsCompleted = 0;
+        int assignmentsDue = 0;
+
+        for(Boolean key : assignments.keySet())
+        {
+            if(assignments.containsKey(true))
+            {
+                assignmentsCompleted++;
+            }
+            else if(assignments.containsKey(false))
+            {
+                assignmentsDue++;
+            }
+        }
+        
+        double completionPercent = ((double)assignmentsCompleted / (assignmentsCompleted + assignmentsDue));
+        return completionPercent;
     }
 
-   public void checkOffAssignment(ArrayList<Assignment> assignmentsDue)
+   public void checkOffAssignment(Assignment assignment)
    {
-
+        assignments.remove(assignment);
+        assignments.put(true, assignment);
    }
 
    public int getStudentId()
@@ -66,14 +80,5 @@ public class Student
    {
        return this.assignments;
    }
-
-
-
-
-    public static void main(String[] args)
-    {
-        Student student = new Student();
-        student.run();
-    }
 
 }
