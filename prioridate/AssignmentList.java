@@ -14,7 +14,6 @@ public class AssignmentList {
    */
   public static void main(String[] args) {
     AssignmentList assignmentList = AssignmentList.getInstance();
-    System.out.println("Made it past getInstance()");
     assignmentList.printAssignmentList();
   }
 
@@ -72,7 +71,6 @@ public class AssignmentList {
    */
   private void printAssignmentList() {
     for (int i = 0;i < assignments.size();i++) {
-      System.out.println("Made it here");
       System.out.println("==============Assignment #" + (i + 1) + "=============");
       Assignment currentAssignment = assignments.get(i);
       String typeOfCurrentAssignment = currentAssignment.getType();
