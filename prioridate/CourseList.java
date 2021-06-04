@@ -1,10 +1,11 @@
 package prioridate;
-
 import java.util.ArrayList;
 
 public class CourseList {
   private static CourseList courseList = null;
   private static ArrayList<Course> courses;
+
+
 
     /**
    * For Testing Purposes Only
@@ -30,7 +31,7 @@ public class CourseList {
   public void getCourse(String courseName) {
     // default behavior to allow compilation
   }
-  public static ArrayList<Course> getCourses() {
+  public ArrayList<Course> getCourses() {
     return courses;
   }
 
