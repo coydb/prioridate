@@ -15,10 +15,6 @@ public class AssignmentList {
   public static void main(String[] args) {
     AssignmentList assignmentList = AssignmentList.getInstance();
     assignmentList.printAssignmentList();
-    Homework newHomework = new Homework(0, "Test Assignment", "Homework", "Never", "Never", 0.0, 8000000);
-    assignmentList.addAssignment(newHomework);
-    System.out.println("\n");
-    assignmentList.printAssignmentList();
   }
 
   /**

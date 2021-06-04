@@ -214,11 +214,15 @@ public class DataLoader {
     int assignmentId = Integer.parseInt((String)assignmentJSON.get("assignmentId").toString());
     String title = (String)assignmentJSON.get("title");
     String type = (String)assignmentJSON.get("type");
-    String dueDate = (String)assignmentJSON.get("dueDate");
-    String dueTime = (String)assignmentJSON.get("dueTime");
+    int dueYear = Integer.parseInt((String)assignmentJSON.get("dueYear").toString());
+    int dueMonth = Integer.parseInt((String)assignmentJSON.get("dueMonth").toString());
+    int dueDay = Integer.parseInt((String)assignmentJSON.get("dueDay").toString());
+    int dueHour = Integer.parseInt((String)assignmentJSON.get("dueHour").toString());
+    int dueMin = Integer.parseInt((String)assignmentJSON.get("dueMin").toString());
     double percentOfGrade = Double.parseDouble((String)assignmentJSON.get("percentOfGrade").toString());
     int numQuestions = Integer.parseInt((String)assignmentJSON.get("numQuestions").toString());
-    return new Homework(assignmentId, title, type, dueDate, dueTime, percentOfGrade, numQuestions);
+    return new Homework(assignmentId, title, type, dueYear, dueMonth, dueDay, dueHour,
+                        dueMin, percentOfGrade, numQuestions);
   }
   
   /**
@@ -228,12 +232,16 @@ public class DataLoader {
     int assignmentId = Integer.parseInt((String)assignmentJSON.get("assignmentId").toString());
     String title = (String)assignmentJSON.get("title");
     String type = (String)assignmentJSON.get("type");
-    String dueDate = (String)assignmentJSON.get("dueDate");
-    String dueTime = (String)assignmentJSON.get("dueTime");
+    int dueYear = Integer.parseInt((String)assignmentJSON.get("dueYear").toString());
+    int dueMonth = Integer.parseInt((String)assignmentJSON.get("dueMonth").toString());
+    int dueDay = Integer.parseInt((String)assignmentJSON.get("dueDay").toString());
+    int dueHour = Integer.parseInt((String)assignmentJSON.get("dueHour").toString());
+    int dueMin = Integer.parseInt((String)assignmentJSON.get("dueMin").toString());
     double percentOfGrade = Double.parseDouble((String)assignmentJSON.get("percentOfGrade").toString());
     double timeLimit = Double.parseDouble((String)assignmentJSON.get("timeLimit").toString());
     int numQuestions = Integer.parseInt((String)assignmentJSON.get("numQuestions").toString());
-    return new Quiz(assignmentId, title, type, dueDate, dueTime, percentOfGrade, timeLimit, numQuestions);
+    return new Quiz(assignmentId, title, type, dueYear, dueMonth, dueDay, dueHour,
+                    dueMin, percentOfGrade, timeLimit, numQuestions);
   } 
 
   /**
@@ -243,17 +251,18 @@ public class DataLoader {
     int assignmentId = Integer.parseInt((String)assignmentJSON.get("assignmentId").toString());
     String title = (String)assignmentJSON.get("title");
     String type = (String)assignmentJSON.get("type");
-    String dueDate = (String)assignmentJSON.get("dueDate");
-    String dueTime = (String)assignmentJSON.get("dueTime");
+    int dueYear = Integer.parseInt((String)assignmentJSON.get("dueYear").toString());
+    int dueMonth = Integer.parseInt((String)assignmentJSON.get("dueMonth").toString());
+    int dueDay = Integer.parseInt((String)assignmentJSON.get("dueDay").toString());
+    int dueHour = Integer.parseInt((String)assignmentJSON.get("dueHour").toString());
+    int dueMin = Integer.parseInt((String)assignmentJSON.get("dueMin").toString());
     double percentOfGrade = Double.parseDouble((String)assignmentJSON.get("percentOfGrade").toString());
     double timeLimit = Double.parseDouble((String)assignmentJSON.get("timeLimit").toString());
     int numQuestions = Integer.parseInt((String)assignmentJSON.get("numQuestions").toString());
     String questionType = (String)assignmentJSON.get("questionType");
     String location = (String)assignmentJSON.get("location");
-    String dateAndTime = (String)assignmentJSON.get("dateAndTime");
-    return new Exam(assignmentId, title, type, dueDate, dueTime, percentOfGrade,
-                   timeLimit, numQuestions, questionType, location, dateAndTime);
-
+    return new Exam(assignmentId, title, type, dueYear, dueMonth, dueDay, dueHour,
+                    dueMin, percentOfGrade, timeLimit, numQuestions, questionType, location);
   }
 
   /**
@@ -263,8 +272,11 @@ public class DataLoader {
     int assignmentId = Integer.parseInt((String)assignmentJSON.get("assignmentId").toString());
     String title = (String)assignmentJSON.get("title");
     String type = (String)assignmentJSON.get("type");
-    String dueDate = (String)assignmentJSON.get("dueDate");
-    String dueTime = (String)assignmentJSON.get("dueTime");
+    int dueYear = Integer.parseInt((String)assignmentJSON.get("dueYear").toString());
+    int dueMonth = Integer.parseInt((String)assignmentJSON.get("dueMonth").toString());
+    int dueDay = Integer.parseInt((String)assignmentJSON.get("dueDay").toString());
+    int dueHour = Integer.parseInt((String)assignmentJSON.get("dueHour").toString());
+    int dueMin = Integer.parseInt((String)assignmentJSON.get("dueMin").toString());
     double percentOfGrade = Double.parseDouble((String)assignmentJSON.get("percentOfGrade").toString());
     JSONArray arrayFromJSON = (JSONArray)assignmentJSON.get("chapters");
     String[] chapters = new String[arrayFromJSON.size()];
@@ -272,7 +284,8 @@ public class DataLoader {
       chapters[i] = (String)arrayFromJSON.get(i);
     }
     int numPages = Integer.parseInt((String)assignmentJSON.get("numPages").toString());
-    return new Reading(assignmentId, title, type, dueDate, dueTime, percentOfGrade, chapters, numPages);
+    return new Reading(assignmentId, title, type, dueYear, dueMonth, dueDay,
+                       dueHour, dueMin, percentOfGrade, chapters, numPages);
   }
 }
 
