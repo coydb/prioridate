@@ -31,9 +31,10 @@ public abstract class Assignment {
         + "\nPercent of Grade: " + getPercentOfGrade();
     }
 
+    // change based on 12 hr clock?
     public void setDueDate(int dueYear, int dueMonth, int dueDay, int dueHour, int dueMin) {
         Calendar dueDate = Calendar.getInstance();
-        dueDate.set(setDueYear(dueYear), setDueMonth(dueMonth), setDueDay(dueDay), setDueHour(dueHour), setDueMin(dueMin), 00);  // the last param is the seconds
+        dueDate.set(checkYearDue(dueYear), checkMonthDue(dueMonth), checkDayDue(dueDay), checkHourDue(dueHour), checkMinDue(dueMin), 00);  // the last param is the seconds
         this.dueDate = dueDate;
     }
 
@@ -79,7 +80,7 @@ public abstract class Assignment {
             this.type = "Homework";  // default type of assignment
     }
 
-    public int setDueYear(int year) {
+    public int checkYearDue(int year) {
         Calendar today = Calendar.getInstance();
         int dueYear;
         if(year < today.get(Calendar.YEAR))  // makes sure due date is not in the past
@@ -89,7 +90,7 @@ public abstract class Assignment {
         return dueYear;
     }
 
-    public int setDueMonth(int month) {
+    public int checkMonthDue(int month) {
         Calendar today = Calendar.getInstance();
         int dueMonth;
         if(month < today.get(Calendar.MONTH) || month > 12 || month < 1)  // makes sure due date is not in the past and is a valid month
@@ -99,7 +100,7 @@ public abstract class Assignment {
         return dueMonth;
     }
 
-    public int setDueDay(int day) {
+    public int checkDayDue(int day) {
         Calendar today = Calendar.getInstance();
         int dueDay;
         if(day < 1 || day > 31)  // assuming they will make the correct day for months, just accounting for stuff definitely wrong
@@ -109,7 +110,7 @@ public abstract class Assignment {
         return dueDay;
     }
 
-    public int setDueHour(int hour) {
+    public int checkHourDue(int hour) {
         Calendar today = Calendar.getInstance();
         int dueHour;
         if(hour < 0 || hour > 24)
@@ -119,7 +120,7 @@ public abstract class Assignment {
         return dueHour;
     }
 
-    public int setDueMin(int min) {
+    public int checkMinDue(int min) {
         Calendar today = Calendar.getInstance();
         int dueMin;
         if(min < 0 || min > 59)
