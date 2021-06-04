@@ -45,7 +45,6 @@ public class AssignmentList {
    * @return An ArrayList of Assignments
    */
   public ArrayList<Assignment> getAssignments() {
-    // default behavior to allow compilation
     return assignments;
     
   }
