@@ -9,12 +9,12 @@ public class Course
     private ArrayList<Assignment> assignments;
     private ArrayList<Student> students;
 
-    public Course()
+    public Course(int courseId, String className, ArrayList<Assignment> assignments)
     {
         this.courseId = courseId;
         this.className = className;
-        this.assignments = new ArrayList<Assignment>();
-        this.students = new ArrayList<Student>();
+        this.assignments = assignments;
+
     }
 
     public void viewStudents()
@@ -57,6 +57,15 @@ public class Course
         return this.assignments;
     }
 
+    public String toString() {
+        String outString = "\nCourse Id: " + courseId;
+        outString += "\nClass Name: " + className;
+        outString += "\nAssignments:\n";
+        for (Assignment assignment : assignments ) {
+            outString += assignment.toString();
+        }
+        return outString;
+    }
 
 
     
