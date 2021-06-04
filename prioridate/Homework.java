@@ -1,7 +1,6 @@
 package prioridate;
 // TO-DO:
 // - setPriority - do actual calc.
-// - flesh out setters with checks
 public class Homework extends Assignment {
     private int numQuestions;
 
