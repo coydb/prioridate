@@ -157,8 +157,9 @@ public class DataLoader {
               assignmentsForCourse.add(existingAssignments.get(k));
             }
           }
-          courses.add(new Course(courseId, className, assignmentsForCourse));
+
         }
+        courses.add(new Course(courseId, className, assignmentsForCourse));
       }
       return courses;
     } catch (Exception e) {
@@ -175,7 +176,7 @@ public class DataLoader {
   public static ArrayList<Assignment> getAssignments() {
     ArrayList<Assignment> assignments = new ArrayList<Assignment>();
     try {
-      FileReader reader = new FileReader("prioridate/json/test.json");
+      FileReader reader = new FileReader("prioridate/json/assignments.json");
       JSONParser parser = new JSONParser();
       JSONArray assignmentsJSON = (JSONArray)parser.parse(reader);
 
