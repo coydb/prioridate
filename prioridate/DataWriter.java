@@ -1,17 +1,16 @@
 package prioridate;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class DataWriter {
+  private static String studentsFile = "prioridate/json/students.json";
+  private static String teachersFile = "prioridate/json/teachers.json";
+  private static String assignmentsFile = "prioridate/json/assignments.json";
+  private static String coursesFile = "prioridate/json/courses.json";
 
   /**
    * For testing purposes only
@@ -36,7 +35,7 @@ public class DataWriter {
       jsonCourses.add(getJSONCourse(courses.get(i)));
     }
 
-    try (FileWriter outFile = new FileWriter("prioridate/json/courses.json")) {
+    try (FileWriter outFile = new FileWriter(coursesFile)) {
       outFile.write(jsonCourses.toJSONString());
       outFile.flush();
     } catch (IOException e) {
@@ -52,7 +51,7 @@ public class DataWriter {
       jsonAssignments.add(getJSONAssignment(assignments.get(i)));
     }
 
-    try (FileWriter outFile = new FileWriter("prioridate/json/assignments.json")) {
+    try (FileWriter outFile = new FileWriter(assignmentsFile)) {
       outFile.write(jsonAssignments.toJSONString());
       outFile.flush();
     } catch (IOException e) {

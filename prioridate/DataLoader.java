@@ -10,6 +10,10 @@ import org.json.simple.parser.JSONParser;
  * A DataLoader for fetching data from JSON
  */
 public class DataLoader {
+  private static String studentsFile = "prioridate/json/students.json";
+  private static String assignmentsFile = "prioridate/json/assignments.json";
+  private static String coursesFile = "prioridate/json/courses.json";
+  private static String teachersFile = "prioridate/json/teachers.json";
   /**
    * Fetches all students from the JSON database 
    * and returns them as an ArrayList
@@ -24,7 +28,7 @@ public class DataLoader {
     // create new ArrayList of Students and populate from JSON
     ArrayList<Student> students = new ArrayList<Student>();
     try {
-      FileReader reader = new FileReader("prioridate/json/students.json");
+      FileReader reader = new FileReader(studentsFile);
       JSONParser parser = new JSONParser();
       JSONArray studentsJSON = (JSONArray)parser.parse(reader);
 
@@ -94,7 +98,7 @@ public class DataLoader {
     ArrayList<Course> existingCourses = courseList.getCourses();
     ArrayList<Teacher> teachers = new ArrayList<Teacher>();
     try {
-      FileReader reader = new FileReader("prioridate/json/teachers.json");
+      FileReader reader = new FileReader(teachersFile);
       JSONParser parser = new JSONParser();
       JSONArray teachersJSON = (JSONArray)parser.parse(reader);
 
@@ -138,7 +142,7 @@ public class DataLoader {
     ArrayList<Assignment> existingAssignments = assignmentList.getAssignments();
     ArrayList<Course> courses = new ArrayList<Course>();
     try {
-      FileReader reader = new FileReader("prioridate/json/courses.json");
+      FileReader reader = new FileReader(coursesFile);
       JSONParser parser = new JSONParser();
       JSONArray coursesJSON = (JSONArray)parser.parse(reader);
 
@@ -176,7 +180,7 @@ public class DataLoader {
   public static ArrayList<Assignment> getAssignments() {
     ArrayList<Assignment> assignments = new ArrayList<Assignment>();
     try {
-      FileReader reader = new FileReader("prioridate/json/assignments.json");
+      FileReader reader = new FileReader(assignmentsFile);
       JSONParser parser = new JSONParser();
       JSONArray assignmentsJSON = (JSONArray)parser.parse(reader);
 
