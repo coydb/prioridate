@@ -18,7 +18,8 @@ public class DataWriter {
    * @param args
    */
   public static void main(String[] args) {
-    saveAssignments();
+    //saveAssignments();
+    saveCourses();
   }
   public static void saveStudents() {
 
@@ -27,7 +28,20 @@ public class DataWriter {
 
   }
   public static void saveCourses() {
+    CourseList courseList = CourseList.getInstance();
+    ArrayList<Course> courses = courseList.getCourses();
+    JSONArray jsonCourses = new JSONArray();
 
+    for(int i = 0;i < courses.size();i++) {
+      jsonCourses.add(getJSONCourse(courses.get(i)));
+    }
+
+    try (FileWriter outFile = new FileWriter("prioridate/json/courses.json")) {
+      outFile.write(jsonCourses.toJSONString());
+      outFile.flush();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
   public static void saveAssignments() {
     AssignmentList assignmentList = AssignmentList.getInstance();
@@ -88,5 +102,19 @@ public class DataWriter {
         break;
     }
     return assignmentJSONObject;
+  }
+
+  private static JSONObject getJSONCourse(Course course) {
+    JSONObject courseJSONObject = new JSONObject();
+    courseJSONObject.put("courseId", course.getCourseId());
+    courseJSONObject.put("className", course.getClassName());
+    ArrayList<Assignment> assignmentsFromObject = course.getAssignments();
+    JSONArray assignmentsArray = new JSONArray();
+    for(int i = 0;i < course.getAssignments().size();i++) {
+      int assignmentId = assignmentsFromObject.get(i).getAssignmentId();
+      assignmentsArray.add(assignmentId);
+    }
+    courseJSONObject.put("assignments", assignmentsArray);
+    return courseJSONObject;
   }
 }
