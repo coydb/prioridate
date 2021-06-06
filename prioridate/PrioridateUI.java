@@ -20,8 +20,10 @@ public class PrioridateUI {
     private static String TODO_LIST_MESSAGE = "Your current to-do list. Enter an item number to view more details";
     private ArrayList<String> subjects;
     private ArrayList<String> tasks;
-    private ArrayList<String> statuses;
     private ArrayList<String> priority;
+    private int pageCounter = 0;
+    private int assignmentCount;
+    private int assignmentMax;
     private String currentMenu;
     private Boolean invalidLogin;
     private Scanner scanner;
@@ -29,16 +31,18 @@ public class PrioridateUI {
 
     public PrioridateUI()
     {
-        this.subjects = new ArrayList<String>(); this.tasks = new ArrayList<String>();
-        this.statuses = new ArrayList<String>(); this.priority = new ArrayList<String>();
+        this.subjects = new ArrayList<String>(); this.tasks = new ArrayList<String>(); 
+        this.priority = new ArrayList<String>();
         subjects.add("Math"); subjects.add("English"); subjects.add("Chemistry"); 
-        subjects.add("Math"); subjects.add("Social Studies");
+        subjects.add("Math"); subjects.add("Social Studies"); subjects.add("Math");
+        subjects.add("Chemistry");
         tasks.add("Exam 1"); tasks.add("Homework 3"); tasks.add("Reading 5"); 
-        tasks.add("Homework 2"); tasks.add("Reading 6");
-        statuses.add("[in progress]"); statuses.add("[in progress]"); 
-        statuses.add("[not started]"); statuses.add("[in progress]"); statuses.add("[not started]");
+        tasks.add("Homework 2"); tasks.add("Reading 6"); tasks.add("Quiz 5");
+        tasks.add("Reading 9");
         priority.add("High"); priority.add("High"); priority.add("Moderate"); 
-        priority.add("Low"); priority.add("Low");
+        priority.add("Low"); priority.add("Low"); priority.add("Low"); 
+        priority.add("Low");
+        assignmentCount = subjects.size();
         this.invalidLogin = false;
         this.currentMenu = null;
         scanner = new Scanner(System.in);
@@ -67,6 +71,7 @@ public class PrioridateUI {
             {
                 while(true)
                 {
+                    invalidLogin = false;
                     String loginScreenBack = "default";
                     blankLoginPage();
                     String loginInput = scanner.next();
@@ -98,31 +103,76 @@ public class PrioridateUI {
                             HomeScreenView(username);
                             String homeInput = scanner.nextLine();
                             homeInput = getHomeInput(homeInput);
+                            if(homeInput.equals("back"))
+                            {
+                                loginScreenBack = "back";
+                                break;
+                            }
                             switch(homeInput)
                             {
-                                case "back":
-                                    loginScreenBack = "back";
-                                    break;
                                 case "error":
                                     failedHomeScreen();
                                     continue;
                                 case "1":
                                 {
-                                    while(true)
+                                    toDoLoop: while(true)
                                     {
                                         String toDoScreenBack = "default";
-                                        todoListScreen(subjects, tasks, statuses, priority);
-                                        String toDoInput = scanner.nextLine();
-                                        toDoInput = getToDoInput(toDoInput);
-                                        if(toDoInput.equals("back"))
+                                        while(true)
                                         {
-                                            homeScreenBack = "back";
-                                            break;
-                                        }
-                                        else if(toDoInput.equals("error"))
-                                        {
-                                            failedToDoScreen();
-                                            continue;
+                                            todoListScreen(subjects, tasks, priority, assignmentCount, pageCounter);
+                                            String toDoInput = scanner.nextLine();
+                                            toDoInput = getToDoInput(toDoInput);
+                                            if(toDoInput.equals("<") && pageCounter == 0)
+                                            {
+                                                failedToDoScreen();
+                                                continue;
+                                            }
+                                            switch(toDoInput)
+                                            {
+                                                case "back":
+                                                {
+                                                    toDoScreenBack = "back";
+                                                    break toDoLoop;
+                                                }
+                                                case "error":
+                                                {
+                                                    failedToDoScreen();
+                                                    continue;
+                                                }
+                                                case "<":
+                                                {
+                                                    assignmentCount = assignmentCount + 5;
+                                                    pageCounter = pageCounter - 1;
+                                                    continue;
+                                                }
+                                                case ">":
+                                                {
+                                                    assignmentCount = assignmentCount - 5;
+                                                    pageCounter = pageCounter + 1;
+                                                    continue;
+                                                }
+                                                case "1":
+                                                {
+
+                                                }
+                                                case "2":
+                                                {
+
+                                                }
+                                                case "3":
+                                                {
+
+                                                }
+                                                case "4":
+                                                {
+
+                                                }
+                                                case "5":
+                                                {
+
+                                                }
+                                            }
                                         }
                                     }
                                     break;
@@ -152,7 +202,7 @@ public class PrioridateUI {
                     }
                 }
             }
-            else if(processedWelcome.equals("C"))
+            if(processedWelcome.equals("C"))
             {
 
             }
@@ -160,8 +210,13 @@ public class PrioridateUI {
             {
                 continue;
             }
+            else
+            {
+
+            }
         }
     }
+    
 
     private void welcomePage()
     {
@@ -294,7 +349,7 @@ public class PrioridateUI {
         clearScreen();
         System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
         System.out.println(LOGIN_FAILED + "\n");
-        System.out.println("\n\n\n\n\n\n\n\n\n\n");
+        System.out.println("\n\n\n\n\n\n\n\n\n");
         System.out.println("Options: [X] Exit");
         System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
         scanner.nextLine();
@@ -349,121 +404,172 @@ public class PrioridateUI {
         scanner.nextLine();
     }
 
-    private void todoListScreen(ArrayList<String> subjects, ArrayList<String> tasks,
-    ArrayList<String> status, ArrayList<String> priority)
+    private void todoListScreen(ArrayList<String> subjects, ArrayList<String> tasks, ArrayList<String> priority,
+    int assignmentCount, int pageCounter)
     {
-        String mathSpacing = "              "; String englishSpacing = "           ";
-        String chemSpacing = "         "; String socialStudiesSpacing = "    ";
-        String examSingleDigit = "                "; String quizSingleDigit = "                 ";
-        String homeworkSingleDigit = "            "; String readingSingleDigit = "             ";
         clearScreen();
         System.out.println(":::::::::::::::::::::::::::::: To-Do List ::::::::::::::::::::::::::::::\n");
         System.out.println(TODO_LIST_MESSAGE + "\n");
-        System.out.println("#    Subject           Task                  Status           Priority");
-        for(int i = 0; i < subjects.size(); i++)
+        System.out.println("#    Subject           Task                  Priority");
+        if(assignmentCount > 5)
         {
-            System.out.println("");
-            System.out.print((i+1)+"    ");
-            switch(subjects.get(i))
+            for(int i = 0; i < 5; i++)
             {
-                case "Math":
-                    System.out.print(subjects.get(i)+mathSpacing);
-                    switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
-                    {
-                        case "Exam":
-                            System.out.print(tasks.get(i)+examSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Quiz":
-                            System.out.print(tasks.get(i)+quizSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Homework":
-                            System.out.print(tasks.get(i)+homeworkSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Reading":
-                            System.out.print(tasks.get(i)+readingSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                    }
-                    break;
-                case "English":
-                    System.out.print(subjects.get(i)+englishSpacing);
-                    switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
-                    {
-                        case "Exam":
-                            System.out.print(tasks.get(i)+examSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Quiz":
-                            System.out.print(tasks.get(i)+quizSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Homework":
-                            System.out.print(tasks.get(i)+homeworkSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Reading":
-                            System.out.print(tasks.get(i)+readingSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                    }
-                    break;
-                case "Chemistry":
-                    System.out.print(subjects.get(i)+chemSpacing);
-                    switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
-                    {
-                        case "Exam":
-                            System.out.print(tasks.get(i)+examSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Quiz":
-                            System.out.print(tasks.get(i)+quizSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Homework":
-                            System.out.print(tasks.get(i)+homeworkSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Reading":
-                            System.out.print(tasks.get(i)+readingSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                    }
-                    break;
-                case "Social Studies":
-                    System.out.print(subjects.get(i)+socialStudiesSpacing);
-                    switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
-                    {
-                        case "Exam":
-                            System.out.print(tasks.get(i)+examSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Quiz":
-                            System.out.print(tasks.get(i)+quizSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Homework":
-                            System.out.print(tasks.get(i)+homeworkSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                        case "Reading":
-                            System.out.print(tasks.get(i)+readingSingleDigit);
-                            System.out.print(status.get(i)+"    "+priority.get(i));
-                            break;
-                    }
-                    break;
+                int j = i + pageCounter*5;
+                processAssignmentLine(subjects, tasks, priority, j);
             }
+            if(pageCounter == 0)
+            {
+                System.out.println("\n\n                   [>] Next Page\n");
+            }
+            else
+            {
+                System.out.println("\n\n[<] Previous Page [>] Next Page\n");
+            }
+            System.out.println("\nOptions: [B] Go Back [X] Exit");
+            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
         }
-        System.out.println("\n\nOptions: [B] Go Back [X] Exit");
-        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+        else
+        {
+            for(int i = 0; i < assignmentCount; i++)
+            {
+                int j = i + pageCounter*5;
+                processAssignmentLine(subjects, tasks, priority, j);
+            }
+            System.out.println("\n\n[<] Previous Page\n");
+            System.out.println("\nOptions: [B] Go Back [X] Exit");
+            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+        }
+    }
+
+    private void processAssignmentLine(ArrayList<String> subjects, ArrayList<String> tasks, ArrayList<String> priority, int i)
+    {
+        String mathSpacing = "              "; String englishSpacing = "           ";
+        String chemSpacing = "         "; String socialStudiesSpacing = "    ";
+        String examSingleDigit = "                "; String quizSingleDigit = "                ";
+        String homeworkSingleDigit = "            "; String readingSingleDigit = "             ";
+        System.out.println("");
+                    System.out.print((i+1)+"    ");
+                    switch(subjects.get(i))
+                    {
+                        case "Math":
+                            System.out.print(subjects.get(i)+mathSpacing);
+                            switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
+                            {
+                                case "Exam":
+                                    System.out.print(tasks.get(i)+examSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Quiz":
+                                    System.out.print(tasks.get(i)+quizSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Homework":
+                                    System.out.print(tasks.get(i)+homeworkSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Reading":
+                                    System.out.print(tasks.get(i)+readingSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                            }
+                            break;
+                        case "English":
+                            System.out.print(subjects.get(i)+englishSpacing);
+                            switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
+                            {
+                                case "Exam":
+                                    System.out.print(tasks.get(i)+examSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Quiz":
+                                    System.out.print(tasks.get(i)+quizSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Homework":
+                                    System.out.print(tasks.get(i)+homeworkSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Reading":
+                                    System.out.print(tasks.get(i)+readingSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                            }
+                            break;
+                        case "Chemistry":
+                            System.out.print(subjects.get(i)+chemSpacing);
+                            switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
+                            {
+                                case "Exam":
+                                    System.out.print(tasks.get(i)+examSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Quiz":
+                                    System.out.print(tasks.get(i)+quizSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Homework":
+                                    System.out.print(tasks.get(i)+homeworkSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Reading":
+                                    System.out.print(tasks.get(i)+readingSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                            }
+                            break;
+                        case "Social Studies":
+                            System.out.print(subjects.get(i)+socialStudiesSpacing);
+                            switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
+                            {
+                                case "Exam":
+                                    System.out.print(tasks.get(i)+examSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Quiz":
+                                    System.out.print(tasks.get(i)+quizSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Homework":
+                                    System.out.print(tasks.get(i)+homeworkSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                                case "Reading":
+                                    System.out.print(tasks.get(i)+readingSingleDigit);
+                                    System.out.print(priority.get(i));
+                                    break;
+                            }
+                            break;
+                    }
+    }
+
+    private String nextPagePreviousPage(String command)
+    {
+        String pageCommand = command;
+        if(command.equals("<") || command.equals(">"))
+        {
+            pageCommand = command;
+        }
+        if(command.equals("X") || command.equals("x"))
+        {
+            System.out.println("Goodbye.");
+            System.exit(2000);
+        }
+        else
+        {
+            pageCommand = "error";
+        }
+        return pageCommand;
     }
 
     private String getToDoInput(String command)
     {
         String toDoCommand = command;
-        if(command.equals("X") || command.equals("x"))
+        if(command.equals("<") || command.equals(">"))
+        {
+            toDoCommand = command;
+        }
+        else if(command.equals("X") || command.equals("x"))
         {
             System.out.println("Goodbye.");
             System.exit(2000);
