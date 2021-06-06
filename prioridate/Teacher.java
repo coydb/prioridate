@@ -8,11 +8,11 @@ public class Teacher
     private String teacherName;
     private ArrayList<Course> courses;
 
-    public Teacher()
+    public Teacher(int teacherId, String teacherName, ArrayList<Course> courses)
     {
         this.teacherId = teacherId;
         this.teacherName = teacherName;
-        this.courses = new ArrayList<Course>();
+        this.courses = new ArrayList<Course>(courses);
     }
 
     public void viewStudents(Course course)
@@ -53,6 +53,20 @@ public class Teacher
     public ArrayList<Course> getCourses()
     {
         return this.courses;
+    }
+
+    public String toString()
+    {
+        String outString = "\nTeacher Id: " + teacherId;
+        outString += "\nTeacher Name: " + teacherName;
+        outString += "\nCourses: \n";
+        for(Course course : courses)
+        {
+            outString += course.toString();
+        }
+        return outString;
+        
+        
     }
 
 
