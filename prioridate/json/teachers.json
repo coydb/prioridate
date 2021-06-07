@@ -1,15 +1,1 @@
-[
-		{
-			"teacherId":1,
-			"teacherName":"Harold Emerson",
-			"userame": "emersonh",
-			"password": "password1",
-			"courses":[1, 4]
-		},{
-			"teacherId":2,
-			"teacherName":"Rachel West",
-			"username":"westr",
-			"password":"password2",
-			"courses":[2, 5]
-		}
-	]
+[{"courses":[1],"password":"password1","teacherId":1,"teacherName":"Harold Emerson","username":null},{"courses":[2],"password":"password2","teacherId":2,"teacherName":"Rachel West","username":"westr"}]

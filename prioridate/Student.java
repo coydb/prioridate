@@ -3,38 +3,37 @@ package prioridate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Student 
+public class Student extends Account
 {
     private int studentId;
     private String studentName;
-    private HashMap<Boolean, Assignment> assignments;
+    private HashMap<Assignment, Boolean> assignments;
+    private ArrayList<Course> courses;
 
-    public Student(int studentId, String studentName, HashMap<Boolean, Assignment> assignments)
+    public Student(String username, String password, String type, int studentId, String studentName, HashMap<Assignment, Boolean> assignments, ArrayList<Course> courses)
     {
+        super(type, username, password);
         this.studentId = studentId;
         this.studentName = studentName;
-        this.assignments = new HashMap<Boolean, Assignment>(assignments);
+        this.assignments = assignments;
+        this.courses = courses;
           
     }
 
     private void viewAssignmentsCompleted() 
     {
-        for(Boolean key : assignments.keySet())
-        {
-            if(assignments.containsKey(true))
-            {
-                System.out.println(assignments.get(key).getTitle());
+        for(Assignment assignment : assignments.keySet()) {
+            if(assignments.get(assignment) == true) {
+                System.out.println(assignment.toString());
             }
         }
     }
 
     private void viewAssignmentsDue()
     {
-        for(Boolean key : assignments.keySet())
-        {
-            if(assignments.containsKey(false))
-            {
-                System.out.println(assignments.get(key).getTitle());
+        for(Assignment assignment : assignments.keySet()) {
+            if(assignments.get(assignment) == false) {
+                System.out.println(assignment.toString());
             }
         }
     }
@@ -44,18 +43,14 @@ public class Student
         int assignmentsCompleted = 0;
         int assignmentsDue = 0;
 
-        for(Boolean key : assignments.keySet())
-        {
-            if(assignments.containsKey(true))
-            {
+        for(Assignment assignment : assignments.keySet()) {
+            if(assignments.get(assignment) == true) {
                 assignmentsCompleted++;
             }
-            else if(assignments.containsKey(false))
-            {
+            else if(assignments.get(assignment) == false) {
                 assignmentsDue++;
             }
         }
-        
         double completionPercent = ((double)assignmentsCompleted / (assignmentsCompleted + assignmentsDue));
         return completionPercent;
     }
@@ -63,7 +58,7 @@ public class Student
    public void checkOffAssignment(Assignment assignment)
    {
         assignments.remove(assignment);
-        assignments.put(true, assignment);
+        assignments.put(assignment, true);
    }
 
    public int getStudentId()
@@ -76,19 +71,25 @@ public class Student
        return this.studentName;
    }
 
-   public HashMap<Boolean, Assignment> getAssignments()
+   public HashMap<Assignment, Boolean> getAssignments()
    {
        return this.assignments;
    }
 
+   public ArrayList<Course> getCourses() {
+       return this.courses;
+   }
    public String toString()
    {
        String outString = "\nStudent Id: " + studentId;
        outString += "\nStudent Name: " + studentName;
        outString += "\nAssignments: \n";
-       for(Boolean key : assignments.keySet())
+       for(Assignment assignment : assignments.keySet())
        {
-            assignments.get(key).toString();           
+            outString += assignment.toString();           
+       }
+       for(Course course : courses) {
+           outString += course.toString();
        }
        return outString;
 

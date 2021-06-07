@@ -1,15 +1,23 @@
 package prioridate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Stores all student and teacher accounts in array lists
  */
 public class AccountList {
   private static AccountList accountList = null;
-  private static ArrayList<Account> studentsList;
-  private static ArrayList<Account> teachersList;
+  private static ArrayList<Student> studentsList;
+  private static ArrayList<Teacher> teachersList;
+
+  /**
+   * For testing purposes only
+   * @param args
+   */
+  public static void main(String[] args) {
+    AccountList accountList = AccountList.getInstance();
+    accountList.printAccountList();
+  }
 
   /**
    * Private constructor (user AccountList.getInstance() for instantiation)
@@ -40,12 +48,16 @@ public class AccountList {
    */
   public Account login(String username, String password) {
     for (Student student : studentsList) {
-      if (student.getUserName().equalsIgnoreCase(username) && student.getPassword().equals(password))
+      if (student.getUsername().equalsIgnoreCase(username) && 
+          student.getPassword().equals(password)) {
         return student;
+      }
     }
     for (Teacher teacher : teachersList) {
-      if (teacher.getUserName().equalsIgnoreCase(username) && teacher.getPassword().equals(password))
+      if (teacher.getUsername().equalsIgnoreCase(username) &&
+          teacher.getPassword().equals(password)) {
         return teacher;
+      }
     }
     return null;
   }
@@ -56,24 +68,24 @@ public class AccountList {
    */
   public void addAccount(Account accountToAdd) {
     if(accountToAdd.getType().equalsIgnoreCase("student"))
-      studentsList.add(accountToAdd);
+      studentsList.add((Student)accountToAdd);
     if(accountToAdd.getType().equalsIgnoreCase("teacher")) 
-      teachersList.add(accountToAdd);
+      teachersList.add((Teacher)accountToAdd);
   }
 
   /**
    * Returns an account from the course list 
-   * @param username The username for the desired account
+   * @param accountId The id for the desired account
    * @return The matching account, returns null if the account
    * does not exist in the list
    */
-  public Account getAccount(String username) {
+  public Account getAccount(int accountId) {
     for (Student student : studentsList) {
-      if (student.getUserName().equalsIgnoreCase(username))
+      if (student.getStudentId() == accountId)
         return student;
     }
     for (Teacher teacher : teachersList) {
-      if (teacher.getUserName().equalsIgnoreCase(username))
+      if (teacher.getTeacherId() == accountId)
         return teacher;
     }
     return null;
@@ -83,7 +95,7 @@ public class AccountList {
    * Access the currently loaded list of students
    * @return An ArrayList of Students
    */
-  public ArrayList<Account> getStudentList() {
+  public ArrayList<Student> getStudentList() {
     return studentsList;
   }
 
@@ -91,7 +103,21 @@ public class AccountList {
    * Access the currently loaded list of teachers
    * @return An ArrayList of Teachers
    */
-  public ArrayList<Account> getTeacherList() {
+  public ArrayList<Teacher> getTeacherList() {
     return teachersList;
+  }
+
+  /**
+   * Helper method for testing.
+   */
+  private void printAccountList() {
+    for (int i = 0; i< studentsList.size();i++) {
+      System.out.println("==============Student #" + (i + 1) + "=============");
+      System.out.println(studentsList.get(i).toString());
+    }
+    for (int i = 0; i< teachersList.size();i++) {
+      System.out.println("==============Teacher #" + (i + 1) + "=============");
+      System.out.println(teachersList.get(i).toString());
+    }
   }
 }

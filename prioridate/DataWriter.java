@@ -3,29 +3,67 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class DataWriter {
-  private static String studentsFile = "prioridate/json/students.json";
-  private static String teachersFile = "prioridate/json/teachers.json";
-  private static String assignmentsFile = "prioridate/json/assignments.json";
-  private static String coursesFile = "prioridate/json/courses.json";
-
+/**
+ * A data writer for writing object files to JSON
+ */
+public class DataWriter extends DataConstants {
   /**
    * For testing purposes only
    * @param args
    */
   public static void main(String[] args) {
-    //saveAssignments();
+    saveAssignments();
     saveCourses();
+    saveStudents();
+    saveTeachers();
   }
+
+  /**
+   * Writes current student list to JSON file
+   */
   public static void saveStudents() {
+    AccountList accountList = AccountList.getInstance();
+    ArrayList<Student> students = accountList.getStudentList();
+    JSONArray jsonStudents = new JSONArray();
 
+    for(int i = 0; i < students.size();i++) {
+      jsonStudents.add(getJSONStudent(students.get(i)));
+    }
+    try (FileWriter outFile = new FileWriter(studentsFile)) {
+      outFile.write(jsonStudents.toJSONString());
+      outFile.flush();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
+
+  /**
+   * Writes current teacher list to JSON file
+   */
   public static void saveTeachers() {
+    AccountList accountList = AccountList.getInstance();
+    ArrayList<Teacher> teachers = accountList.getTeacherList();
+    JSONArray jsonTeachers = new JSONArray();
 
+    for(int i = 0; i < teachers.size();i++) {
+      jsonTeachers.add(getJSONTeacher(teachers.get(i)));
+    }
+    try (FileWriter outFile = new FileWriter(teachersFile)) {
+      outFile.write(jsonTeachers.toJSONString());
+      outFile.flush();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
+
+  /**
+   * Writes current course list to JSON file
+   */
   public static void saveCourses() {
     CourseList courseList = CourseList.getInstance();
     ArrayList<Course> courses = courseList.getCourses();
@@ -34,7 +72,6 @@ public class DataWriter {
     for(int i = 0;i < courses.size();i++) {
       jsonCourses.add(getJSONCourse(courses.get(i)));
     }
-
     try (FileWriter outFile = new FileWriter(coursesFile)) {
       outFile.write(jsonCourses.toJSONString());
       outFile.flush();
@@ -42,6 +79,10 @@ public class DataWriter {
       e.printStackTrace();
     }
   }
+  
+  /**
+   * Writes current assignments to JSON file
+   */
   public static void saveAssignments() {
     AssignmentList assignmentList = AssignmentList.getInstance();
     ArrayList<Assignment> assignments = assignmentList.getAssignments();
@@ -59,6 +100,12 @@ public class DataWriter {
     }
   }
 
+  /**
+   * Helper method for turning an Assignment object into
+   * a JSONObject
+   * @param assignment Assignment Object
+   * @return JSONObject
+   */
   private static JSONObject getJSONAssignment(Assignment assignment) {
     JSONObject assignmentJSONObject = new JSONObject();
     assignmentJSONObject.put("assignmentId",assignment.getAssignmentId());
@@ -103,6 +150,12 @@ public class DataWriter {
     return assignmentJSONObject;
   }
 
+  /**
+   * Helper method for turning a Course object into
+   * a JSONObject
+   * @param course Course object
+   * @return JSONObject
+   */
   private static JSONObject getJSONCourse(Course course) {
     JSONObject courseJSONObject = new JSONObject();
     courseJSONObject.put("courseId", course.getCourseId());
@@ -116,4 +169,61 @@ public class DataWriter {
     courseJSONObject.put("assignments", assignmentsArray);
     return courseJSONObject;
   }
+
+
+  /**
+   * Helper method for turning a Student object into
+   * a JSONObject
+   * @param account Student object
+   * @return JSONObject
+   */
+  private static JSONObject getJSONStudent(Student account) {
+    JSONObject studentJSONObject = new JSONObject();
+    studentJSONObject.put("studentId", account.getStudentId());
+    studentJSONObject.put("studentName", account.getStudentName());
+    studentJSONObject.put("username", account.getUsername());
+    studentJSONObject.put("password", account.getPassword());
+    JSONArray coursesJSONArray = new JSONArray();
+    ArrayList<Course> courses = account.getCourses();
+    for (int i = 0; i < courses.size();i++) {
+      coursesJSONArray.add(courses.get(i).getCourseId());
+    }
+    studentJSONObject.put("courses", coursesJSONArray);
+    HashMap<Assignment, Boolean> hashmapFromAccount = account.getAssignments();
+    JSONArray dueJsonArray = new JSONArray();
+    JSONArray completeJSONArray = new JSONArray();
+    for (Assignment assignment : hashmapFromAccount.keySet()) {
+      if (hashmapFromAccount.get(assignment) == true) {
+        completeJSONArray.add(assignment.getAssignmentId());
+      }
+      if (hashmapFromAccount.get(assignment) == false) {
+        dueJsonArray.add(assignment.getAssignmentId());
+      }
+    }
+    studentJSONObject.put("assignmentsDue", dueJsonArray);
+    studentJSONObject.put("assignmentsComplete", completeJSONArray);
+    return studentJSONObject;
+  }
+
+  /**
+   * Helper method for turning a Teacher object into
+   * a JSONObject
+   * @param account Teacher object
+   * @return JSONObject
+   */
+  private static JSONObject getJSONTeacher(Teacher account) {
+    JSONObject teacherJSONObject = new JSONObject();
+    teacherJSONObject.put("teacherId", account.getTeacherId());
+    teacherJSONObject.put("teacherName", account.getTeacherName());
+    teacherJSONObject.put("username", account.getUsername());
+    teacherJSONObject.put("password", account.getPassword());
+    JSONArray coursesJSONArray = new JSONArray();
+    ArrayList<Course> courses = account.getCourses();
+    for (int i = 0; i < courses.size();i++) {
+      coursesJSONArray.add(courses.get(i).getCourseId());
+    }
+    teacherJSONObject.put("courses", coursesJSONArray);
+    return teacherJSONObject;
+  }
+
 }

@@ -51,13 +51,13 @@ public class CourseList {
   
   /**
    * Returns a course from the course list 
-   * @param courseName The name of the desired course
+   * @param courseId The id of the desired course
    * @return The matching course, returns null if the course
    * does not exist in the list
    */
-  public Course getCourse(String courseName) {
+  public Course getCourse(int courseId) {
     for(int i = 0; i < courses.size();i++) {
-      if(courses.get(i).getClassName().equalsIgnoreCase(courseName))
+      if(courses.get(i).getCourseId() == courseId)
         return courses.get(i);
     }
     return null;
@@ -68,6 +68,7 @@ public class CourseList {
    */
   public void printCourseList() {
     for (int i = 0; i < courses.size();i++) {
+      System.out.println("==============Course #" + (i + 1) + "=============");
       System.out.println(courses.get(i).toString());
     }
   }
