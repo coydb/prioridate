@@ -8,6 +8,9 @@ import java.util.HashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+/**
+ * A data writer for writing object files to JSON
+ */
 public class DataWriter extends DataConstants {
   /**
    * For testing purposes only
@@ -19,6 +22,10 @@ public class DataWriter extends DataConstants {
     saveStudents();
     saveTeachers();
   }
+
+  /**
+   * Writes current student list to JSON file
+   */
   public static void saveStudents() {
     AccountList accountList = AccountList.getInstance();
     ArrayList<Student> students = accountList.getStudentList();
@@ -27,7 +34,6 @@ public class DataWriter extends DataConstants {
     for(int i = 0; i < students.size();i++) {
       jsonStudents.add(getJSONStudent(students.get(i)));
     }
-
     try (FileWriter outFile = new FileWriter(studentsFile)) {
       outFile.write(jsonStudents.toJSONString());
       outFile.flush();
@@ -36,6 +42,9 @@ public class DataWriter extends DataConstants {
     }
   }
 
+  /**
+   * Writes current teacher list to JSON file
+   */
   public static void saveTeachers() {
     AccountList accountList = AccountList.getInstance();
     ArrayList<Teacher> teachers = accountList.getTeacherList();
@@ -44,7 +53,6 @@ public class DataWriter extends DataConstants {
     for(int i = 0; i < teachers.size();i++) {
       jsonTeachers.add(getJSONTeacher(teachers.get(i)));
     }
-
     try (FileWriter outFile = new FileWriter(teachersFile)) {
       outFile.write(jsonTeachers.toJSONString());
       outFile.flush();
@@ -53,6 +61,9 @@ public class DataWriter extends DataConstants {
     }
   }
 
+  /**
+   * Writes current course list to JSON file
+   */
   public static void saveCourses() {
     CourseList courseList = CourseList.getInstance();
     ArrayList<Course> courses = courseList.getCourses();
@@ -61,7 +72,6 @@ public class DataWriter extends DataConstants {
     for(int i = 0;i < courses.size();i++) {
       jsonCourses.add(getJSONCourse(courses.get(i)));
     }
-
     try (FileWriter outFile = new FileWriter(coursesFile)) {
       outFile.write(jsonCourses.toJSONString());
       outFile.flush();
@@ -70,6 +80,9 @@ public class DataWriter extends DataConstants {
     }
   }
   
+  /**
+   * Writes current assignments to JSON file
+   */
   public static void saveAssignments() {
     AssignmentList assignmentList = AssignmentList.getInstance();
     ArrayList<Assignment> assignments = assignmentList.getAssignments();
@@ -87,6 +100,12 @@ public class DataWriter extends DataConstants {
     }
   }
 
+  /**
+   * Helper method for turning an Assignment object into
+   * a JSONObject
+   * @param assignment Assignment Object
+   * @return JSONObject
+   */
   private static JSONObject getJSONAssignment(Assignment assignment) {
     JSONObject assignmentJSONObject = new JSONObject();
     assignmentJSONObject.put("assignmentId",assignment.getAssignmentId());
@@ -131,6 +150,12 @@ public class DataWriter extends DataConstants {
     return assignmentJSONObject;
   }
 
+  /**
+   * Helper method for turning a Course object into
+   * a JSONObject
+   * @param course Course object
+   * @return JSONObject
+   */
   private static JSONObject getJSONCourse(Course course) {
     JSONObject courseJSONObject = new JSONObject();
     courseJSONObject.put("courseId", course.getCourseId());
@@ -145,6 +170,13 @@ public class DataWriter extends DataConstants {
     return courseJSONObject;
   }
 
+
+  /**
+   * Helper method for turning a Student object into
+   * a JSONObject
+   * @param account Student object
+   * @return JSONObject
+   */
   private static JSONObject getJSONStudent(Student account) {
     JSONObject studentJSONObject = new JSONObject();
     studentJSONObject.put("studentId", account.getStudentId());
@@ -173,6 +205,12 @@ public class DataWriter extends DataConstants {
     return studentJSONObject;
   }
 
+  /**
+   * Helper method for turning a Teacher object into
+   * a JSONObject
+   * @param account Teacher object
+   * @return JSONObject
+   */
   private static JSONObject getJSONTeacher(Teacher account) {
     JSONObject teacherJSONObject = new JSONObject();
     teacherJSONObject.put("teacherId", account.getTeacherId());
