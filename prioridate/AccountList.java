@@ -71,7 +71,7 @@ public class AccountList {
 
   /**
    * Returns an account from the course list 
-   * @param username The username for the desired account
+   * @param accountId The id for the desired account
    * @return The matching account, returns null if the account
    * does not exist in the list
    */
@@ -103,11 +103,16 @@ public class AccountList {
     return teachersList;
   }
 
+  /**
+   * Helper method for testing.
+   */
   private void printAccountList() {
     for (int i = 0; i< studentsList.size();i++) {
+      System.out.println("==============Student #" + (i + 1) + "=============");
       System.out.println(studentsList.get(i).toString());
     }
     for (int i = 0; i< teachersList.size();i++) {
+      System.out.println("==============Teacher #" + (i + 1) + "=============");
       System.out.println(teachersList.get(i).toString());
     }
   }

@@ -8,12 +8,7 @@ import java.util.HashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class DataWriter {
-  private static String studentsFile = "prioridate/json/students.json";
-  private static String teachersFile = "prioridate/json/teachers.json";
-  private static String assignmentsFile = "prioridate/json/assignments.json";
-  private static String coursesFile = "prioridate/json/courses.json";
-
+public class DataWriter extends DataConstants {
   /**
    * For testing purposes only
    * @param args
@@ -40,6 +35,7 @@ public class DataWriter {
       e.printStackTrace();
     }
   }
+
   public static void saveTeachers() {
     AccountList accountList = AccountList.getInstance();
     ArrayList<Teacher> teachers = accountList.getTeacherList();
@@ -56,6 +52,7 @@ public class DataWriter {
       e.printStackTrace();
     }
   }
+
   public static void saveCourses() {
     CourseList courseList = CourseList.getInstance();
     ArrayList<Course> courses = courseList.getCourses();
@@ -72,6 +69,7 @@ public class DataWriter {
       e.printStackTrace();
     }
   }
+  
   public static void saveAssignments() {
     AssignmentList assignmentList = AssignmentList.getInstance();
     ArrayList<Assignment> assignments = assignmentList.getAssignments();

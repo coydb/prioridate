@@ -2,6 +2,7 @@ package prioridate;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -9,11 +10,7 @@ import org.json.simple.parser.JSONParser;
 /**
  * A DataLoader for fetching data from JSON
  */
-public class DataLoader {
-  private static String studentsFile = "prioridate/json/students.json";
-  private static String assignmentsFile = "prioridate/json/assignments.json";
-  private static String coursesFile = "prioridate/json/courses.json";
-  private static String teachersFile = "prioridate/json/teachers.json";
+public class DataLoader extends DataConstants {
   /**
    * Fetches all students from the JSON database 
    * and returns them as an ArrayList

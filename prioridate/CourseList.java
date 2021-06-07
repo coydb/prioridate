@@ -51,7 +51,7 @@ public class CourseList {
   
   /**
    * Returns a course from the course list 
-   * @param courseName The name of the desired course
+   * @param courseId The id of the desired course
    * @return The matching course, returns null if the course
    * does not exist in the list
    */
@@ -68,6 +68,7 @@ public class CourseList {
    */
   public void printCourseList() {
     for (int i = 0; i < courses.size();i++) {
+      System.out.println("==============Course #" + (i + 1) + "=============");
       System.out.println(courses.get(i).toString());
     }
   }
