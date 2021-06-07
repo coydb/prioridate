@@ -55,9 +55,9 @@ public class CourseList {
    * @return The matching course, returns null if the course
    * does not exist in the list
    */
-  public Course getCourse(String courseName) {
+  public Course getCourse(int courseId) {
     for(int i = 0; i < courses.size();i++) {
-      if(courses.get(i).getClassName().equalsIgnoreCase(courseName))
+      if(courses.get(i).getCourseId() == courseId)
         return courses.get(i);
     }
     return null;

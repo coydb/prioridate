@@ -7,14 +7,12 @@ public class Course
     private int courseId;
     private String className;
     private ArrayList<Assignment> assignments;
-    private ArrayList<Student> students;
 
-    public Course(int courseId, String className, ArrayList<Assignment> assignments, ArrayList<Student> students)
+    public Course(int courseId, String className, ArrayList<Assignment> assignments)
     {
         this.courseId = courseId;
         this.className = className;
         this.assignments = new ArrayList<Assignment>(assignments);
-        this.students = new ArrayList<Student>(students);
     }
 
     public void viewStudents()
@@ -65,12 +63,6 @@ public class Course
         for (Assignment assignment : assignments) 
         {
             outString += assignment.toString();
-        }
-
-        outString+= "\nStudents: \n";
-        for (Student student : students)
-        {
-            outString += student.toString();
         }
         return outString;
     }

@@ -139,7 +139,6 @@ public class DataLoader {
    */
   public static ArrayList<Course> getCourses() {
     AssignmentList assignmentList = AssignmentList.getInstance();
-    ArrayList<Assignment> existingAssignments = assignmentList.getAssignments();
     ArrayList<Course> courses = new ArrayList<Course>();
     try {
       FileReader reader = new FileReader(coursesFile);
@@ -154,14 +153,10 @@ public class DataLoader {
         ArrayList<Assignment> assignmentsForCourse = new ArrayList<Assignment>();
         for(int j = 0; j < arrayFromJSON.size();j++) {
           int lookingFor = Integer.parseInt((String)arrayFromJSON.get(j).toString());
-          for (int k = 0; k < existingAssignments.size();k++) {
-            int currentAssignmentId = existingAssignments.get(k).getAssignmentId();
-            boolean belongsToCourse = currentAssignmentId == lookingFor; 
-            if(belongsToCourse) {
-              assignmentsForCourse.add(existingAssignments.get(k));
-            }
+          Assignment found = assignmentList.getAssignment(lookingFor);
+          if(found != null) {
+          assignmentsForCourse.add(found);
           }
-
         }
         courses.add(new Course(courseId, className, assignmentsForCourse));
       }
