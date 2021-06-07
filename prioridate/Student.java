@@ -22,22 +22,18 @@ public class Student extends Account
 
     private void viewAssignmentsCompleted() 
     {
-        for(Boolean key : assignments.keySet())
-        {
-            if(assignments.containsKey(true))
-            {
-                System.out.println(assignments.get(key).getTitle());
+        for(Assignment assignment : assignments.keySet()) {
+            if(assignments.get(assignment) == true) {
+                System.out.println(assignment.toString());
             }
         }
     }
 
     private void viewAssignmentsDue()
     {
-        for(Boolean key : assignments.keySet())
-        {
-            if(assignments.containsKey(false))
-            {
-                System.out.println(assignments.get(key).getTitle());
+        for(Assignment assignment : assignments.keySet()) {
+            if(assignments.get(assignment) == false) {
+                System.out.println(assignment.toString());
             }
         }
     }
@@ -47,18 +43,14 @@ public class Student extends Account
         int assignmentsCompleted = 0;
         int assignmentsDue = 0;
 
-        for(Boolean key : assignments.keySet())
-        {
-            if(assignments.containsKey(true))
-            {
+        for(Assignment assignment : assignments.keySet()) {
+            if(assignments.get(assignment) == true) {
                 assignmentsCompleted++;
             }
-            else if(assignments.containsKey(false))
-            {
+            else if(assignments.get(assignment) == false) {
                 assignmentsDue++;
             }
         }
-        
         double completionPercent = ((double)assignmentsCompleted / (assignmentsCompleted + assignmentsDue));
         return completionPercent;
     }

@@ -107,10 +107,8 @@ public class AccountList {
     for (int i = 0; i< studentsList.size();i++) {
       System.out.println(studentsList.get(i).toString());
     }
-    /*
     for (int i = 0; i< teachersList.size();i++) {
       System.out.println(teachersList.get(i).toString());
     }
-    */
   }
 }

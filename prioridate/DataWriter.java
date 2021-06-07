@@ -22,6 +22,7 @@ public class DataWriter {
     saveAssignments();
     saveCourses();
     saveStudents();
+    saveTeachers();
   }
   public static void saveStudents() {
     AccountList accountList = AccountList.getInstance();
@@ -40,7 +41,20 @@ public class DataWriter {
     }
   }
   public static void saveTeachers() {
+    AccountList accountList = AccountList.getInstance();
+    ArrayList<Teacher> teachers = accountList.getTeacherList();
+    JSONArray jsonTeachers = new JSONArray();
 
+    for(int i = 0; i < teachers.size();i++) {
+      jsonTeachers.add(getJSONTeacher(teachers.get(i)));
+    }
+
+    try (FileWriter outFile = new FileWriter(teachersFile)) {
+      outFile.write(jsonTeachers.toJSONString());
+      outFile.flush();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
   public static void saveCourses() {
     CourseList courseList = CourseList.getInstance();
@@ -160,4 +174,20 @@ public class DataWriter {
     studentJSONObject.put("assignmentsComplete", completeJSONArray);
     return studentJSONObject;
   }
+
+  private static JSONObject getJSONTeacher(Teacher account) {
+    JSONObject teacherJSONObject = new JSONObject();
+    teacherJSONObject.put("teacherId", account.getTeacherId());
+    teacherJSONObject.put("teacherName", account.getTeacherName());
+    teacherJSONObject.put("username", account.getUsername());
+    teacherJSONObject.put("password", account.getPassword());
+    JSONArray coursesJSONArray = new JSONArray();
+    ArrayList<Course> courses = account.getCourses();
+    for (int i = 0; i < courses.size();i++) {
+      coursesJSONArray.add(courses.get(i).getCourseId());
+    }
+    teacherJSONObject.put("courses", coursesJSONArray);
+    return teacherJSONObject;
+  }
+
 }
