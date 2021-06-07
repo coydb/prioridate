@@ -9,11 +9,11 @@ public class Student
     private String studentName;
     private HashMap<Boolean, Assignment> assignments;
 
-    public Student()
+    public Student(int studentId, String studentName, HashMap<Boolean, Assignment> assignments)
     {
         this.studentId = studentId;
         this.studentName = studentName;
-        this.assignments = new HashMap<Boolean, Assignment>();
+        this.assignments = new HashMap<Boolean, Assignment>(assignments);
           
     }
 
@@ -79,6 +79,19 @@ public class Student
    public HashMap<Boolean, Assignment> getAssignments()
    {
        return this.assignments;
+   }
+
+   public String toString()
+   {
+       String outString = "\nStudent Id: " + studentId;
+       outString += "\nStudent Name: " + studentName;
+       outString += "\nAssignments: \n";
+       for(Boolean key : assignments.keySet())
+       {
+            assignments.get(key).toString();           
+       }
+       return outString;
+
    }
 
 }
