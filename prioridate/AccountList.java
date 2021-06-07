@@ -48,12 +48,16 @@ public class AccountList {
    */
   public Account login(String username, String password) {
     for (Student student : studentsList) {
-      if (student.getUsername().equalsIgnoreCase(username) && student.getPassword().equals(password))
+      if (student.getUsername().equalsIgnoreCase(username) && 
+          student.getPassword().equals(password)) {
         return student;
+      }
     }
     for (Teacher teacher : teachersList) {
-      if (teacher.getUsername().equalsIgnoreCase(username) && teacher.getPassword().equals(password))
+      if (teacher.getUsername().equalsIgnoreCase(username) &&
+          teacher.getPassword().equals(password)) {
         return teacher;
+      }
     }
     return null;
   }
