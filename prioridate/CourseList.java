@@ -47,6 +47,7 @@ public class CourseList {
    */
   public void addCourse(Course courseToAdd) {
     courses.add(courseToAdd);
+    DataWriter.saveCourses();
   }
   
   /**

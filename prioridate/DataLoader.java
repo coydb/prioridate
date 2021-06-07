@@ -108,7 +108,6 @@ public class DataLoader extends DataConstants {
               coursesForTeacher.add(found);
           }
         }
-        // To-do: Pass to paramaterized constructor
         teachers.add(new Teacher(username, password, type, teacherId, teacherName,
                                  coursesForTeacher));
       }

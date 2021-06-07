@@ -69,8 +69,10 @@ public class AccountList {
   public void addAccount(Account accountToAdd) {
     if(accountToAdd.getType().equalsIgnoreCase("student"))
       studentsList.add((Student)accountToAdd);
+      DataWriter.saveStudents();
     if(accountToAdd.getType().equalsIgnoreCase("teacher")) 
       teachersList.add((Teacher)accountToAdd);
+      DataWriter.saveTeachers();
   }
 
   /**
