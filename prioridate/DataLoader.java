@@ -21,9 +21,7 @@ public class DataLoader {
    */
   public static ArrayList<Student> getStudents() {
     AssignmentList assignmentList = AssignmentList.getInstance();
-    ArrayList<Assignment> existingAssignments = assignmentList.getAssignments();
     CourseList courseList = CourseList.getInstance();
-    ArrayList<Course> existingCourses = courseList.getCourses();
 
     // create new ArrayList of Students and populate from JSON
     ArrayList<Student> students = new ArrayList<Student>();
@@ -38,48 +36,40 @@ public class DataLoader {
         String studentName = (String)studentJSON.get("studentName");
         String username = (String)studentJSON.get("username");
         String password = (String)studentJSON.get("password");
+        String type = (String)studentJSON.get("type");
 
         // Populates the Courses Array for the current student
         JSONArray coursesFromJSON = (JSONArray)studentJSON.get("courses");
         ArrayList<Course> coursesForStudent = new ArrayList<Course>();
         for(int j = 0; j < coursesFromJSON.size();j++) {
           int lookingFor = Integer.parseInt((String)coursesFromJSON.get(j).toString());
-          for (int k = 0; k < existingCourses.size();k++) {
-            int currentCourseId = existingCourses.get(k).getCourseId();
-            boolean belongsToStudent = currentCourseId == lookingFor; 
-            if(belongsToStudent) {
-              coursesForStudent.add(existingCourses.get(k));
-            }
+          Course found = courseList.getCourse(lookingFor);
+          if(found != null) {
+            coursesForStudent.add(found);
           }
         }
         // Populates the Assignments Hashmap for the current student
-        HashMap<Course, Boolean> assignmentsForStudent = new HashMap<Course, Boolean>();
+        HashMap<Assignment, Boolean> assignmentsForStudent = new HashMap<Assignment, Boolean>();
         // Fetches due assignments
         JSONArray dueFromJSON = (JSONArray)studentJSON.get("assignmentsDue");
         for(int j = 0; j < dueFromJSON.size();j++) {
           int lookingFor = Integer.parseInt((String)dueFromJSON.get(j).toString());
-          for (int k = 0; k < existingAssignments.size();k++) {
-            int currentAssignmentId = existingAssignments.get(k).getAssignmentId();
-            boolean belongsToStudent = currentAssignmentId == lookingFor; 
-            if(belongsToStudent) {
-              assignmentsForStudent.put(existingCourses.get(k), false);
-            }
+          Assignment found = assignmentList.getAssignment(lookingFor);
+          if(found != null) {
+            assignmentsForStudent.put(found, false);
           }
         }
         // Fetches complete assignments
         JSONArray completeFromJSON = (JSONArray)studentJSON.get("assignmentsComplete");
         for(int j = 0; j < completeFromJSON.size();j++) {
           int lookingFor = Integer.parseInt((String)completeFromJSON.get(j).toString());
-          for (int k = 0; k < existingAssignments.size();k++) {
-            int currentAssignmentId = existingAssignments.get(k).getAssignmentId();
-            boolean belongsToStudent = currentAssignmentId == lookingFor; 
-            if(belongsToStudent) {
-              assignmentsForStudent.put(existingCourses.get(k), true);
-            }
+          Assignment found = assignmentList.getAssignment(lookingFor);
+          if(found != null) {
+            assignmentsForStudent.put(found, true);
           }
         }
         // To-do: Pass to Paramaterized Constructor
-        students.add(new Student());
+        students.add(new Student(username, password, type, studentId, studentName, assignmentsForStudent));
       }
       return students;
     } catch (Exception e) {
@@ -95,7 +85,6 @@ public class DataLoader {
    */
   public static ArrayList<Teacher> getTeachers() {
     CourseList courseList = CourseList.getInstance();
-    ArrayList<Course> existingCourses = courseList.getCourses();
     ArrayList<Teacher> teachers = new ArrayList<Teacher>();
     try {
       FileReader reader = new FileReader(teachersFile);
@@ -105,6 +94,7 @@ public class DataLoader {
       for(int i = 0;i < teachersJSON.size();i++) {
         JSONObject teacherJSON = (JSONObject)teachersJSON.get(i);
         int teacherId = Integer.parseInt((String)teacherJSON.get("teacherId").toString());
+        String type = (String)teacherJSON.get("type");
         String teacherName = (String)teacherJSON.get("teacherName");
         String username = (String)teacherJSON.get("username");
         String password = (String)teacherJSON.get("password");
@@ -114,16 +104,13 @@ public class DataLoader {
         ArrayList<Course> coursesForTeacher = new ArrayList<Course>();
         for(int j = 0; j < coursesFromJSON.size();j++) {
           int lookingFor = Integer.parseInt((String)coursesFromJSON.get(j).toString());
-          for (int k = 0; k < existingCourses.size();k++) {
-            int currentCourseId = existingCourses.get(k).getCourseId();
-            boolean belongsToTeacher = currentCourseId == lookingFor; 
-            if(belongsToTeacher) {
-              coursesForTeacher.add(existingCourses.get(k));
-            }
+          Course found = courseList.getCourse(lookingFor);
+          if (found != null) {
+              coursesForTeacher.add(found);
           }
         }
         // To-do: Pass to paramaterized constructor
-        teachers.add(new Teacher());
+        teachers.add(new Teacher(username, password, type, teacherId, teacherName, coursesForTeacher));
       }
       return teachers;
     } catch (Exception e) {

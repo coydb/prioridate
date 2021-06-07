@@ -1,19 +1,19 @@
 package prioridate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Student 
+public class Student extends Account
 {
     private int studentId;
     private String studentName;
-    private HashMap<Boolean, Assignment> assignments;
+    private HashMap<Assignment, Boolean> assignments;
 
-    public Student(int studentId, String studentName, HashMap<Boolean, Assignment> assignments)
+    public Student(String username, String password, String type, int studentId, String studentName, HashMap<Assignment, Boolean> assignments)
     {
+        super(type, username, password);
         this.studentId = studentId;
         this.studentName = studentName;
-        this.assignments = new HashMap<Boolean, Assignment>(assignments);
+        this.assignments = assignments;
           
     }
 
@@ -63,7 +63,7 @@ public class Student
    public void checkOffAssignment(Assignment assignment)
    {
         assignments.remove(assignment);
-        assignments.put(true, assignment);
+        assignments.put(assignment, true);
    }
 
    public int getStudentId()
@@ -76,7 +76,7 @@ public class Student
        return this.studentName;
    }
 
-   public HashMap<Boolean, Assignment> getAssignments()
+   public HashMap<Assignment, Boolean> getAssignments()
    {
        return this.assignments;
    }
@@ -86,9 +86,9 @@ public class Student
        String outString = "\nStudent Id: " + studentId;
        outString += "\nStudent Name: " + studentName;
        outString += "\nAssignments: \n";
-       for(Boolean key : assignments.keySet())
+       for(Assignment assignment : assignments.keySet())
        {
-            assignments.get(key).toString();           
+            outString += assignment.toString();           
        }
        return outString;
 

@@ -2,14 +2,15 @@ package prioridate;
 
 import java.util.ArrayList;
 
-public class Teacher 
+public class Teacher extends Account
 {
     private int teacherId;
     private String teacherName;
     private ArrayList<Course> courses;
 
-    public Teacher(int teacherId, String teacherName, ArrayList<Course> courses)
+    public Teacher(String username, String password, String type, int teacherId, String teacherName, ArrayList<Course> courses)
     {
+        super(type, username, password);
         this.teacherId = teacherId;
         this.teacherName = teacherName;
         this.courses = new ArrayList<Course>(courses);
