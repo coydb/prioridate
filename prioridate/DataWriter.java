@@ -3,6 +3,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -17,11 +19,25 @@ public class DataWriter {
    * @param args
    */
   public static void main(String[] args) {
-    //saveAssignments();
+    saveAssignments();
     saveCourses();
+    saveStudents();
   }
   public static void saveStudents() {
+    AccountList accountList = AccountList.getInstance();
+    ArrayList<Student> students = accountList.getStudentList();
+    JSONArray jsonStudents = new JSONArray();
 
+    for(int i = 0; i < students.size();i++) {
+      jsonStudents.add(getJSONStudent(students.get(i)));
+    }
+
+    try (FileWriter outFile = new FileWriter(studentsFile)) {
+      outFile.write(jsonStudents.toJSONString());
+      outFile.flush();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
   public static void saveTeachers() {
 
@@ -115,5 +131,33 @@ public class DataWriter {
     }
     courseJSONObject.put("assignments", assignmentsArray);
     return courseJSONObject;
+  }
+
+  private static JSONObject getJSONStudent(Student account) {
+    JSONObject studentJSONObject = new JSONObject();
+    studentJSONObject.put("studentId", account.getStudentId());
+    studentJSONObject.put("studentName", account.getStudentName());
+    studentJSONObject.put("username", account.getUsername());
+    studentJSONObject.put("password", account.getPassword());
+    JSONArray coursesJSONArray = new JSONArray();
+    ArrayList<Course> courses = account.getCourses();
+    for (int i = 0; i < courses.size();i++) {
+      coursesJSONArray.add(courses.get(i).getCourseId());
+    }
+    studentJSONObject.put("courses", coursesJSONArray);
+    HashMap<Assignment, Boolean> hashmapFromAccount = account.getAssignments();
+    JSONArray dueJsonArray = new JSONArray();
+    JSONArray completeJSONArray = new JSONArray();
+    for (Assignment assignment : hashmapFromAccount.keySet()) {
+      if (hashmapFromAccount.get(assignment) == true) {
+        completeJSONArray.add(assignment.getAssignmentId());
+      }
+      if (hashmapFromAccount.get(assignment) == false) {
+        dueJsonArray.add(assignment.getAssignmentId());
+      }
+    }
+    studentJSONObject.put("assignmentsDue", dueJsonArray);
+    studentJSONObject.put("assignmentsComplete", completeJSONArray);
+    return studentJSONObject;
   }
 }

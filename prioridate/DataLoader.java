@@ -68,8 +68,7 @@ public class DataLoader {
             assignmentsForStudent.put(found, true);
           }
         }
-        // To-do: Pass to Paramaterized Constructor
-        students.add(new Student(username, password, type, studentId, studentName, assignmentsForStudent));
+        students.add(new Student(username, password, type, studentId, studentName, assignmentsForStudent, coursesForStudent));
       }
       return students;
     } catch (Exception e) {
