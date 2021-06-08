@@ -225,5 +225,4 @@ public class DataWriter extends DataConstants {
     teacherJSONObject.put("courses", coursesJSONArray);
     return teacherJSONObject;
   }
-
 }

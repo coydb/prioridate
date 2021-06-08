@@ -47,6 +47,7 @@ public class CourseList {
    */
   public void addCourse(Course courseToAdd) {
     courses.add(courseToAdd);
+    DataWriter.saveCourses();
   }
   
   /**
@@ -61,6 +62,10 @@ public class CourseList {
         return courses.get(i);
     }
     return null;
+  }
+
+  public int getHighestCourseId() {
+    return courses.get(courses.size()-1).getCourseId();
   }
 
   /**

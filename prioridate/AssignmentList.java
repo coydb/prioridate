@@ -64,6 +64,11 @@ public class AssignmentList {
    */
   public void addAssignment(Assignment assignmentToAdd) {
     assignments.add(assignmentToAdd);
+    DataWriter.saveAssignments();
+  }
+
+  public int getHighestAssignmentId() {
+    return assignments.get(assignments.size()-1).getAssignmentId();
   }
 
   /**

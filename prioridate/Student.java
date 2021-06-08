@@ -76,6 +76,15 @@ public class Student extends Account
        return this.assignments;
    }
 
+   public void addCourse(Course courseToAdd) {
+    courses.add(courseToAdd);
+    for(int i = 0; i <courseToAdd.getAssignments().size();i++) {
+        addAssignment(courseToAdd.getAssignments().get(i));
+    }
+   }
+   public void addAssignment(Assignment assignmentToAdd) {
+    assignments.put(assignmentToAdd, false);
+   }
    public ArrayList<Course> getCourses() {
        return this.courses;
    }
@@ -95,4 +104,10 @@ public class Student extends Account
 
    }
 
+   public void setAssignments(HashMap<Assignment, Boolean> assignments) {
+       this.assignments = assignments;
+   }
+   public void setCourses(ArrayList<Course> courses) {
+       this.courses = courses;
+   }
 }

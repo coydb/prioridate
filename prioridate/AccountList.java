@@ -62,15 +62,34 @@ public class AccountList {
     return null;
   }
 
+
   /**
-   * Adds an account to the current list of accounts
-   * @param accountToAdd
+   * Adds a new student to the list of students,
+   * or overwrites an existing student if the student already exists.
+   * @param studentToAdd
    */
-  public void addAccount(Account accountToAdd) {
-    if(accountToAdd.getType().equalsIgnoreCase("student"))
-      studentsList.add((Student)accountToAdd);
-    if(accountToAdd.getType().equalsIgnoreCase("teacher")) 
-      teachersList.add((Teacher)accountToAdd);
+  public void addStudent(Student studentToAdd) {
+    int studentId = studentToAdd.getStudentId();
+    if(accountList.getAccount(studentId) == null) {
+      studentsList.add(studentToAdd);
+    } else {
+     for(int i = 0; i<studentsList.size();i++) {
+       if(studentsList.get(i).getStudentId()==studentId) {
+         studentsList.get(i).setAssignments(studentToAdd.getAssignments());
+         studentsList.get(i).setCourses(studentToAdd.getCourses());
+       }
+     }
+    }
+    DataWriter.saveStudents();
+  }
+
+  /**
+   * Adds a new teacher to the list.
+   * @param teacherToAdd
+   */
+  public void addTeacher(Teacher teacherToAdd) {
+    teachersList.add(teacherToAdd);
+    DataWriter.saveTeachers();
   }
 
   /**
@@ -105,6 +124,12 @@ public class AccountList {
    */
   public ArrayList<Teacher> getTeacherList() {
     return teachersList;
+  }
+
+  public int getHighestUserId() {
+    int highestStudentId = studentsList.get(studentsList.size()-1).getStudentId();
+    int highestTeacherId = teachersList.get(teachersList.size()-1).getTeacherId();
+    return (highestStudentId > highestTeacherId)? highestStudentId : highestTeacherId;
   }
 
   /**
