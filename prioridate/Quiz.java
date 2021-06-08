@@ -17,7 +17,10 @@ public class Quiz extends Assignment {
     }
 
     public int calculatePriority() {
-        return 0;
+        int priority = 0;
+        priority += super.calculatePriority();
+        priority += 10;  // points for type
+        return priority;
     }
 
     public void setTimeLimit(double timeLimit) {
@@ -45,6 +48,6 @@ public class Quiz extends Assignment {
     public String toString(){
         return super.toString()
         + "\nTime Limit: " + getTimeLimit() + "\nNumber of Questions: "
-        + getNumQuestions() + "\nPriority: " + calculatePriority();
+        + getNumQuestions() + "\nPriority: " + calculatePriority() + priorityToString();
     }
 }
