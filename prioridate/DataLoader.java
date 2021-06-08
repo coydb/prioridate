@@ -46,9 +46,8 @@ public class DataLoader extends DataConstants {
           }
         }
 
-        // Populates the Assignments Hashmap for the current student
-        HashMap<Assignment, Boolean> assignmentsForStudent = new HashMap<Assignment, Boolean>();
         // Fetches due assignments
+        HashMap<Assignment, Boolean> assignmentsForStudent = new HashMap<Assignment, Boolean>();
         JSONArray dueFromJSON = (JSONArray)studentJSON.get("assignmentsDue");
         for(int j = 0; j < dueFromJSON.size();j++) {
           int lookingFor = Integer.parseInt((String)dueFromJSON.get(j).toString());
@@ -135,6 +134,8 @@ public class DataLoader extends DataConstants {
         JSONObject courseJSON = (JSONObject)coursesJSON.get(i);
         int courseId = Integer.parseInt((String)courseJSON.get("courseId").toString());
         String className = (String)courseJSON.get("className");
+
+        // Fetches assignments for current course
         JSONArray arrayFromJSON = (JSONArray)courseJSON.get("assignments");
         ArrayList<Assignment> assignmentsForCourse = new ArrayList<Assignment>();
         for(int j = 0; j < arrayFromJSON.size();j++) {
@@ -221,7 +222,7 @@ public class DataLoader extends DataConstants {
         int numPages = Integer.parseInt((String)assignmentJSON.get("numPages").toString());
         return new Reading(assignmentId, title, type, dueYear, dueMonth, dueDay, dueHour, dueMin,
                           percent, chapters, numPages);
-
+      
       default:
         return null;
     }
