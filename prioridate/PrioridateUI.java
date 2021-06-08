@@ -12,19 +12,24 @@ public class PrioridateUI {
     private static String LOGIN_MESSAGE = "Enter your account information below:";
     private static String LOGIN_FAILED = "The user name or password you entered was incorrect, please press\n" 
     + "\"ENTER\" to continue.";
+    private static String CREATE_ACCOUNT = "Enter your new account's information below";
+    private static String CREATE_CONFIRM = "Are you sure this information is correct?";
     private static String WELCOME_USER = "Welcome back, ";
     private static String MENU_TODO = "View to-do list";
     private static String MENU_COMPLETED = "View completed assignments";
     private static String MENU_CHECKOFF = "Check off assignment";
     private static String TODO_LIST_MESSAGE = "Your current to-do list.";
     private static String COMPLETE_LIST_MESSAGE = "Your current list of completed assignments.";
-    private static String CHECK_OFF_CONFIRM = "Would you like to check off this assignment?";
+    private static String CHECK_OFF_CONFIRM = "Would you like to check off this assignment?\n"
+    + "[Y]es or [N]o";
     private ArrayList<String> subjects;
     private ArrayList<String> tasks;
     private ArrayList<String> priority;
     private ArrayList<String> subjectsC;
     private ArrayList<String> tasksC;
     private ArrayList<String> priorityC;
+    private ArrayList<String> usernames;
+    private ArrayList<String> passwords;
     private int pageCounter = 0;
     private int assignmentCount;
     private int assignmentCCount;
@@ -40,6 +45,7 @@ public class PrioridateUI {
         this.subjects = new ArrayList<String>(); this.tasks = new ArrayList<String>(); 
         this.priority = new ArrayList<String>(); this.subjectsC = new ArrayList<String>();
         this.tasksC = new ArrayList<String>(); this.priorityC = new ArrayList<String>();
+        this.usernames = new ArrayList<String>(); this.passwords = new ArrayList<String>();
         subjects.add("Math"); subjects.add("English"); subjects.add("Chemistry"); 
         subjects.add("Math"); subjects.add("Social Studies"); subjects.add("Math");
         subjects.add("Chemistry"); subjects.add("Math"); subjects.add("Social Studies");
@@ -61,6 +67,8 @@ public class PrioridateUI {
         priorityC.add("High"); priorityC.add("High"); priorityC.add("Moderate"); 
         priorityC.add("Low"); priorityC.add("Low"); priorityC.add("Low"); 
         priorityC.add("Low"); priorityC.add("Low");
+        usernames.add("username"); usernames.add("admin");
+        passwords.add("password"); passwords.add("admin");
         assignmentCount = subjects.size();
         assignmentCCount = subjectsC.size();
         this.invalidLogin = false;
@@ -109,6 +117,7 @@ public class PrioridateUI {
                         welcomeScreenBack = "back";
                         break;
                     }
+                    confirmPassword(username, password);
                     if(invalidLogin == true)
                     {
                         invalidLoginScreen();
@@ -320,15 +329,34 @@ public class PrioridateUI {
             }
             if(processedWelcome.equals("C"))
             {
-
+                while(true)
+                {
+                    blankCreateAccountScreen();
+                    String createInput = scanner.next();
+                    String username = getUsername(createInput);
+                    if(username.equals("back"))
+                    {
+                        welcomeScreenBack = "back";
+                        break;
+                    }
+                    partialCreateAccountScreen(username);
+                    createInput = scanner.next();
+                    String password = getPassword(createInput);
+                    if(password.equals("back"))
+                    {
+                        welcomeScreenBack = "back";
+                        break;
+                    }
+                    Boolean confirm =confirmCreateAccountScreen(username, password);
+                    if(confirm==true)
+                    {
+                        break;
+                    }
+                }
             }
             if(welcomeScreenBack.equals("back"))
             {
                 continue;
-            }
-            else
-            {
-
             }
         }
     }
@@ -373,15 +401,20 @@ public class PrioridateUI {
         }
         else if(command.equals("error"))
         {
-            clearScreen();
-            System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
-            System.out.println(SELECTION_FAILED + "\n");
-            System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
-            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
-            scanner.nextLine();
+            genericFailScreen();
             processedWelcome = "failed";
         }
         return processedWelcome; 
+    }
+
+    private void genericFailScreen()
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println(SELECTION_FAILED + "\n");
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+        scanner.nextLine();
     }
 
     private void blankLoginPage()
@@ -417,7 +450,6 @@ public class PrioridateUI {
         else
         {
             loginCommand = command;
-            invalidLogin = true;
         }
         return loginCommand;
     }
@@ -427,8 +459,10 @@ public class PrioridateUI {
         clearScreen();
         System.out.println("::::::::::::::::::::::::::::::::: Log-in :::::::::::::::::::::::::::::::\n");
         System.out.println(LOGIN_MESSAGE + "\n");
-        System.out.println("Username: *********\n");
-        System.out.println("Password: \n");
+        System.out.println("Username: ");
+        for(int i = 0; i < username.length(); i++)
+            System.out.print("*");
+        System.out.println("\nPassword: \n");
         System.out.println("\n\n\n\n\n\n");
         System.out.println("Options: [B] Go Back [X] Exit");
         System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
@@ -455,9 +489,24 @@ public class PrioridateUI {
         else
         {
             loginCommand = command;
-            invalidLogin = true;
         }
         return loginCommand;
+    }
+
+    private void confirmPassword(String username, String password)
+    {
+        for(int i = 0; i < usernames.size(); i++)
+        {
+            invalidLogin = false;
+            if(!username.equals(usernames.get(i)))
+            {
+                invalidLogin = true;
+            }
+            if(!password.equals(passwords.get(i)))
+            {
+                invalidLogin = true;
+            }
+        }
     }
 
     private void invalidLoginScreen()
@@ -785,8 +834,10 @@ public class PrioridateUI {
     private String getCheckOffInput(String command)
     {
         String checkOffCommand = command;
-        if(command.equals("Y") || command.equals("N"))
+        if(command.equals("Y") || command.equals("y") || 
+        command.equals("N") || command.equals("n"))
         {
+            command.toUpperCase();
             checkOffCommand = command;
         }
         else if(command.equals("1") || command.equals("2") || command.equals("3") ||
@@ -814,9 +865,82 @@ public class PrioridateUI {
         return checkOffCommand;
     }
     
-    private void createAccount()
+    private void blankCreateAccountScreen()
     {
-        
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println(CREATE_ACCOUNT + "\n");
+        System.out.println("Username: \n");
+        System.out.println("Password: \n");
+        System.out.println("\n\n\n\n");
+        System.out.println("Options: [B] Go Back [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+        System.out.print("Username: ");
+    }
+
+    private void partialCreateAccountScreen(String username)
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println(CREATE_ACCOUNT + "\n");
+        System.out.println("Username: "+username+"\n");
+        System.out.println("Password: \n");
+        System.out.println("\n\n\n\n");
+        System.out.println("Options: [B] Go Back [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+        System.out.print("Password: ");
+    }
+
+    private Boolean confirmCreateAccountScreen(String username, String password)
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println(CREATE_CONFIRM + "\n");
+        System.out.println("Username: "+username+"\n");
+        System.out.println("Password: "+password+"\n");
+        System.out.println("\n\n\n\n");
+        System.out.println("Options: [B] Go Back [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+        while(true)
+        {
+            scanner.nextLine();
+            String confirmInput = scanner.nextLine();
+            confirmInput = getConfirmInput(confirmInput);
+            switch(confirmInput)
+                {
+                    case "error":
+                        genericFailScreen();
+                        break;
+                    case "Y":
+                        usernames.add(username); passwords.add(password);
+                        return true;
+                    case "N":
+                        return true;
+                }
+        }
+    }
+
+
+
+    private String getConfirmInput(String command)
+    {
+        String confirmCommand = command;
+        if(command.equals("Y") || command.equals("y") || 
+        command.equals("N") || command.equals("n"))
+        {
+            command.toUpperCase();
+            confirmCommand = command;
+        }
+        else if(command.equals("X") || command.equals("x"))
+        {
+            System.out.println("Goodbye.");
+            System.exit(2000);
+        }
+        else
+        {
+            confirmCommand = "error";
+        }
+        return confirmCommand;
     }
 
     private String getField(String prompt)
