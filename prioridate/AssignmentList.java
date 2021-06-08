@@ -67,6 +67,10 @@ public class AssignmentList {
     DataWriter.saveAssignments();
   }
 
+  public int getHighestAssignmentId() {
+    return assignments.get(assignments.size()-1).getAssignmentId();
+  }
+
   /**
    * Helper method for testing
    */

@@ -64,6 +64,10 @@ public class CourseList {
     return null;
   }
 
+  public int getHighestCourseId() {
+    return courses.get(courses.size()-1).getCourseId();
+  }
+
   /**
    * Helper method for testing
    */
