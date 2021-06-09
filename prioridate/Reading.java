@@ -54,7 +54,7 @@ public class Reading extends Assignment {
             outString += (i == chapters.length-1) ? "" : ", ";
         }
         outString += "\nNumber of Pages: " + getNumPages()
-                     +"\nPriority: " + calculatePriority();
+                     +"\nPriority: " + priorityToString();
         return outString;
     }
 }

@@ -40,6 +40,6 @@ public class Homework extends Assignment {
     public String toString() {
         return super.toString()
         + "\nNumber of Questions: " + getNumQuestions()
-        + "\nPriority: " + calculatePriority();
+        + "\nPriority: " + priorityToString();
     }
 }

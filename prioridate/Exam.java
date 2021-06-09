@@ -72,7 +72,7 @@ public class Exam extends Assignment {
         return super.toString()
         + "\nTime Limit: " + getTimeLimit() + "\nNumber of Questions: "
         + getNumQuestions() + "\nQuestion Type: " + getQuestionType()
-        + "\nLocation: " + getLocation() + "\nPriority: " + calculatePriority();
+        + "\nLocation: " + getLocation() + "\nPriority: " + priorityToString();
     }
 
 

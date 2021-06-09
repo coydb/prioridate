@@ -48,13 +48,13 @@ public abstract class Assignment {
         int hourPoint = 5;
         int minPoint = 5;
         // points for if due date corresponds to current day
-        int thisMonthPoints = 10;
+        int thisMonthPoints = 5;
         int thisDayPoints = 25;
         int thisHourPoints = 55;
         int thisMinPoints = 55;
         // populating hashmaps of points based on due date
         HashMap<Integer, Integer> months = new HashMap<Integer, Integer>();
-        for(int i = 6; i > 0; i -= 1) {
+        for(int i = 3; i > 0; i -= 1) {
             months.put(i, monthPoint);
             monthPoint += 1;  // point increase
         }
@@ -142,35 +142,35 @@ public abstract class Assignment {
         // percentage
         double percentage = this.getPercentOfGrade();
         if(percentage < 5) {
-            priority += 2;
+            priority += 0;
         }
         else if(percentage >= 5 && percentage < 10) {
-            priority += 5;
+            priority += 2;
         }
         else if(percentage >= 10 && percentage < 20) {
-            priority += 8;
+            priority += 5;
         }
         else if(percentage >= 20 && percentage < 30) {
-            priority += 15;
+            priority += 10;
         }
         else if(percentage >= 30 && percentage < 50) {
-            priority += 25;
+            priority += 15;
         }
         else {  // percentage >= 50
-            priority += 40;
+            priority += 25;
         }
         return priority;
     }
 
     public String priorityToString() {
         int priority = this.calculatePriority();
-        if(priority >= 85) {
+        if(priority > 84) {
             return "URGENT";
         }
-        else if(priority < 85 && priority >= 30) {
+        else if(priority <= 85 && priority > 35) {
             return "HIGH";
         }
-        else if(priority < 30 && priority >= 25) {
+        else if(priority < 35 && priority >= 25) {
             return "MODERATE";
         }
         else if(priority < 25 && priority >= 13) {
