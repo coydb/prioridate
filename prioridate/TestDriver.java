@@ -228,7 +228,7 @@ public class TestDriver {
     for (int i = 1; i<=numAssignments;i++) {
       System.out.println("Creating assignment ["+i+"] of ["+numAssignments+"]");
       createAndAddNewAssignment();
-      Assignment lastAssignment = assignmentList.getAssignment(assignmentList.getAssignments().size()-1);
+      Assignment lastAssignment = assignmentList.getAssignment(assignmentList.getHighestAssignmentId());
       int lastAssignmentId = lastAssignment.getAssignmentId();
       assignments.add(assignmentList.getAssignment(lastAssignmentId));
     }

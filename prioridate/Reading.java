@@ -12,7 +12,19 @@ public class Reading extends Assignment {
     }
 
     public int calculatePriority() {
-        return 0;
+        int priority = 0;
+        priority += super.calculatePriority();
+        int pages = getNumPages();
+        if(pages <= 5) {
+            priority += 1;
+        }
+        else if(pages > 5 && pages < 10) {
+            priority += 3;
+        }
+        else if(pages >= 10) {
+            priority += 7;
+        }
+        return priority;
     }
 
     public void setChapters(String[] chapters) {
@@ -42,7 +54,7 @@ public class Reading extends Assignment {
             outString += (i == chapters.length-1) ? "" : ", ";
         }
         outString += "\nNumber of Pages: " + getNumPages()
-                     +"\nPriority: " + calculatePriority();
+                     +"\nPriority: " + priorityToString();
         return outString;
     }
 }

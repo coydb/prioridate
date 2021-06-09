@@ -10,7 +10,20 @@ public class Homework extends Assignment {
     }
 
     public int calculatePriority() {
-        return 0;
+        int priority = 0;
+        priority += super.calculatePriority();
+        priority += 5;  // type points
+        int questions = getNumQuestions();
+        if(questions <= 5) {
+            priority += 1;
+        }
+        else if(questions > 5 && questions < 10) {
+            priority += 3;
+        }
+        else if(questions >= 10) {
+            priority += 7;
+        }
+        return priority;
     }
 
     public void setNumQuestions(int numQuestions) {
@@ -27,6 +40,6 @@ public class Homework extends Assignment {
     public String toString() {
         return super.toString()
         + "\nNumber of Questions: " + getNumQuestions()
-        + "\nPriority: " + calculatePriority();
+        + "\nPriority: " + priorityToString();
     }
 }

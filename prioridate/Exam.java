@@ -1,6 +1,5 @@
 package prioridate;
-// TO-DO:
-// - setPriority (just stub rn)
+
 public class Exam extends Assignment {
     private double timeLimit;
     private int numQuestions;
@@ -19,7 +18,10 @@ public class Exam extends Assignment {
     }
 
     public int calculatePriority() {
-        return 0;
+        int priority = 0;
+        priority += super.calculatePriority();
+        priority += 15;  // type points
+        return priority;
     }
 
     public double getTimeLimit() {
@@ -70,7 +72,7 @@ public class Exam extends Assignment {
         return super.toString()
         + "\nTime Limit: " + getTimeLimit() + "\nNumber of Questions: "
         + getNumQuestions() + "\nQuestion Type: " + getQuestionType()
-        + "\nLocation: " + getLocation() + "\nPriority: " + calculatePriority();
+        + "\nLocation: " + getLocation() + "\nPriority: " + priorityToString();
     }
 
 
