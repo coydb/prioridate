@@ -395,7 +395,8 @@ public class PrioridateUI {
     {
         String welcomeCommand = command;
         if(command.equals("L") || command.equals("l") || command.equals("C")
-           || command.equals("c") || command.equals("X") || command.equals("x"))
+           || command.equals("c") || command.equals("X") || command.equals("x")
+           || command.equals("T") || command.equals("t"))
         {
             command = command.toUpperCase();
             welcomeCommand = command;
