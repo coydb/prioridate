@@ -4,52 +4,65 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class TestDriver {
+public class AdminUI {
   static AccountList accountList = AccountList.getInstance();
   static CourseList courseList = CourseList.getInstance();
   static AssignmentList assignmentList = AssignmentList.getInstance();
   static Scanner keyboard = new Scanner(System.in);
+  static String prioridateBannerTop = ":::::::::::::::::::::::::::::Prioridate::::::::::::::::::::::::::::\n";
+  static String bannerWidthDefault = ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::";
+  static boolean isListView = false;
   public static void main(String[] args) {
 
+    String lastCompletedAction = null;
     while(true) {
-      System.out.println("Please select an option below");
-      System.out.println("[1] Display all students.");
-      System.out.println("[2] Display all teachers.");
-      System.out.println("[3] Display all courses.");
-      System.out.println("[4] Display all assignments");
-      System.out.println("[5] Create new assignment.");
-      System.out.println("[6] Create new student.");
-      System.out.println("[7] Create new teacher.");
-      System.out.println("[8] Create new course.");
-      System.out.println("[9] Enroll existing student in existing course.");
+      if(isListView) {
+        keyboard.nextLine();
+      }
+      clearScreen();
+      System.out.print(prioridateBannerTop);
+      if(lastCompletedAction != null) {
+      System.out.println(lastCompletedAction+"\n");
+      } else {
+        System.out.println("\n");
+      }
+      
+      System.out.println("Please select an option below:\n");
+      System.out.println("[1] View students."+"           [5] Create new student.");
+      System.out.println("[2] View courses."+"            [6] Create new teacher.");
+      System.out.println("[3] View assignments."+"        [7] Create new course.");
+      System.out.println("[4] Create new assignment."+"   [8] Enroll existing student in course.\n");
       int menuChoice = Integer.parseInt(keyboard.nextLine());
       switch(menuChoice) {
         case 1:
+          isListView = true;
           displayAllCurrentStudents();
+          isListView = false;
           break;
         case 2:
-          displayAllCurrentTeachers();
+          isListView = true;
+          displayAllCurrentCourses();
+          isListView = false;
           break;
         case 3:
-          displayAllCurrentCourses();
+          isListView = true;
+          displayAllCurrentAssignments();
+          isListView = false;
           break;
         case 4:
-          displayAllCurrentAssignments();
+          lastCompletedAction = createAndAddNewAssignment();
           break;
         case 5:
-          createAndAddNewAssignment();
+          lastCompletedAction = createAndAddNewStudent();
           break;
         case 6:
-          createAndAddNewStudent();
+          lastCompletedAction = createAndAddNewTeacher();
           break;
         case 7:
-          createAndAddNewTeacher();
+          lastCompletedAction = createAndAddNewCourse();
           break;
         case 8:
-          createAndAddNewCourse();
-          break;
-        case 9:
-          enrollExistingStudentInExistingCourse();
+          lastCompletedAction = enrollExistingStudentInExistingCourse();
           break;
         default:
           break;
@@ -58,11 +71,17 @@ public class TestDriver {
     
   }
 
-  public static void createAndAddNewAssignment() {
-    System.out.println("Creating new assignment: ");
+  public static String createAndAddNewAssignment() {
+    String header = "::::::::::::::::::::::Creating New Assignment::::::::::::::::::::::\n";
+    clearScreen();
+    System.out.println(header);
     int assignmentId = assignmentList.getHighestAssignmentId()+1;
+    clearScreen();
+    System.out.println(header);
     System.out.println("Enter a title for the assignment: ");
     String title = keyboard.nextLine();
+    clearScreen();
+    System.out.println(header);
     System.out.println("Enter the month the assignment is due (ex: 01, 09, 12)");
     int dueMonth = Integer.parseInt(keyboard.nextLine());
     System.out.println("Enter the day the assignment is due (ex: 01, 15, 31)");
@@ -73,9 +92,12 @@ public class TestDriver {
     int dueHour = Integer.parseInt(keyboard.nextLine());
     System.out.println("Enter the minute the assignment is due (ex: 01, 12)");
     int dueMin = Integer.parseInt(keyboard.nextLine());
-    System.out.println("Enter the percentage of the grade (ex: 5.2");
+    clearScreen();
+    System.out.println(header);
+    System.out.println("Enter the percentage of the grade (ex: 5.2)");
     double percentOfGrade = Double.parseDouble(keyboard.nextLine());
-
+    clearScreen();
+    System.out.println(header);
     System.out.println("Choose a type for the assignment:\n" +
                         "[1] Homework\n" +
                         "[2] Quiz\n" +
@@ -83,6 +105,8 @@ public class TestDriver {
                         "[4] Reading\n");
                         
     int choice = Integer.parseInt(keyboard.nextLine());
+    clearScreen();
+    System.out.println(header);
     String type = "";
     switch(choice) {
       case 1:
@@ -132,11 +156,13 @@ public class TestDriver {
       default:
         break;
     } 
-    System.out.println("Finished creating new assignment.");
+    return "Finished creating new assignment.";
   }
 
-  public static void createAndAddNewStudent() {
-    System.out.println("Creating new student: ");
+  public static String createAndAddNewStudent() {
+    String header = "::::::::::::::::::::::Creating New Student:::::::::::::::::::::::::\n";
+    clearScreen();
+    System.out.println(header);
     ArrayList<Course> studentCourses = new ArrayList<Course>();
     HashMap<Assignment, Boolean> studentAssignments = new HashMap<Assignment, Boolean>();
     int studentId = accountList.getHighestUserId()+1;
@@ -146,29 +172,36 @@ public class TestDriver {
     String username = keyboard.nextLine();
     System.out.println("Enter the student's password: ");
     String password = keyboard.nextLine();
+    clearScreen();
+    System.out.println(header);
     System.out.println("Enter number of courses to enroll student in: ");
     int numCourses = Integer.parseInt(keyboard.nextLine());
+    clearScreen();
+    System.out.println(header);
     for(int i = 1; i<=numCourses;i++) {
-      System.out.println("Please select a course from the list below: ");
       System.out.println("Selection ["+i+"] of ["+numCourses+"]");
+      System.out.println("Please select a course from the list below: ");
       displayAllCurrentCourses();
       int choice = Integer.parseInt(keyboard.nextLine());
       studentCourses.add(courseList.getCourses().get(choice-1));
+      clearScreen();
+      System.out.println(header);
       System.out.println("Enrolled in: "+courseList.getCourses().get(choice-1).getClassName());
     }
     for(int i = 0; i <studentCourses.size();i++) {
       Course currentCourse = studentCourses.get(i);
       for (int j = 0; j<currentCourse.getAssignments().size();j++) {
         Assignment currentAssignment = currentCourse.getAssignments().get(j);
-        System.out.println("Adding assignment: "+currentAssignment.getTitle());
         studentAssignments.put(currentAssignment, false);
       }
     }
     accountList.addStudent(new Student(username, password, "Student", studentId, studentName, studentAssignments, studentCourses));
-    System.out.println("Finished creating new student.");
+    return "Finished creating new student.";
   }
-  public static void createAndAddNewTeacher() {
-    System.out.println("Creating new teacher: ");
+  public static String createAndAddNewTeacher() {
+    String header = "::::::::::::::::::::::Creating New Teacher:::::::::::::::::::::::::\n";
+    clearScreen();
+    System.out.println(header);
     ArrayList<Course> teacherCourses = new ArrayList<Course>();
     int teacherId = accountList.getHighestUserId()+1;
     System.out.println("Enter the teachers's first and last name: ");
@@ -177,54 +210,34 @@ public class TestDriver {
     String username = keyboard.nextLine();
     System.out.println("Enter the teacher's password: ");
     String password = keyboard.nextLine();
+    clearScreen();
+    System.out.println(header);
     System.out.println("Enter number of new courses for the teacher: ");
     int numCourses = Integer.parseInt(keyboard.nextLine());
+    clearScreen();
+    System.out.println(header);
     for(int i = 1; i<=numCourses;i++) {
       System.out.println("Creating course ["+i+"] of ["+numCourses+"]");
       createAndAddNewCourse();
       teacherCourses.add(courseList.getCourse(courseList.getCourses().size()-1)); 
     }
     accountList.addTeacher(new Teacher(username, password, "Teacher", teacherId, teacherName, teacherCourses));
-    System.out.println("Finished creating new teacher.");
+    return "Finished creating new teacher.";
   }
 
-  
-  public static void displayAllCurrentCourses() {
-    System.out.println("All currently available courses: ");
-    for(int i = 0; i<courseList.getCourses().size();i++) {
-      System.out.println("["+(i+1)+"] "+courseList.getCourses().get(i).getClassName());
-    }
-  }
 
-  public static void displayAllCurrentStudents() {
-    System.out.println("All current students: ");
-    for(int i = 0; i<accountList.getStudentList().size();i++) {
-      System.out.println("["+(i+1)+"] "+accountList.getStudentList().get(i).getStudentName());
-    }
-  }
-
-  public static void displayAllCurrentTeachers() {
-    System.out.println("All current teachers: ");
-    for(int i = 0; i<accountList.getTeacherList().size();i++) {
-      System.out.println("["+(i+1)+"] "+accountList.getTeacherList().get(i).getTeacherName());
-    }
-  }
-
-  public static void displayAllCurrentAssignments() {
-    System.out.println("All current assignments: ");
-    for (int i = 0; i<assignmentList.getAssignments().size();i++) {
-      System.out.println("["+(i+1)+"] "+assignmentList.getAssignments().get(i).getTitle());
-    }
-  }
-
-  public static void createAndAddNewCourse() {
-    System.out.println("Creating new course: ");
+  public static String createAndAddNewCourse() {
+    String header = "::::::::::::::::::::::Creating New Course::::::::::::::::::::::::::\n";
+    clearScreen();
+    System.out.println(header);
     ArrayList<Assignment> assignments = new ArrayList<Assignment>();
     int courseId = courseList.getHighestCourseId()+1;
     System.out.println("Enter the course name: ");
     String courseName = keyboard.nextLine();
     System.out.println("Enter the number of assignments to create for the course: ");
     int numAssignments = Integer.parseInt(keyboard.nextLine());
+    clearScreen();
+    System.out.println(header);
     for (int i = 1; i<=numAssignments;i++) {
       System.out.println("Creating assignment ["+i+"] of ["+numAssignments+"]");
       createAndAddNewAssignment();
@@ -233,11 +246,12 @@ public class TestDriver {
       assignments.add(assignmentList.getAssignment(lastAssignmentId));
     }
     courseList.addCourse(new Course(courseId, courseName, assignments));
-    System.out.println("Finished creating new course.");
+    return "Finished creating new course.";
   }
 
-  public static void enrollExistingStudentInExistingCourse() {
-    System.out.println("Enrolling an existing student: ");
+  public static String enrollExistingStudentInExistingCourse() {
+    String header = "::::::::::::::::::::::::Enroll Student:::::::::::::::::::::::::::::\n";
+    System.out.println(header);
     System.out.println("Please choose a student to enroll: ");
     displayAllCurrentStudents();
     int studentChoice = Integer.parseInt(keyboard.nextLine());
@@ -249,7 +263,70 @@ public class TestDriver {
     studentToEnroll.addCourse(courseToEnroll);
     accountList.addStudent(studentToEnroll);
     System.out.println("Enrolled "+studentToEnroll.getStudentName()+" in "+courseToEnroll.getClassName()+".");
-    System.out.println("Finished enrolling student.");
+    return "Finished enrolling student.";
   }
   
+  public static void clearScreen() {
+    System.out.print("\033[H\033[2J");
+    System.out.flush();
+  }
+
+  public static void displayAllCurrentCourses() {
+    if(isListView) {
+      clearScreen();
+      System.out.println("::::::::::::::::::All currently available courses::::::::::::::::::\n");
+    }
+
+    for(int i = 0; i<courseList.getCourses().size();i++) {
+      System.out.println("["+(i+1)+"] "+courseList.getCourses().get(i).getClassName());
+    }
+    if(isListView) {
+      System.out.println("\nPress [Enter] to go back.");
+      keyboard.nextLine();
+    }
+  }
+
+  public static void displayAllCurrentStudents() {
+    if(isListView) {
+      clearScreen();
+      System.out.println(":::::::::::::::::::::::All current students::::::::::::::::::::::::\n\n");
+    }
+    for(int i = 0; i<accountList.getStudentList().size();i++) {
+      System.out.println("["+(i+1)+"] "+accountList.getStudentList().get(i).getStudentName());
+    }
+    if(isListView) {
+      System.out.println("\nPress [Enter] to go back.");
+      keyboard.nextLine();
+    }
+  }
+
+  public static void displayAllCurrentTeachers() {
+    if(isListView) {
+      clearScreen();
+      System.out.println(":::::::::::::::::::::::All current teachers::::::::::::::::::::::::\n\n");
+    }
+
+    for(int i = 0; i<accountList.getTeacherList().size();i++) {
+      System.out.println("["+(i+1)+"] "+accountList.getTeacherList().get(i).getTeacherName());
+    }
+    if(isListView) {
+      System.out.println("\nPress [Enter] to go back.");
+      keyboard.nextLine();
+    }
+  }
+
+  public static void displayAllCurrentAssignments() {
+    if(isListView) {
+      clearScreen();
+      System.out.println("::::::::::::::::::::::All current assignments::::::::::::::::::::::\n\n");
+    }
+
+    for (int i = 0; i<assignmentList.getAssignments().size();i++) {
+      System.out.println("["+(i+1)+"] "+assignmentList.getAssignments().get(i).getTitle());
+    }
+    if(isListView) {
+      System.out.println("\nPress [Enter] to go back.");
+      keyboard.nextLine();
+    }
+  }
 }

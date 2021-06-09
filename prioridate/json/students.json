@@ -1,1 +1,19 @@
-[{"studentId":1,"courses":[1,2],"password":"password3","studentName":"Charles Evans","assignmentsComplete":[1],"assignmentsDue":[2],"username":"evansc"},{"studentId":2,"courses":[1,2],"password":"password4","studentName":"Emily Thompson","assignmentsComplete":[1,2],"assignmentsDue":[],"username":"thompsone"},{"studentId":3,"courses":[1],"password":"password2","studentName":"Branyon Wickham","assignmentsComplete":[],"assignmentsDue":[1],"username":"branyonsc"}]
+[
+		{
+			"studentId":1,
+			"studentName":"Charles Evans",
+			"username":"evansc",
+			"password":"password3",
+			"courses":[1,2],
+			"assignmentsDue":[2],
+			"assignmentsComplete":[1]
+		},{
+			"studentId":2,
+			"studentName":"Emily Thompson",
+			"username":"thompsone",
+			"password":"password4",
+			"courses":[1,2],
+			"assignmentsDue":[],
+			"assignmentsComplete":[1, 2]
+		}
+]	
