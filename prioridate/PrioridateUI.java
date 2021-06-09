@@ -85,7 +85,7 @@ public class PrioridateUI {
                         welcomeScreenBack = "back";
                         break;
                     }
-                    confirmPassword(username, password);
+                    confirmLogin(username, password);
                     if(invalidLogin == true)
                     {
                         invalidLoginScreen();
@@ -462,19 +462,27 @@ public class PrioridateUI {
         return loginCommand;
     }
 
-    private void confirmPassword(String username, String password)
+    private void confirmLogin(String username, String password)
     {
-        //for(int i = 0; i < usernames.size(); i++)
+        ArrayList<String> usernames = new ArrayList<String>();
+        for (Student student : accountList.getStudentList())
         {
-            invalidLogin = false;
-            //if(!username.equals(usernames.get(i)))
+            usernames.add(student.getUsername());
+        }
+        ArrayList<String> passwords = new ArrayList<String>();
+        for (Student student : accountList.getStudentList())
+        {
+            passwords.add(student.getPassword());
+        }
+        for(int i = 0; i < accountList.getStudentList().size(); i++)
+        {
+            if(username.equals(usernames.get(i)) && password.equals(passwords.get(i)))
             {
-                invalidLogin = true;
+                invalidLogin = false;
+                return;
             }
-            //if(!password.equals(passwords.get(i)))
-            {
+            else
                 invalidLogin = true;
-            }
         }
     }
 
