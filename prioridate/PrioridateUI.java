@@ -1,5 +1,10 @@
 package prioridate;
 
+/**
+ * The class that pipes in the classes it needs to be able to push out the content and functions of the code into an
+ * easy to view and navigate user interface. 
+ * @author Branyon Wickham
+ */
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -7,6 +12,9 @@ import java.util.Scanner;
 import javax.swing.text.DefaultCaret;
 
 public class PrioridateUI {
+    /**
+     * Static strings for prompts used often in the code.
+     */
     private static String WELCOME_MESSAGE = "Welcome to Prioridate!";
     private static String SELECT_OPTION = "Please select an option below:";
     private static String SELECTION_FAILED = "Incorrect option, press \"ENTER\" to continue.";
@@ -26,80 +34,146 @@ public class PrioridateUI {
     private static String ACCOUNT_TYPE = "What type of account is this? [T]eacher or [S]tudent?";
     private static String ACCOUNT_NAME = "What is your name?";
     private static String ACCOUNT_COURSES = "How many courses would you like to enroll in?";    
+    /**
+     * pageCounter is used to track which page of the to-do list or completed list the user is on and
+     * is here because it needs to be held between methods.
+     */
     private int pageCounter = 0;
+    /**
+     * assignmentCount is used to track the number of assignments due. assignmentCCount
+     * is used to track the number of assignments completed.
+     */
     private int assignmentCount = 0;
     private int assignmentCCount = 0;
+    /**
+     * Used to keep track of where the list is in the lists of assignments.
+     */
     private int listSelector = 0;
+    /**
+     * Used to point to a specific assignment to check off in checkOffAssignment.
+     */
     private int checkOffPointer = 0;
+    /**
+     * Creates a slot for a Student class to be put into to keep track of a particular student
+     * in the UI.
+     */
     private Student currentStudent;
-    private String currentMenu;
-    private Boolean invalidLogin;
+    /**
+     * Used to help indicate if a login is not valid.
+     */
+    private Boolean invalidLogin = false;
     private Scanner scanner;
-    private Prioridate prioridate;
+    /**
+     * Creates instances of these classes to be used through the UI.
+     */
     static AccountList accountList = AccountList.getInstance();
     static CourseList courseList = CourseList.getInstance();
     static AssignmentList assignmentList = AssignmentList.getInstance();
     public PrioridateUI()
     {
-        this.invalidLogin = false;
-        this.currentMenu = null;
         scanner = new Scanner(System.in);
-        this.prioridate = new Prioridate();
     }
 
+    /**
+     * The run method that will be used by the main method.
+     */
     public void run()
     {
-        System.out.println("Initializing Program");
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        /**
+         * The code consists of a lot of these nested while loops to be able to let the user return to the very beginning of the 
+         * program or back and forth between screens at will. 
+         */
         while(true)
         {
-            String welcomeScreenBack = "default";
+            /**
+             * This Boolean exists to help some methods return back to the welcome screen when they are prompted to.
+             */
+            Boolean welcomeScreenBack = false;
+            /**
+             * Prints out the welcome page.
+             */
             welcomePage();
+            /**
+             * Processes the input entered by the user on the welcome page.
+             */
             String welcomeInput = scanner.nextLine();
             String processedWelcome = getWelcomeUserCommand(welcomeInput);
+            /**
+             * If the processed welcome input was not a correct option, restart the loop.
+             */
             if(processedWelcome.equals("failed"))
             {
                 continue;
             }
+            /**
+             * If the user is logging in as a Student.
+             */
             else if(processedWelcome.equals("L"))
             {
                 while(true)
                 {
-                    Boolean student = true;
-                    invalidLogin = false;
-                    String loginScreenBack = "default";
+                    /**
+                     * Sets the boolean values for student as true so it can be imported into the login
+                     * method and not conflict with the fact it's being used for logging into the student
+                     * and teacher accounts.
+                     */
+                    Boolean student = true; invalidLogin = false;
+                    /**
+                     * This Boolean exists to help some methods return back to the login screen when they are prompted to.
+                     */
+                    Boolean loginScreenBack = false;
                     blankLoginPage();
+                    /**
+                     * Gets the username based on what the user inputted.
+                     */
                     String loginInput = scanner.next();
                     String username = getUsername(loginInput);
+                    /**
+                     * If the user inputted "B", the code returns to the welcome screen.
+                     */
                     if(username.equals("back"))
                     {
-                        welcomeScreenBack = "back";
+                        welcomeScreenBack = true;
                         break;
                     }
                     partialLoginPage(username);
+                    /**
+                     * Gets the password based on what the user inputted.
+                     */
                     loginInput = scanner.next();
                     String password = getPassword(loginInput);
                     if(password.equals("back"))
                     {
-                        welcomeScreenBack = "back";
+                        welcomeScreenBack = true;
                         break;
                     }
+                    /**
+                     * Sends the username and password to be confirmed as correct.
+                     */
                     confirmLogin(student, username, password);
+                    /**
+                     * If it's an invalid login, prints out invalid login screen. 
+                     */
                     if(invalidLogin == true)
                     {
                         invalidLoginScreen();
                         continue;
                     }
+                    /**
+                     * If the login is valid, continue to the home screen.
+                     */
                     else if(invalidLogin == false)
                     {
                         scanner.nextLine();
                         while(true)
                         {
+                            /**
+                             * Sets the assignment Count for both due and completed to 0.
+                             */
                             assignmentCount = 0; assignmentCCount = 0;
+                            /**
+                             * 
+                             */
                             HashMap<Assignment, Boolean> assignmentsCount = currentStudent.getAssignments();
                             for(Assignment assignment : assignmentsCount.keySet())
                             {
@@ -122,7 +196,7 @@ public class PrioridateUI {
                             homeInput = getHomeInput(homeInput);
                             if(homeInput.equals("back"))
                             {
-                                loginScreenBack = "back";
+                                loginScreenBack = false;
                                 break;
                             }
                             switch(homeInput)
@@ -327,13 +401,13 @@ public class PrioridateUI {
                                     break; 
                                 }
                             }
-                            if(homeScreenBack.equals("back"))
+                            if(homeScreenBack.equals(true))
                             {
                                 continue;
                             }
                         }
                     }
-                    if(loginScreenBack.equals("back"))
+                    if(loginScreenBack.equals(true))
                     {
                         continue;
                     }
@@ -348,7 +422,7 @@ public class PrioridateUI {
                     String username = getUsername(createInput);
                     if(username.equals("back"))
                     {
-                        welcomeScreenBack = "back";
+                        welcomeScreenBack = true;
                         break;
                     }
                     partialCreateAccountScreen(username);
@@ -356,7 +430,7 @@ public class PrioridateUI {
                     String password = getPassword(createInput);
                     if(password.equals("back"))
                     {
-                        welcomeScreenBack = "back";
+                        welcomeScreenBack = true;
                         break;
                     }
                     Boolean confirm =confirmCreateAccountScreen(username, password);
@@ -374,7 +448,7 @@ public class PrioridateUI {
                 String username = getUsername(loginInput);
                 if(username.equals("back"))
                 {
-                    welcomeScreenBack = "back";
+                    welcomeScreenBack = false;
                     break;
                 }
                 partialLoginPage(username);
@@ -382,7 +456,7 @@ public class PrioridateUI {
                 String password = getPassword(loginInput);
                 if(password.equals("back"))
                 {
-                    welcomeScreenBack = "back";
+                    welcomeScreenBack = false;
                     break;
                 }
                 confirmLogin(student, username, password);
@@ -396,7 +470,7 @@ public class PrioridateUI {
                     AdminUI.run();
                 }   
             }
-            if(welcomeScreenBack.equals("back"))
+            if(welcomeScreenBack.equals(true))
             {
                 continue;
             }
@@ -788,7 +862,7 @@ public class PrioridateUI {
                 case "Exam":
                     System.out.print(tasks.get(i)+examSingleDigit);
                     System.out.print(priority.get(i)+"\n");
-                    System.out.println("     "+dates.get(i));
+                    System.out.print("     "+dates.get(i));
                     if(checkOff==true)
                         System.out.print(" ["+listSelector+"]");
                     break;
