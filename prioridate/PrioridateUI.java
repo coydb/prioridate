@@ -27,8 +27,8 @@ public class PrioridateUI {
     private static String ACCOUNT_NAME = "What is your name?";
     private static String ACCOUNT_COURSES = "How many courses would you like to enroll in?";    
     private int pageCounter = 0;
-    private int assignmentCount;
-    private int assignmentCCount;
+    private int assignmentCount = 0;
+    private int assignmentCCount = 0;
     private int listSelector = 0;
     private int checkOffPointer = 0;
     private Student currentStudent;
@@ -49,12 +49,18 @@ public class PrioridateUI {
 
     public void run()
     {
+        System.out.println("Initializing Program");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         while(true)
         {
             String welcomeScreenBack = "default";
             welcomePage();
             String welcomeInput = scanner.nextLine();
-            String processedWelcome = processWelcomeCommand(getWelcomeUserCommand(welcomeInput));
+            String processedWelcome = getWelcomeUserCommand(welcomeInput);
             if(processedWelcome.equals("failed"))
             {
                 continue;
@@ -92,7 +98,7 @@ public class PrioridateUI {
                         scanner.nextLine();
                         while(true)
                         {
-                            assignmentCount = 0;
+                            assignmentCount = 0; assignmentCCount = 0;
                             HashMap<Assignment, Boolean> assignmentsCount = currentStudent.getAssignments();
                             for(Assignment assignment : assignmentsCount.keySet())
                             {
@@ -222,7 +228,15 @@ public class PrioridateUI {
                                         }
                                     }
                                     pageCounter = 0;
-                                    //assignmentCCount = subjectsC.size();
+                                    assignmentCCount = 0;
+                                    assignmentsCCount = currentStudent.getAssignments();
+                                    for(Assignment assignment : assignmentsCCount.keySet())
+                                    {
+                                        if(assignmentsCCount.get(assignment) == true)
+                                        {
+                                            assignmentCCount++;
+                                        }
+                                    }
                                     break;
                                 }
                                 case "3":
@@ -351,6 +365,10 @@ public class PrioridateUI {
                     }
                 }
             }
+            if(processedWelcome.equals("T"))
+            {
+
+            }
             if(welcomeScreenBack.equals("back"))
             {
                 continue;
@@ -365,9 +383,10 @@ public class PrioridateUI {
         System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
         System.out.println(WELCOME_MESSAGE + "\n");
         System.out.println(SELECT_OPTION + "\n");
-        System.out.println("  [L] Login\n");
+        System.out.println("  [L] Student Login\n");
         System.out.println("  [C] Create Account\n");
-        System.out.println("\n\n\n\n");
+        System.out.println("  [T] Teacher Login\n");
+        System.out.println("\n\n");
         System.out.println("Options: [X] Exit");
         System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
     }
@@ -381,16 +400,6 @@ public class PrioridateUI {
             command = command.toUpperCase();
             welcomeCommand = command;
         }
-        else
-        {
-            welcomeCommand = "error";
-        }
-        return welcomeCommand;
-    }
-
-    private String processWelcomeCommand(String command)
-    {
-        String processedWelcome = command;
         if(command.equals("X"))
         {
             System.out.println("Goodbye.");
@@ -399,9 +408,9 @@ public class PrioridateUI {
         else if(command.equals("error"))
         {
             genericFailScreen();
-            processedWelcome = "failed";
+            welcomeCommand = "failed";
         }
-        return processedWelcome; 
+        return welcomeCommand;
     }
 
     private void genericFailScreen()
@@ -580,7 +589,8 @@ public class PrioridateUI {
         HashMap<Assignment,Boolean> assignments = currentStudent.getAssignments();
         ArrayList<String> subjects = new ArrayList<String>();
         ArrayList<String> tasks = new ArrayList<String>();
-        ArrayList<String> priority= new ArrayList<String>();
+        ArrayList<String> priority = new ArrayList<String>();
+        ArrayList<String> dates = new ArrayList<String>();
         if(completed == false)
         {
             for(Assignment assignment : assignments.keySet())
@@ -597,6 +607,11 @@ public class PrioridateUI {
             {
                 if(assignments.get(assignment) == false)
                     priority.add(assignment.priorityToString());
+            }
+            for(Assignment assignment : assignments.keySet())
+            {
+                if(assignments.get(assignment) == false)
+                    dates.add(assignment.dueDateToString());
             }
         }
         else
@@ -615,6 +630,11 @@ public class PrioridateUI {
             {
                 if(assignments.get(assignment) == true)
                     priority.add(assignment.priorityToString());
+            }
+            for(Assignment assignment : assignments.keySet())
+            {
+                if(assignments.get(assignment) == true)
+                    dates.add(assignment.dueDateToString());
             }
         }
         clearScreen();
@@ -628,47 +648,83 @@ public class PrioridateUI {
             System.out.println(":::::::::::::::::::::::::::::: Completed :::::::::::::::::::::::::::::::\n");
             System.out.println(COMPLETE_LIST_MESSAGE + "\n"); 
         }   
-        System.out.println("#    Subject           Task                  Priority");
+        System.out.println("#    Assignment                            Task               Priority\n"
+                        +  "     Due Date");
+        System.out.println(" ");
 
-        if(assignmentCount > 5)
+        if(completed == false)
         {
-            for(int i = 0; i < 5; i++)
+            if(assignmentCount > 5)
             {
-                int j = i + pageCounter*5;
-                processAssignmentLine(subjects, tasks, priority, j, checkOff);
-            }
-            if(pageCounter == 0)
-            {
-                System.out.println("\n\n                  [>] Next Page\n");
+                for(int i = 0; i < 5; i++)
+                {
+                    int j = i + pageCounter*5;
+                    processAssignmentLine(subjects, tasks, priority, dates, j, checkOff);
+                }
+                if(pageCounter == 0)
+                {
+                    System.out.println("\n\n                  [>] Next Page\n");
+                }
+                else
+                {
+                    System.out.println("\n\n[<] Previous Page [>] Next Page\n");
+                }
+                System.out.println("\nOptions: [B] Go Back [X] Exit");
+                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
             }
             else
             {
-                System.out.println("\n\n[<] Previous Page [>] Next Page\n");
+                for(int i = 0; i < assignmentCount; i++)
+                {
+                    int j = i + pageCounter*5;
+                    processAssignmentLine(subjects, tasks, priority, dates, j, checkOff);
+                }
+                System.out.println("\n\n[<] Previous Page\n");
+                System.out.println("\nOptions: [B] Go Back [X] Exit");
+                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
             }
-            System.out.println("\nOptions: [B] Go Back [X] Exit");
-            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
         }
         else
         {
-            for(int i = 0; i < assignmentCount; i++)
+            if(assignmentCCount > 5)
             {
-                int j = i + pageCounter*5;
-                processAssignmentLine(subjects, tasks, priority, j, checkOff);
+                for(int i = 0; i < 5; i++)
+                {
+                    int j = i + pageCounter*5;
+                    processAssignmentLine(subjects, tasks, priority, dates, j, checkOff);
+                }
+                if(pageCounter == 0)
+                {
+                    System.out.println("\n\n                  [>] Next Page\n");
+                }
+                else
+                {
+                    System.out.println("\n\n[<] Previous Page [>] Next Page\n");
+                }
+                System.out.println("\nOptions: [B] Go Back [X] Exit");
+                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
             }
-            System.out.println("\n\n[<] Previous Page\n");
-            System.out.println("\nOptions: [B] Go Back [X] Exit");
-            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+            else
+            {
+                for(int i = 0; i < assignmentCCount; i++)
+                {
+                    int j = i + pageCounter*5;
+                    processAssignmentLine(subjects, tasks, priority, dates, j, checkOff);
+                }
+                System.out.println("\n\n[<] Previous Page\n");
+                System.out.println("\nOptions: [B] Go Back [X] Exit");
+                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+            }
         }
     }
 
     private void processAssignmentLine(ArrayList<String> subjects, ArrayList<String> tasks, ArrayList<String> priority,
-    int i, Boolean checkOff)
+    ArrayList<String> dates, int i, Boolean checkOff)
     {
         listSelector = listSelector + 1; 
         String courseSpacing = "            ";
         String examSingleDigit = "                "; String quizSingleDigit = "                ";
         String homeworkSingleDigit = "            "; String readingSingleDigit = "             ";
-        System.out.println("");
 
         System.out.print((i+1)+"    ");
         System.out.print(subjects.get(i)+courseSpacing);
@@ -676,25 +732,29 @@ public class PrioridateUI {
             {
                 case "Exam":
                     System.out.print(tasks.get(i)+examSingleDigit);
-                    System.out.print(priority.get(i));
+                    System.out.print(priority.get(i)+"\n");
+                    System.out.println("     "+dates.get(i));
                     if(checkOff==true)
                         System.out.print(" ["+listSelector+"]");
                     break;
                 case "Quiz":
                     System.out.print(tasks.get(i)+quizSingleDigit);
-                    System.out.print(priority.get(i));
+                    System.out.print(priority.get(i)+"\n");
+                    System.out.println("     "+dates.get(i));
                     if(checkOff==true)
                         System.out.print(" ["+listSelector+"]");
                     break;
                 case "Homework":
                     System.out.print(tasks.get(i)+homeworkSingleDigit);
-                    System.out.print(priority.get(i));
+                    System.out.print(priority.get(i)+"\n");
+                    System.out.println("     "+dates.get(i));
                     if(checkOff==true)
                         System.out.print(" ["+listSelector+"]");
                     break;
                 case "Reading":
                     System.out.print(tasks.get(i)+readingSingleDigit);
-                    System.out.print(priority.get(i));
+                    System.out.print(priority.get(i)+"\n");
+                    System.out.println("     "+dates.get(i));
                     if(checkOff==true)
                         System.out.print(" ["+listSelector+"]");
                     break;
@@ -747,7 +807,8 @@ public class PrioridateUI {
         HashMap<Assignment,Boolean> assignments = currentStudent.getAssignments();
         ArrayList<String> subjects = new ArrayList<String>();
         ArrayList<String> tasks = new ArrayList<String>();
-        ArrayList<String> priority= new ArrayList<String>();
+        ArrayList<String> priority = new ArrayList<String>();
+        ArrayList<String> dates = new ArrayList<String>();
         for(Assignment assignment : assignments.keySet())
         {
             if(assignments.get(assignment) == false)
@@ -762,6 +823,11 @@ public class PrioridateUI {
         {
             if(assignments.get(assignment) == false)
                 priority.add(assignment.priorityToString());
+        }
+        for(Assignment assignment : assignments.keySet())
+        {
+            if(assignments.get(assignment) == false)
+                dates.add(assignment.dueDateToString());
         }
         int i = checkOffPointer;
         Boolean completed = false; Boolean checkOff = true;
@@ -779,7 +845,9 @@ public class PrioridateUI {
                 clearScreen();
                 System.out.println("::::::::::::::::::::::::::::::: Check-Off ::::::::::::::::::::::::::::::\n");
                 System.out.println(CHECK_OFF_CONFIRM + "\n");
-                System.out.println(subjects.get(i)+"   "+tasks.get(i)+"\n");
+                System.out.print(tasks.get(i));
+                System.out.print(priority.get(i)+"\n");
+                System.out.println("     "+dates.get(i));
                 System.out.println("\n\n\n\n\n\n\n\n");
                 System.out.println("\nOptions: [X] Exit");
                 System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
@@ -795,7 +863,8 @@ public class PrioridateUI {
                         {
                             if(assignment.getTitle().equalsIgnoreCase(subjects.get(i)))
                             {
-                                accountList.getStudentList().get(i).checkOffAssignment(assignment);
+                                accountList.getStudentList().get(i).getAssignments().put(assignment, true);
+                                accountList.addStudent(accountList.getStudentList().get(i));
                             }
                         }
                         return true;
@@ -1042,12 +1111,6 @@ public class PrioridateUI {
     public static void main(String[] args)
     {
         PrioridateUI prioridateUI = new PrioridateUI();
-        try {
-            Thread.sleep(0);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         prioridateUI.run();
     }
 }
