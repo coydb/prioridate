@@ -361,7 +361,7 @@ public abstract class Assignment {
         if(priority > 84) {
             return "URGENT";
         }
-        else if(priority <= 85 && priority > 35) {
+        else if(priority <= 84 && priority > 35) {
             return "HIGH";
         }
         else if(priority <= 35 && priority >= 25) {
