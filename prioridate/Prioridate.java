@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Prioridate {
-    static AccountList accountList = AccountList.getInstance();
-    static CourseList courseList = CourseList.getInstance();
-    static AssignmentList assignmentList = AssignmentList.getInstance();;
+    private static AccountList accountList = AccountList.getInstance();
+    private static CourseList courseList = CourseList.getInstance();
+    private static AssignmentList assignmentList = AssignmentList.getInstance();;
 
     public Prioridate() {
-    
+        
     }
 
     public Account login(String username, String password) {
         return accountList.login(username, password);
     }
 
-    public void addStudent(String username, String password, String type, int studentId, String studentName, HashMap<Assignment, Boolean> assignments, ArrayList<Courses> courses) {
+    public void addStudent(String username, String password, String type, int studentId, String studentName, HashMap<Assignment, Boolean> assignments, ArrayList<Course> courses) {
         Student newStudent = new Student(username, password, type, studentId, studentName, assignments, courses);
         accountList.addStudent(newStudent);
     }
@@ -30,26 +30,11 @@ public class Prioridate {
         
     }
 
-    public void viewAssignmentsDue(ArrayList<Assignment> assignmentsDue) {
-
+    public ArrayList<Assignment> getAssignmentsDue() {
+        return assignmentList.getAssignments();
     }
 
-    public void checkOffAssignment(ArrayList<Assignment> assignmentsDue) {
-
-    }
     // for teachers
-    public void viewStudents(Course course) {
-
-    }
-
-    public void viewCourses() {
-
-    }
-
-    public void checkStudentProgress(String name) {
-
-    }
-
     public Exam createExam(int assignmentId, String title, String type, int dueYear,
                         int dueMonth, int dueDay, int dueHour, int dueMin, 
                         double percentOfGrade, double timeLimit, int numQuestions, 
@@ -78,7 +63,12 @@ public class Prioridate {
     }
 
     public void addCourse(Course course) {
+        courseList.addCourse(course);
+    }
 
+    public Course createCourse(int courseId, String className, ArrayList<Assignment> assignments) {
+        Course newCourse = new Course(courseId, className, assignments);
+        return newCourse;
     }
 
 }
