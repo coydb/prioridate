@@ -14,7 +14,7 @@ public class PrioridateUI {
     private static String LOGIN_FAILED = "The user name or password you entered was incorrect, please press\n" 
     + "\"ENTER\" to continue.";
     private static String CREATE_ACCOUNT = "Enter your new account's information below";
-    private static String CREATE_CONFIRM = "Are you sure this information is correct?";
+    private static String CREATE_CONFIRM = "Are you sure this information is correct? [Y]es or [N]o";
     private static String WELCOME_USER = "Welcome back, ";
     private static String MENU_TODO = "View to-do list";
     private static String MENU_COMPLETED = "View completed assignments";
