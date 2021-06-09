@@ -22,14 +22,10 @@ public class PrioridateUI {
     private static String COMPLETE_LIST_MESSAGE = "Your current list of completed assignments.";
     private static String CHECK_OFF_CONFIRM = "Would you like to check off this assignment?\n"
     + "[Y]es or [N]o";
-    private ArrayList<String> subjects;
-    private ArrayList<String> tasks;
-    private ArrayList<String> priority;
-    private ArrayList<String> subjectsC;
-    private ArrayList<String> tasksC;
-    private ArrayList<String> priorityC;
-    private ArrayList<String> usernames;
-    private ArrayList<String> passwords;
+    private static String ACCOUNT_TYPE = "What type of account is this? [T]eacher or [S]tudent?";
+    private static String ACCOUNT_FIRST_NAME = "What is your first name?";
+    private static String ACCOUNT_LAST_NAME = "What is your last name?";
+
     private int pageCounter = 0;
     private int assignmentCount;
     private int assignmentCCount;
@@ -42,39 +38,10 @@ public class PrioridateUI {
 
     public PrioridateUI()
     {
-        this.subjects = new ArrayList<String>(); this.tasks = new ArrayList<String>(); 
-        this.priority = new ArrayList<String>(); this.subjectsC = new ArrayList<String>();
-        this.tasksC = new ArrayList<String>(); this.priorityC = new ArrayList<String>();
-        this.usernames = new ArrayList<String>(); this.passwords = new ArrayList<String>();
-        subjects.add("Math"); subjects.add("English"); subjects.add("Chemistry"); 
-        subjects.add("Math"); subjects.add("Social Studies"); subjects.add("Math");
-        subjects.add("Chemistry"); subjects.add("Math"); subjects.add("Social Studies");
-        subjects.add("Math"); subjects.add("Social Studies");
-        tasks.add("Exam 1"); tasks.add("Homework 3"); tasks.add("Reading 5"); 
-        tasks.add("Homework 2"); tasks.add("Reading 6"); tasks.add("Quiz 5");
-        tasks.add("Reading 9"); tasks.add("Homework 2"); tasks.add("Reading 6");
-        tasks.add("Homework 2"); tasks.add("Reading 6");
-        priority.add("High"); priority.add("High"); priority.add("Moderate"); 
-        priority.add("Low"); priority.add("Low"); priority.add("Low"); 
-        priority.add("Low"); priority.add("Low"); priority.add("Low");
-        priority.add("Low"); priority.add("Low");
-        subjectsC.add("Math"); subjectsC.add("English"); subjectsC.add("Chemistry"); 
-        subjectsC.add("Math"); subjectsC.add("Social Studies"); subjectsC.add("Math");
-        subjectsC.add("Chemistry"); subjectsC.add("English");
-        tasksC.add("Exam 1"); tasksC.add("Homework 3"); tasksC.add("Reading 5"); 
-        tasksC.add("Homework 2"); tasksC.add("Reading 6"); tasksC.add("Quiz 5");
-        tasksC.add("Reading 9"); tasksC.add("Exam 2");
-        priorityC.add("High"); priorityC.add("High"); priorityC.add("Moderate"); 
-        priorityC.add("Low"); priorityC.add("Low"); priorityC.add("Low"); 
-        priorityC.add("Low"); priorityC.add("Low");
-        usernames.add("username"); usernames.add("admin");
-        passwords.add("password"); passwords.add("admin");
-        assignmentCount = subjects.size();
-        assignmentCCount = subjectsC.size();
         this.invalidLogin = false;
         this.currentMenu = null;
         scanner = new Scanner(System.in);
-        //this.Prioridate = Prioridate;
+        this.prioridate = new Prioridate();
     }
 
     public void run()
@@ -899,7 +866,7 @@ public class PrioridateUI {
         System.out.println("Username: "+username+"\n");
         System.out.println("Password: "+password+"\n");
         System.out.println("\n\n\n\n");
-        System.out.println("Options: [B] Go Back [X] Exit");
+        System.out.println("Options: [X] Exit");
         System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
         while(true)
         {
@@ -907,20 +874,22 @@ public class PrioridateUI {
             String confirmInput = scanner.nextLine();
             confirmInput = getConfirmInput(confirmInput);
             switch(confirmInput)
+            {
+                case "N":
+                    return true;
+                case "error":
+                    genericFailScreen();
+                    break;
+                case "Y":
                 {
-                    case "error":
-                        genericFailScreen();
-                        break;
-                    case "Y":
-                        usernames.add(username); passwords.add(password);
-                        return true;
-                    case "N":
-                        return true;
+                    addTypeAccountScreen();
+                    String typeInput = scanner.nextLine();
+                    typeInput = getTypeInput(typeInput);
+
                 }
+            }
         }
     }
-
-
 
     private String getConfirmInput(String command)
     {
@@ -941,6 +910,71 @@ public class PrioridateUI {
             confirmCommand = "error";
         }
         return confirmCommand;
+    }
+
+    private void addTypeAccountScreen()
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println(ACCOUNT_TYPE + "\n");
+        System.out.println("\n\n\n\n\n\n\n\n");
+        System.out.println("Options: [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+    }
+
+    private String getTypeInput(String command)
+    {
+        String typeCommand = command;
+        if(command.equals("T") || command.equals("t"))
+        {
+            typeCommand = "Teacher";
+        }
+        else if(command.equals("S") || command.equals("s"))
+        {
+            typeCommand = "Student";
+        }
+        else if(command.equals("X") || command.equals("x"))
+        {
+            System.out.println("Goodbye.");
+            System.exit(2000);
+        }
+        else
+        {
+            typeCommand = "error";
+        }
+        return typeCommand;
+    }
+
+    private void addFirstName()
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println(ACCOUNT_FIRST_NAME + "\n");
+        System.out.println("\n\n\n\n\n\n\n\n");
+        System.out.println("Options: [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+    }
+
+    private void addLastName()
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println(ACCOUNT_LAST_NAME + "\n");
+        System.out.println("\n\n\n\n\n\n\n\n");
+        System.out.println("Options: [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+    }
+    
+    private void addStudentCourses()
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println(CREATE_CONFIRM + "\n");
+        System.out.println("Username: "+username+"\n");
+        System.out.println("Password: "+password+"\n");
+        System.out.println("\n\n\n\n");
+        System.out.println("Options: [B] Go Back [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
     }
 
     private String getField(String prompt)

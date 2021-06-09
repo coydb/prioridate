@@ -155,7 +155,6 @@ public class TestDriver {
       int choice = Integer.parseInt(keyboard.nextLine());
       studentCourses.add(courseList.getCourses().get(choice-1));
       System.out.println("Enrolled in: "+courseList.getCourses().get(choice-1).getClassName());
-
     }
     for(int i = 0; i <studentCourses.size();i++) {
       Course currentCourse = studentCourses.get(i);
