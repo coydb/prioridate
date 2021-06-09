@@ -1,6 +1,7 @@
 package prioridate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import javax.swing.text.DefaultCaret;
@@ -22,15 +23,9 @@ public class PrioridateUI {
     private static String COMPLETE_LIST_MESSAGE = "Your current list of completed assignments.";
     private static String CHECK_OFF_CONFIRM = "Would you like to check off this assignment?\n"
     + "[Y]es or [N]o";
-    private ArrayList<String> subjects;
-    private ArrayList<String> tasks;
-    private ArrayList<String> priority;
-    private ArrayList<String> subjectsC;
-    private ArrayList<String> tasksC;
-    private ArrayList<String> priorityC;
-    private ArrayList<String> usernames;
-    private ArrayList<String> passwords;
-    private int pageCounter = 0;
+    private static String ACCOUNT_TYPE = "What type of account is this? [T]eacher or [S]tudent?";
+    private static String ACCOUNT_NAME = "What is your name?";
+    private static String ACCOUNT_COURSES = "How many courses would you like to enroll in?";    private int pageCounter = 0;
     private int assignmentCount;
     private int assignmentCCount;
     private int listSelector = 0;
@@ -39,42 +34,15 @@ public class PrioridateUI {
     private Boolean invalidLogin;
     private Scanner scanner;
     private Prioridate prioridate;
-
+    static AccountList accountList = AccountList.getInstance();
+    static CourseList courseList = CourseList.getInstance();
+    static AssignmentList assignmentList = AssignmentList.getInstance();
     public PrioridateUI()
     {
-        this.subjects = new ArrayList<String>(); this.tasks = new ArrayList<String>(); 
-        this.priority = new ArrayList<String>(); this.subjectsC = new ArrayList<String>();
-        this.tasksC = new ArrayList<String>(); this.priorityC = new ArrayList<String>();
-        this.usernames = new ArrayList<String>(); this.passwords = new ArrayList<String>();
-        subjects.add("Math"); subjects.add("English"); subjects.add("Chemistry"); 
-        subjects.add("Math"); subjects.add("Social Studies"); subjects.add("Math");
-        subjects.add("Chemistry"); subjects.add("Math"); subjects.add("Social Studies");
-        subjects.add("Math"); subjects.add("Social Studies");
-        tasks.add("Exam 1"); tasks.add("Homework 3"); tasks.add("Reading 5"); 
-        tasks.add("Homework 2"); tasks.add("Reading 6"); tasks.add("Quiz 5");
-        tasks.add("Reading 9"); tasks.add("Homework 2"); tasks.add("Reading 6");
-        tasks.add("Homework 2"); tasks.add("Reading 6");
-        priority.add("High"); priority.add("High"); priority.add("Moderate"); 
-        priority.add("Low"); priority.add("Low"); priority.add("Low"); 
-        priority.add("Low"); priority.add("Low"); priority.add("Low");
-        priority.add("Low"); priority.add("Low");
-        subjectsC.add("Math"); subjectsC.add("English"); subjectsC.add("Chemistry"); 
-        subjectsC.add("Math"); subjectsC.add("Social Studies"); subjectsC.add("Math");
-        subjectsC.add("Chemistry"); subjectsC.add("English");
-        tasksC.add("Exam 1"); tasksC.add("Homework 3"); tasksC.add("Reading 5"); 
-        tasksC.add("Homework 2"); tasksC.add("Reading 6"); tasksC.add("Quiz 5");
-        tasksC.add("Reading 9"); tasksC.add("Exam 2");
-        priorityC.add("High"); priorityC.add("High"); priorityC.add("Moderate"); 
-        priorityC.add("Low"); priorityC.add("Low"); priorityC.add("Low"); 
-        priorityC.add("Low"); priorityC.add("Low");
-        usernames.add("username"); usernames.add("admin");
-        passwords.add("password"); passwords.add("admin");
-        assignmentCount = subjects.size();
-        assignmentCCount = subjectsC.size();
         this.invalidLogin = false;
         this.currentMenu = null;
         scanner = new Scanner(System.in);
-        //this.Prioridate = Prioridate;
+        this.prioridate = new Prioridate();
     }
 
     public void run()
@@ -150,7 +118,7 @@ public class PrioridateUI {
                                         while(true)
                                         {
                                             Boolean completed = false; Boolean checkOff = false;
-                                            todoListScreen(subjects, tasks, priority, assignmentCount, pageCounter, completed, checkOff);
+                                            //todoListScreen(subjects, tasks, priority, assignmentCount, pageCounter, completed, checkOff);
                                             String toDoInput = scanner.nextLine();
                                             toDoInput = getToDoInput(toDoInput);
                                             if(toDoInput.equals("<") && pageCounter == 0)
@@ -186,7 +154,7 @@ public class PrioridateUI {
                                         }
                                     }
                                     pageCounter = 0;
-                                    assignmentCount = subjects.size();
+                                    //assignmentCount = subjects.size();
                                     break;
                                 }
                                 case "2":
@@ -197,7 +165,7 @@ public class PrioridateUI {
                                         while(true)
                                         {
                                             Boolean completed = true; Boolean checkOff = false;
-                                            todoListScreen(subjectsC, tasksC, priorityC, assignmentCCount, pageCounter, completed, checkOff);
+                                            //todoListScreen(subjectsC, tasksC, priorityC, assignmentCCount, pageCounter, completed, checkOff);
                                             String toDoInput = scanner.nextLine();
                                             toDoInput = getToDoInput(toDoInput);
                                             if(toDoInput.equals("<") && pageCounter == 0)
@@ -233,7 +201,7 @@ public class PrioridateUI {
                                         }
                                     }
                                     pageCounter = 0;
-                                    assignmentCCount = subjectsC.size();
+                                    //assignmentCCount = subjectsC.size();
                                     break;
                                 }
                                 case "3":
@@ -246,7 +214,8 @@ public class PrioridateUI {
                                         {
                                             listSelector = 0;
                                             Boolean completed = false;
-                                            Boolean deleted = checkOffAssignment(subjects, tasks, priority, assignmentCount, pageCounter);
+                                            //Boolean deleted = checkOffAssignment(subjects, tasks, priority, assignmentCount, pageCounter);
+                                            Boolean deleted = false;
                                             if(deleted==true)
                                                 break toDoLoop;
                                             String checkOffInput = scanner.nextLine();
@@ -311,7 +280,7 @@ public class PrioridateUI {
                                         }
                                     }
                                     pageCounter = 0;
-                                    assignmentCount = subjects.size();
+                                    //assignmentCount = subjects.size();
                                     break; 
                                 }
                             }
@@ -495,14 +464,14 @@ public class PrioridateUI {
 
     private void confirmPassword(String username, String password)
     {
-        for(int i = 0; i < usernames.size(); i++)
+        //for(int i = 0; i < usernames.size(); i++)
         {
             invalidLogin = false;
-            if(!username.equals(usernames.get(i)))
+            //if(!username.equals(usernames.get(i)))
             {
                 invalidLogin = true;
             }
-            if(!password.equals(passwords.get(i)))
+            //if(!password.equals(passwords.get(i)))
             {
                 invalidLogin = true;
             }
@@ -820,8 +789,8 @@ public class PrioridateUI {
                         failedListScreen(completed);
                         break;
                     case "Y":
-                        subjectsC.add(subjects.get(i)); tasksC.add(tasks.get(i));
-                        priorityC.add(priority.get(i));
+                        //subjectsC.add(subjects.get(i)); tasksC.add(tasks.get(i));
+                        //priorityC.add(priority.get(i));
                         subjects.remove(i); tasks.remove(i); priority.remove(i);
                         return true;
                     case "N":
@@ -899,7 +868,7 @@ public class PrioridateUI {
         System.out.println("Username: "+username+"\n");
         System.out.println("Password: "+password+"\n");
         System.out.println("\n\n\n\n");
-        System.out.println("Options: [B] Go Back [X] Exit");
+        System.out.println("Options: [X] Exit");
         System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
         while(true)
         {
@@ -907,20 +876,46 @@ public class PrioridateUI {
             String confirmInput = scanner.nextLine();
             confirmInput = getConfirmInput(confirmInput);
             switch(confirmInput)
+            {
+                case "N":
+                    return true;
+                case "error":
+                    genericFailScreen();
+                    break;
+                case "Y":
                 {
-                    case "error":
-                        genericFailScreen();
-                        break;
-                    case "Y":
-                        usernames.add(username); passwords.add(password);
-                        return true;
-                    case "N":
-                        return true;
+                    addTypeAccountScreen();
+                    String typeInput = scanner.nextLine();
+                    typeInput = getTypeInput(typeInput);
+                    addStudentName();
+                    String studentName = scanner.nextLine();
+                    ArrayList<Course> studentCourses = new ArrayList<Course>();
+                    HashMap<Assignment, Boolean> studentAssignments = new HashMap<Assignment, Boolean>();
+                    addStudentCourses();
+                    int studentId = accountList.getHighestUserId()+1;
+                    int numCourses = Integer.parseInt(scanner.nextLine());
+                    for(int i = 1; i<=numCourses;i++) 
+                    {
+                        printStudentCourses(i, numCourses);
+                        int choice = Integer.parseInt(scanner.nextLine());
+                        studentCourses.add(courseList.getCourses().get(choice-1));  
+                        confirmStudentCourses(choice);
+                    } 
+                    for(int i = 0; i <studentCourses.size();i++) 
+                    {
+                        Course currentCourse = studentCourses.get(i);
+                        for (int j = 0; j<currentCourse.getAssignments().size();j++) 
+                        {
+                            Assignment currentAssignment = currentCourse.getAssignments().get(j);
+                            studentAssignments.put(currentAssignment, false);
+                        }
+                    }
+                    accountList.addStudent(new Student(username, password, "Student", studentId, studentName, studentAssignments, studentCourses));
+                    return true;
                 }
+            }
         }
     }
-
-
 
     private String getConfirmInput(String command)
     {
@@ -943,10 +938,93 @@ public class PrioridateUI {
         return confirmCommand;
     }
 
+    private void addTypeAccountScreen()
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println(ACCOUNT_TYPE + "\n");
+        System.out.println("\n\n\n\n\n\n\n\n");
+        System.out.println("Options: [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+    }
+
+    private String getTypeInput(String command)
+    {
+        String typeCommand = command;
+        if(command.equals("T") || command.equals("t"))
+        {
+            typeCommand = "Teacher";
+        }
+        else if(command.equals("S") || command.equals("s"))
+        {
+            typeCommand = "Student";
+        }
+        else if(command.equals("X") || command.equals("x"))
+        {
+            System.out.println("Goodbye.");
+            System.exit(2000);
+        }
+        else
+        {
+            typeCommand = "error";
+        }
+        return typeCommand;
+    }
+
+    private void addStudentName()
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println(ACCOUNT_NAME + "\n");
+        System.out.println("\n\n\n\n\n\n\n\n");
+        System.out.println("Options: [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+    }
+
+    private void addStudentCourses()
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println(ACCOUNT_COURSES + "\n");
+        System.out.println("\n\n\n\n\n\n\n\n");
+        System.out.println("Options: [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+    }
+
+    private void printStudentCourses(int i, int numCourses)
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println("Please select a course from the list below: \n");
+        System.out.println("Selection ["+i+"] of ["+numCourses+"]");
+        displayAllCurrentCourses();
+        System.out.println("\n\n\n\n\n\n");
+        System.out.println("Options: [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+    }
+
+
+    private void confirmStudentCourses(int choice)
+    {
+        clearScreen();
+        System.out.println(":::::::::::::::::::::::::::::: Prioridate ::::::::::::::::::::::::::::::\n");
+        System.out.println("Enrolled in: "+courseList.getCourses().get(choice-1).getClassName());
+        System.out.println("\n\n\n\n\n\n\n\n");
+        System.out.println("Options: [X] Exit");
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+    }
+
     private String getField(String prompt)
     {
         String one = "one";
         return one;
+    }
+
+    public static void displayAllCurrentCourses()
+    {
+        System.out.println("All currently available courses: ");
+        for(int i = 0; i<courseList.getCourses().size();i++)
+            System.out.println("["+(i+1)+"] "+courseList.getCourses().get(i).getClassName());
     }
 
     private void clearScreen()
