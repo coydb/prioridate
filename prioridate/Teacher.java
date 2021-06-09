@@ -2,12 +2,23 @@ package prioridate;
 
 import java.util.ArrayList;
 
+/**
+ * Template for teacher classes. 
+ */
 public class Teacher extends Account
 {
     private int teacherId;
     private String teacherName;
     private ArrayList<Course> courses;
 
+    /**
+     * @param username Teacher's username
+     * @param password Teacher's password
+     * @param type
+     * @param teacherId Teacher's ID
+     * @param teacherName Teacher's Name
+     * @param courses Teacher's Courses
+     */
     public Teacher(String username, String password, String type, int teacherId, String teacherName, ArrayList<Course> courses)
     {
         super(type, username, password);
@@ -16,46 +27,36 @@ public class Teacher extends Account
         this.courses = new ArrayList<Course>(courses);
     }
 
-    public void viewStudents(Course course)
-    {
-        
-    }
-
-    public void viewCourses()
-    {
-
-    }
-
-    public void checkStudentProgress(String name)
-    {
-
-    }
-
-    public void addAssignment(Assignment assignment)
-    {
-
-    }
-
-    public void addCourse(Course course)
-    {
-
-    }
-
+    /**
+     * Gets teacher's ID
+     * @return returns ID of teacher
+     */
     public int getTeacherId()
     {
         return this.teacherId;
     }
 
+    /**
+     * Gets teacher's name
+     * @return returns name of teacher. 
+     */
     public String getTeacherName()
     {
         return this.teacherName;
     }
 
+    /**
+     * Gets course list
+     * @return returns list of teacher's courses.
+     */
     public ArrayList<Course> getCourses()
     {
         return this.courses;
     }
 
+    /**
+     * Loop which returns data from the teacher class. 
+     */
     public String toString()
     {
         String outString = "\nTeacher Id: " + teacherId;
@@ -65,11 +66,7 @@ public class Teacher extends Account
         {
             outString += course.toString();
         }
-        return outString;
-        
-        
+        return outString;       
     }
-
-
     
 }
