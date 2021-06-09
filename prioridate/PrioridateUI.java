@@ -69,6 +69,7 @@ public class PrioridateUI {
             {
                 while(true)
                 {
+                    Boolean student = true;
                     invalidLogin = false;
                     String loginScreenBack = "default";
                     blankLoginPage();
@@ -87,7 +88,7 @@ public class PrioridateUI {
                         welcomeScreenBack = "back";
                         break;
                     }
-                    confirmLogin(username, password);
+                    confirmLogin(student, username, password);
                     if(invalidLogin == true)
                     {
                         invalidLoginScreen();
@@ -367,7 +368,33 @@ public class PrioridateUI {
             }
             if(processedWelcome.equals("T"))
             {
-                AdminUI.run();
+                Boolean student = false; invalidLogin = false;
+                blankLoginPage();
+                String loginInput = scanner.next();
+                String username = getUsername(loginInput);
+                if(username.equals("back"))
+                {
+                    welcomeScreenBack = "back";
+                    break;
+                }
+                partialLoginPage(username);
+                loginInput = scanner.next();
+                String password = getPassword(loginInput);
+                if(password.equals("back"))
+                {
+                    welcomeScreenBack = "back";
+                    break;
+                }
+                confirmLogin(student, username, password);
+                if(invalidLogin == true)
+                {
+                    invalidLoginScreen();
+                    continue;
+                }
+                else if(invalidLogin == false)
+                {
+                    AdminUI.run();
+                }   
             }
             if(welcomeScreenBack.equals("back"))
             {
@@ -500,29 +527,56 @@ public class PrioridateUI {
         return loginCommand;
     }
 
-    private void confirmLogin(String username, String password)
+    private void confirmLogin(Boolean isStudent, String username, String password)
     {
-        ArrayList<String> usernames = new ArrayList<String>();
-        for (Student student : accountList.getStudentList())
+        if(isStudent==true)
         {
-            usernames.add(student.getUsername());
-        }
-        ArrayList<String> passwords = new ArrayList<String>();
-        for (Student student : accountList.getStudentList())
-        {
-            passwords.add(student.getPassword());
-        }
-        for(int i = 0; i < accountList.getStudentList().size(); i++)
-        {
-            if(username.equals(usernames.get(i)) && password.equals(passwords.get(i)))
+            ArrayList<String> usernames = new ArrayList<String>();
+            for (Student student : accountList.getStudentList())
             {
-                ArrayList<Student> students = accountList.getStudentList();
-                currentStudent = students.get(i);
-                invalidLogin = false;
-                return;
+                usernames.add(student.getUsername());
             }
-            else
-                invalidLogin = true;
+            ArrayList<String> passwords = new ArrayList<String>();
+            for (Student student : accountList.getStudentList())
+            {
+                passwords.add(student.getPassword());
+            }
+            for(int i = 0; i < accountList.getStudentList().size(); i++)
+            {
+                if(username.equals(usernames.get(i)) && password.equals(passwords.get(i)))
+                {
+                    ArrayList<Student> students = accountList.getStudentList();
+                    currentStudent = students.get(i);
+                    invalidLogin = false;
+                    return;
+                }
+                else
+                    invalidLogin = true;
+            }
+        }
+        else
+        {
+            ArrayList<String> usernames = new ArrayList<String>();
+            for (Teacher teacher : accountList.getTeacherList())
+            {
+                usernames.add(teacher.getUsername());
+            }
+            ArrayList<String> passwords = new ArrayList<String>();
+            for (Teacher teacher : accountList.getTeacherList())
+            {
+                passwords.add(teacher.getPassword());
+            }
+            for(int i = 0; i < accountList.getTeacherList().size(); i++)
+            {
+                if(username.equals(usernames.get(i)) && password.equals(passwords.get(i)))
+                {
+                    ArrayList<Teacher> teachers = accountList.getTeacherList();
+                    invalidLogin = false;
+                    return;
+                }
+                else
+                    invalidLogin = true;
+            }
         }
     }
 
