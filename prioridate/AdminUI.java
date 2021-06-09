@@ -39,8 +39,10 @@ public class AdminUI {
       System.out.println("Enter [X] to exit.");
       String menuChoice = keyboard.nextLine();
       if(menuChoice.equals("X") || menuChoice.equals("x"))
+      {
         System.out.println("Goodbye.");
         System.exit(2000);
+      }
       switch(menuChoice.toLowerCase()) {
         case "1":
           badInput = false;
@@ -127,8 +129,10 @@ public class AdminUI {
     String choiceString = keyboard.nextLine();
     int choice = Integer.parseInt(choiceString);
     if(choiceString.equals("X") || choiceString.equals("x"))
+    {
       System.out.println("Goodbye.");
       System.exit(2000);
+    }
     clearScreen();
     System.out.println(header);
     String type = "";
@@ -201,8 +205,10 @@ public class AdminUI {
     System.out.println("Enter number of courses to enroll student in: ");
     String courseString = keyboard.nextLine();
     if(courseString.equals("X") || courseString.equals("x"))
+    {
       System.out.println("Goodbye.");
       System.exit(2000);
+    }
     int numCourses = Integer.parseInt(courseString);
     clearScreen();
     System.out.println(header);
@@ -243,8 +249,10 @@ public class AdminUI {
     System.out.println("Enter number of new courses for the teacher: ");
     String courseString = keyboard.nextLine();
     if(courseString.equals("X") || courseString.equals("x"))
+    {
       System.out.println("Goodbye.");
       System.exit(2000);
+    }
     int numCourses = Integer.parseInt(courseString);
     clearScreen();
     System.out.println(header);
@@ -269,8 +277,10 @@ public class AdminUI {
     System.out.println("Enter the number of assignments to create for the course: ");
     String assignmentString = keyboard.nextLine();
     if(assignmentString.equals("X") || assignmentString.equals("x"))
+    {
       System.out.println("Goodbye.");
       System.exit(2000);
+    }
     int numAssignments = Integer.parseInt(assignmentString);
     clearScreen();
     System.out.println(header);
@@ -292,8 +302,10 @@ public class AdminUI {
     displayAllCurrentStudents();
     String choiceString = keyboard.nextLine();
     if(choiceString.equals("X") || choiceString.equals("x"))
+    {
       System.out.println("Goodbye.");
       System.exit(2000);
+    }
     int studentChoice = Integer.parseInt(choiceString);
     Student studentToEnroll = accountList.getStudentList().get(studentChoice-1);
     System.out.println("Please choose the course to enroll the student in: ");
