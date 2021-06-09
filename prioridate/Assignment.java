@@ -19,16 +19,6 @@ public abstract class Assignment {
         setPercentOfGrade(percentOfGrade);
     }
 
-    public String toString() {
-        String s = (getDueDate().get(Calendar.AM_PM) == 0) ? "AM" : "PM";
-        return "AssignmentID: " + getAssignmentId() 
-        + "\nTitle: " + getTitle() + "\nType: " + getType()
-        + "\nDue: " + getDueDate().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) 
-        + " " + getDueDate().get(Calendar.DAY_OF_MONTH) + ", " + getDueDate().get(Calendar.YEAR) + " at "
-        + getDueDate().get(Calendar.HOUR) + ":" + getDueDate().get(Calendar.MINUTE) + " " + s
-        + "\nPercent of Grade: " + getPercentOfGrade();
-    }
-
     public void setDueDate(int dueYear, int dueMonth, int dueDay, int dueHour, int dueMin) {
         Calendar dueDate = Calendar.getInstance();
         dueDate.set(checkYearDue(dueYear), checkMonthDue(dueMonth), checkDayDue(dueDay), checkHourDue(dueHour), checkMinDue(dueMin), 00);  // the last param is the seconds
@@ -37,6 +27,115 @@ public abstract class Assignment {
 
     public Calendar getDueDate() {
         return this.dueDate;
+    }
+
+    public int getAssignmentId() {
+        return this.assignmentId;
+    }
+
+    public void setAssignmentId(int assignmentId) {
+        if(assignmentId >= 0)
+            this.assignmentId = assignmentId;
+        else
+            this.assignmentId = 0;  // default if left blank
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        if(title != null)
+            this.title = title;
+        else
+            this.title = "New Assignment";  // default if no title given
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        if(type != null)
+            this.type = type;
+        else
+            this.type = "Homework";  // default type of assignment
+    }
+
+    public int checkYearDue(int year) {
+        Calendar today = Calendar.getInstance();
+        int dueYear;
+        if(year < today.get(Calendar.YEAR))  // makes sure due date is not in the past
+            dueYear = today.get(Calendar.YEAR);  // default year is this year
+        else
+            dueYear = year;
+        return dueYear;
+    }
+
+    public int checkMonthDue(int month) {
+        Calendar today = Calendar.getInstance();
+        int dueMonth;
+        if(month < today.get(Calendar.MONTH) || month > 11 || month < 0)  // makes sure due date is not in the past and is a valid month
+            dueMonth = today.get(Calendar.MONTH);  // default month is this month    
+        else
+            dueMonth = month - 1;  // months stored in array
+        return dueMonth;
+    }
+
+    public int checkDayDue(int day) {
+        Calendar today = Calendar.getInstance();
+        int dueDay;
+        if(day < 1 || day > 31)  // assuming they will make the correct day for months, just accounting for stuff definitely wrong
+            dueDay = today.get(Calendar.DAY_OF_MONTH);  // default day is today
+        else
+            dueDay = day;
+        return dueDay;
+    }
+
+    public int checkHourDue(int hour) {
+        Calendar today = Calendar.getInstance();
+        int dueHour;
+        if(hour < 0 || hour > 24)
+            dueHour = today.get(Calendar.HOUR_OF_DAY);
+        else
+            dueHour = hour;
+        return dueHour;
+    }
+
+    public int checkMinDue(int min) {
+        Calendar today = Calendar.getInstance();
+        int dueMin;
+        if(min < 0 || min > 59)
+            dueMin = today.get(Calendar.MINUTE);
+        else
+            dueMin = min;
+        return dueMin;
+    }
+
+    public double getPercentOfGrade() {
+        return this.percentOfGrade;
+    }
+
+    public void setPercentOfGrade(double percentOfGrade) {
+        if(percentOfGrade >= 0.0)
+            this.percentOfGrade = percentOfGrade;
+        else
+            this.percentOfGrade = 0.0;  // default has no effect on grade
+    }
+
+    public String toString() {
+        return "AssignmentID: " + getAssignmentId() 
+        + "\nTitle: " + getTitle()
+        + "\nType: " + getType()
+        + "\nDue: " + dueDateToString()
+        + "\nPercent of Grade: " + getPercentOfGrade();
+    }
+
+    public String dueDateToString() {
+        String s = (getDueDate().get(Calendar.AM_PM) == 0) ? "AM" : "PM";
+        return getDueDate().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " "
+        + getDueDate().get(Calendar.DAY_OF_MONTH) + ", " + getDueDate().get(Calendar.YEAR)
+        + " at " + getDueDate().get(Calendar.HOUR) + ":" + getDueDate().get(Calendar.MINUTE) + " " + s;
     }
 
     public int calculatePriority() {
@@ -179,99 +278,5 @@ public abstract class Assignment {
         else {  // less than 13
             return "VERY LOW";
         }
-    }
-
-    public int getAssignmentId() {
-        return this.assignmentId;
-    }
-
-    public void setAssignmentId(int assignmentId) {
-        if(assignmentId >= 0)
-            this.assignmentId = assignmentId;
-        else
-            this.assignmentId = 0;  // default if left blank
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public void setTitle(String title) {
-        if(title != null)
-            this.title = title;
-        else
-            this.title = "New Assignment";  // default if no title given
-    }
-
-    public String getType() {
-        return this.type;
-    }
-
-    public void setType(String type) {
-        if(type != null)
-            this.type = type;
-        else
-            this.type = "Homework";  // default type of assignment
-    }
-
-    public int checkYearDue(int year) {
-        Calendar today = Calendar.getInstance();
-        int dueYear;
-        if(year < today.get(Calendar.YEAR))  // makes sure due date is not in the past
-            dueYear = today.get(Calendar.YEAR);  // default year is this year
-        else
-            dueYear = year;
-        return dueYear;
-    }
-
-    public int checkMonthDue(int month) {
-        Calendar today = Calendar.getInstance();
-        int dueMonth;
-        if(month < today.get(Calendar.MONTH) || month > 11 || month < 0)  // makes sure due date is not in the past and is a valid month
-            dueMonth = today.get(Calendar.MONTH);  // default month is this month    
-        else
-            dueMonth = month - 1;  // months stored in array
-        return dueMonth;
-    }
-
-    public int checkDayDue(int day) {
-        Calendar today = Calendar.getInstance();
-        int dueDay;
-        if(day < 1 || day > 31)  // assuming they will make the correct day for months, just accounting for stuff definitely wrong
-            dueDay = today.get(Calendar.DAY_OF_MONTH);  // default day is today
-        else
-            dueDay = day;
-        return dueDay;
-    }
-
-    public int checkHourDue(int hour) {
-        Calendar today = Calendar.getInstance();
-        int dueHour;
-        if(hour < 0 || hour > 24)
-            dueHour = today.get(Calendar.HOUR_OF_DAY);
-        else
-            dueHour = hour;
-        return dueHour;
-    }
-
-    public int checkMinDue(int min) {
-        Calendar today = Calendar.getInstance();
-        int dueMin;
-        if(min < 0 || min > 59)
-            dueMin = today.get(Calendar.MINUTE);
-        else
-            dueMin = min;
-        return dueMin;
-    }
-
-    public double getPercentOfGrade() {
-        return this.percentOfGrade;
-    }
-
-    public void setPercentOfGrade(double percentOfGrade) {
-        if(percentOfGrade >= 0.0)
-            this.percentOfGrade = percentOfGrade;
-        else
-            this.percentOfGrade = 0.0;  // default has no effect on grade
     }
 }
