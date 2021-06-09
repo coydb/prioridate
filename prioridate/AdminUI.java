@@ -11,11 +11,16 @@ public class AdminUI {
   static Scanner keyboard = new Scanner(System.in);
   static String prioridateBannerTop = ":::::::::::::::::::::::::::::Prioridate::::::::::::::::::::::::::::\n";
   static String bannerWidthDefault = ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::";
+  static boolean run = true;
   static boolean isListView = false;
+  static boolean badInput = false;
   public static void main(String[] args) {
+    run();
+  }
 
+  public static void run() {
     String lastCompletedAction = null;
-    while(true) {
+    while(run) {
       if(isListView) {
         keyboard.nextLine();
       }
@@ -23,6 +28,8 @@ public class AdminUI {
       System.out.print(prioridateBannerTop);
       if(lastCompletedAction != null) {
       System.out.println(lastCompletedAction+"\n");
+      } else if (badInput) {
+        System.out.println("Invalid Option.\n");
       } else {
         System.out.println("\n");
       }
@@ -32,39 +39,52 @@ public class AdminUI {
       System.out.println("[2] View courses."+"            [6] Create new teacher.");
       System.out.println("[3] View assignments."+"        [7] Create new course.");
       System.out.println("[4] Create new assignment."+"   [8] Enroll existing student in course.\n");
-      int menuChoice = Integer.parseInt(keyboard.nextLine());
-      switch(menuChoice) {
-        case 1:
+      System.out.println("Enter [X] to exit.");
+      String menuChoice = keyboard.nextLine();
+      switch(menuChoice.toLowerCase()) {
+        case "1":
+          badInput = false;
           isListView = true;
           displayAllCurrentStudents();
           isListView = false;
           break;
-        case 2:
+        case "2":
+          badInput = false;
           isListView = true;
           displayAllCurrentCourses();
           isListView = false;
           break;
-        case 3:
+        case "3":
+          badInput = false;
           isListView = true;
           displayAllCurrentAssignments();
           isListView = false;
           break;
-        case 4:
+        case "4":
+          badInput = false;
           lastCompletedAction = createAndAddNewAssignment();
           break;
-        case 5:
+        case "5":
+          badInput = false;
           lastCompletedAction = createAndAddNewStudent();
           break;
-        case 6:
+        case "6":
+          badInput = false;  
           lastCompletedAction = createAndAddNewTeacher();
           break;
-        case 7:
+        case "7":
+          badInput = false;
           lastCompletedAction = createAndAddNewCourse();
           break;
-        case 8:
+        case "8":
+          badInput = false;
           lastCompletedAction = enrollExistingStudentInExistingCourse();
           break;
+        case "x":
+          run = false;
+          break;
         default:
+          badInput = true;
           break;
       }
     }
@@ -278,7 +298,8 @@ public class AdminUI {
     }
 
     for(int i = 0; i<courseList.getCourses().size();i++) {
-      System.out.println("["+(i+1)+"] "+courseList.getCourses().get(i).getClassName());
+      System.out.print((isListView)? "" :"["+(i+1)+"] " );
+      System.out.print(courseList.getCourses().get(i).getClassName()+"\n");
     }
     if(isListView) {
       System.out.println("\nPress [Enter] to go back.");
@@ -292,7 +313,8 @@ public class AdminUI {
       System.out.println(":::::::::::::::::::::::All current students::::::::::::::::::::::::\n\n");
     }
     for(int i = 0; i<accountList.getStudentList().size();i++) {
-      System.out.println("["+(i+1)+"] "+accountList.getStudentList().get(i).getStudentName());
+      System.out.print((isListView)? "" :"["+(i+1)+"] " );
+      System.out.print(accountList.getStudentList().get(i).getStudentName()+"\n");
     }
     if(isListView) {
       System.out.println("\nPress [Enter] to go back.");
@@ -307,7 +329,8 @@ public class AdminUI {
     }
 
     for(int i = 0; i<accountList.getTeacherList().size();i++) {
-      System.out.println("["+(i+1)+"] "+accountList.getTeacherList().get(i).getTeacherName());
+      System.out.print((isListView)? "" :"["+(i+1)+"] " );
+      System.out.println(accountList.getTeacherList().get(i).getTeacherName()+"\n");
     }
     if(isListView) {
       System.out.println("\nPress [Enter] to go back.");
@@ -322,7 +345,8 @@ public class AdminUI {
     }
 
     for (int i = 0; i<assignmentList.getAssignments().size();i++) {
-      System.out.println("["+(i+1)+"] "+assignmentList.getAssignments().get(i).getTitle());
+      System.out.print((isListView)? "" :"["+(i+1)+"] " );
+      System.out.println(assignmentList.getAssignments().get(i).getTitle()+"\n");
     }
     if(isListView) {
       System.out.println("\nPress [Enter] to go back.");
