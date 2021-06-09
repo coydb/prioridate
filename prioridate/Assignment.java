@@ -59,7 +59,7 @@ public abstract class Assignment {
         if(type != null)
             this.type = type;
         else
-            this.type = "Homework";  // default type of assignment
+            this.type = "i am a default value";  // default type of assignment
     }
 
     public int checkYearDue(int year) {

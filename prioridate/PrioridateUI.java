@@ -25,11 +25,13 @@ public class PrioridateUI {
     + "[Y]es or [N]o";
     private static String ACCOUNT_TYPE = "What type of account is this? [T]eacher or [S]tudent?";
     private static String ACCOUNT_NAME = "What is your name?";
-    private static String ACCOUNT_COURSES = "How many courses would you like to enroll in?";    private int pageCounter = 0;
+    private static String ACCOUNT_COURSES = "How many courses would you like to enroll in?";    
+    private int pageCounter = 0;
     private int assignmentCount;
     private int assignmentCCount;
     private int listSelector = 0;
     private int checkOffPointer = 0;
+    private Student currentStudent;
     private String currentMenu;
     private Boolean invalidLogin;
     private Scanner scanner;
@@ -47,12 +49,6 @@ public class PrioridateUI {
 
     public void run()
     {
-        System.out.println("Initializing Program");
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         while(true)
         {
             String welcomeScreenBack = "default";
@@ -96,8 +92,25 @@ public class PrioridateUI {
                         scanner.nextLine();
                         while(true)
                         {
+                            assignmentCount = 0;
+                            HashMap<Assignment, Boolean> assignmentsCount = currentStudent.getAssignments();
+                            for(Assignment assignment : assignmentsCount.keySet())
+                            {
+                                if(assignmentsCount.get(assignment) == false)
+                                {
+                                    assignmentCount++;
+                                }
+                            }
+                            HashMap<Assignment, Boolean> assignmentsCCount = currentStudent.getAssignments();
+                            for(Assignment assignment : assignmentsCCount.keySet())
+                            {
+                                if(assignmentsCCount.get(assignment) == true)
+                                {
+                                    assignmentCCount++;
+                                }
+                            }
                             String homeScreenBack = "default";
-                            HomeScreenView(username);
+                            studentHomeScreenView(username);
                             String homeInput = scanner.nextLine();
                             homeInput = getHomeInput(homeInput);
                             if(homeInput.equals("back"))
@@ -118,7 +131,7 @@ public class PrioridateUI {
                                         while(true)
                                         {
                                             Boolean completed = false; Boolean checkOff = false;
-                                            //todoListScreen(subjects, tasks, priority, assignmentCount, pageCounter, completed, checkOff);
+                                            todoListScreen(assignmentCount, pageCounter, completed, checkOff);
                                             String toDoInput = scanner.nextLine();
                                             toDoInput = getToDoInput(toDoInput);
                                             if(toDoInput.equals("<") && pageCounter == 0)
@@ -154,7 +167,15 @@ public class PrioridateUI {
                                         }
                                     }
                                     pageCounter = 0;
-                                    //assignmentCount = subjects.size();
+                                    assignmentCount = 0;
+                                    assignmentsCount = currentStudent.getAssignments();
+                                    for(Assignment assignment : assignmentsCount.keySet())
+                                    {
+                                        if(assignmentsCount.get(assignment) == false)
+                                        {
+                                            assignmentCount++;
+                                        }
+                                    }
                                     break;
                                 }
                                 case "2":
@@ -165,7 +186,7 @@ public class PrioridateUI {
                                         while(true)
                                         {
                                             Boolean completed = true; Boolean checkOff = false;
-                                            //todoListScreen(subjectsC, tasksC, priorityC, assignmentCCount, pageCounter, completed, checkOff);
+                                            todoListScreen(assignmentCCount, pageCounter, completed, checkOff);
                                             String toDoInput = scanner.nextLine();
                                             toDoInput = getToDoInput(toDoInput);
                                             if(toDoInput.equals("<") && pageCounter == 0)
@@ -214,8 +235,7 @@ public class PrioridateUI {
                                         {
                                             listSelector = 0;
                                             Boolean completed = false;
-                                            //Boolean deleted = checkOffAssignment(subjects, tasks, priority, assignmentCount, pageCounter);
-                                            Boolean deleted = false;
+                                            Boolean deleted = checkOffAssignment(assignmentCount, pageCounter);
                                             if(deleted==true)
                                                 break toDoLoop;
                                             String checkOffInput = scanner.nextLine();
@@ -280,7 +300,15 @@ public class PrioridateUI {
                                         }
                                     }
                                     pageCounter = 0;
-                                    //assignmentCount = subjects.size();
+                                    assignmentCount = 0;
+                                    assignmentsCount = currentStudent.getAssignments();
+                                    for(Assignment assignment : assignmentsCount.keySet())
+                                    {
+                                        if(assignmentsCount.get(assignment) == false)
+                                        {
+                                            assignmentCount++;
+                                        }
+                                    }
                                     break; 
                                 }
                             }
@@ -478,6 +506,8 @@ public class PrioridateUI {
         {
             if(username.equals(usernames.get(i)) && password.equals(passwords.get(i)))
             {
+                ArrayList<Student> students = accountList.getStudentList();
+                currentStudent = students.get(i);
                 invalidLogin = false;
                 return;
             }
@@ -498,7 +528,7 @@ public class PrioridateUI {
         scanner.nextLine();
     }
 
-    private void HomeScreenView(String username)
+    private void studentHomeScreenView(String username)
     {
         clearScreen();
         System.out.println("::::::::::::::::::::::::::::::::: Home :::::::::::::::::::::::::::::::::\n");
@@ -545,9 +575,48 @@ public class PrioridateUI {
         scanner.nextLine();
     }
 
-    private void todoListScreen(ArrayList<String> subjects, ArrayList<String> tasks, ArrayList<String> priority,
-    int assignmentCount, int pageCounter, Boolean completed, Boolean checkOff)
+    private void todoListScreen(int assignmentCount, int pageCounter, Boolean completed, Boolean checkOff)
     {
+        HashMap<Assignment,Boolean> assignments = currentStudent.getAssignments();
+        ArrayList<String> subjects = new ArrayList<String>();
+        ArrayList<String> tasks = new ArrayList<String>();
+        ArrayList<String> priority= new ArrayList<String>();
+        if(completed == false)
+        {
+            for(Assignment assignment : assignments.keySet())
+            {
+                if(assignments.get(assignment) == false)
+                    subjects.add(assignment.getTitle());
+            }
+            for(Assignment assignment : assignments.keySet())
+            {
+                if(assignments.get(assignment) == false)
+                    tasks.add(assignment.getType());
+            }
+            for(Assignment assignment : assignments.keySet())
+            {
+                if(assignments.get(assignment) == false)
+                    priority.add(assignment.priorityToString());
+            }
+        }
+        else
+        {
+            for(Assignment assignment : assignments.keySet())
+            {
+                if(assignments.get(assignment) == true)
+                    subjects.add(assignment.getTitle());
+            }
+            for(Assignment assignment : assignments.keySet())
+            {
+                if(assignments.get(assignment) == true)
+                    tasks.add(assignment.getType());
+            }
+            for(Assignment assignment : assignments.keySet())
+            {
+                if(assignments.get(assignment) == true)
+                    priority.add(assignment.priorityToString());
+            }
+        }
         clearScreen();
         if(completed == false)
         {
@@ -560,6 +629,7 @@ public class PrioridateUI {
             System.out.println(COMPLETE_LIST_MESSAGE + "\n"); 
         }   
         System.out.println("#    Subject           Task                  Priority");
+
         if(assignmentCount > 5)
         {
             for(int i = 0; i < 5; i++)
@@ -591,139 +661,45 @@ public class PrioridateUI {
         }
     }
 
-    private void processAssignmentLine(ArrayList<String> subjects, ArrayList<String> tasks, ArrayList<String> priority, int i, 
-    Boolean checkOff)
+    private void processAssignmentLine(ArrayList<String> subjects, ArrayList<String> tasks, ArrayList<String> priority,
+    int i, Boolean checkOff)
     {
-        listSelector = listSelector + 1;
-        String mathSpacing = "              "; String englishSpacing = "           ";
-        String chemSpacing = "         "; String socialStudiesSpacing = "    ";
+        listSelector = listSelector + 1; 
+        String courseSpacing = "            ";
         String examSingleDigit = "                "; String quizSingleDigit = "                ";
         String homeworkSingleDigit = "            "; String readingSingleDigit = "             ";
         System.out.println("");
-                    System.out.print((i+1)+"    ");
-                    switch(subjects.get(i))
-                    {
-                        case "Math":
-                            System.out.print(subjects.get(i)+mathSpacing);
-                            switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
-                            {
-                                case "Exam":
-                                    System.out.print(tasks.get(i)+examSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Quiz":
-                                    System.out.print(tasks.get(i)+quizSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Homework":
-                                    System.out.print(tasks.get(i)+homeworkSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Reading":
-                                    System.out.print(tasks.get(i)+readingSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                            }
-                            break;
-                        case "English":
-                            System.out.print(subjects.get(i)+englishSpacing);
-                            switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
-                            {
-                                case "Exam":
-                                    System.out.print(tasks.get(i)+examSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Quiz":
-                                    System.out.print(tasks.get(i)+quizSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Homework":
-                                    System.out.print(tasks.get(i)+homeworkSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Reading":
-                                    System.out.print(tasks.get(i)+readingSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                            }
-                            break;
-                        case "Chemistry":
-                            System.out.print(subjects.get(i)+chemSpacing);
-                            switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
-                            {
-                                case "Exam":
-                                    System.out.print(tasks.get(i)+examSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Quiz":
-                                    System.out.print(tasks.get(i)+quizSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Homework":
-                                    System.out.print(tasks.get(i)+homeworkSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Reading":
-                                    System.out.print(tasks.get(i)+readingSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                            }
-                            break;
-                        case "Social Studies":
-                            System.out.print(subjects.get(i)+socialStudiesSpacing);
-                            switch(tasks.get(i).substring(0, tasks.get(i).indexOf(" ")))
-                            {
-                                case "Exam":
-                                    System.out.print(tasks.get(i)+examSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Quiz":
-                                    System.out.print(tasks.get(i)+quizSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Homework":
-                                    System.out.print(tasks.get(i)+homeworkSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                                case "Reading":
-                                    System.out.print(tasks.get(i)+readingSingleDigit);
-                                    System.out.print(priority.get(i));
-                                    if(checkOff==true)
-                                        System.out.print(" ["+listSelector+"]");
-                                    break;
-                            }
-                            break;
-                    }
+
+        System.out.print((i+1)+"    ");
+        System.out.print(subjects.get(i)+courseSpacing);
+        switch(tasks.get(i))
+            {
+                case "Exam":
+                    System.out.print(tasks.get(i)+examSingleDigit);
+                    System.out.print(priority.get(i));
+                    if(checkOff==true)
+                        System.out.print(" ["+listSelector+"]");
+                    break;
+                case "Quiz":
+                    System.out.print(tasks.get(i)+quizSingleDigit);
+                    System.out.print(priority.get(i));
+                    if(checkOff==true)
+                        System.out.print(" ["+listSelector+"]");
+                    break;
+                case "Homework":
+                    System.out.print(tasks.get(i)+homeworkSingleDigit);
+                    System.out.print(priority.get(i));
+                    if(checkOff==true)
+                        System.out.print(" ["+listSelector+"]");
+                    break;
+                case "Reading":
+                    System.out.print(tasks.get(i)+readingSingleDigit);
+                    System.out.print(priority.get(i));
+                    if(checkOff==true)
+                        System.out.print(" ["+listSelector+"]");
+                    break;
+            }
+                    
     }
 
     private String getToDoInput(String command)
@@ -766,14 +742,32 @@ public class PrioridateUI {
         scanner.nextLine();
     }
 
-    private Boolean checkOffAssignment(ArrayList<String> subjects, ArrayList<String> tasks, ArrayList<String> priority,
-    int assignmentCount, int pageCounter)
+    private Boolean checkOffAssignment(int assignmentCount, int pageCounter)
     {
+        HashMap<Assignment,Boolean> assignments = currentStudent.getAssignments();
+        ArrayList<String> subjects = new ArrayList<String>();
+        ArrayList<String> tasks = new ArrayList<String>();
+        ArrayList<String> priority= new ArrayList<String>();
+        for(Assignment assignment : assignments.keySet())
+        {
+            if(assignments.get(assignment) == false)
+                subjects.add(assignment.getTitle());
+        }
+        for(Assignment assignment : assignments.keySet())
+        {
+            if(assignments.get(assignment) == false)
+                tasks.add(assignment.getType());
+        }
+        for(Assignment assignment : assignments.keySet())
+        {
+            if(assignments.get(assignment) == false)
+                priority.add(assignment.priorityToString());
+        }
         int i = checkOffPointer;
         Boolean completed = false; Boolean checkOff = true;
         if(i == -1)
         {
-            todoListScreen(subjects, tasks, priority, assignmentCount, pageCounter, completed, checkOff);
+            todoListScreen(assignmentCount, pageCounter, completed, checkOff);
             return false;
         }
         else
@@ -797,9 +791,13 @@ public class PrioridateUI {
                         failedListScreen(completed);
                         break;
                     case "Y":
-                        //subjectsC.add(subjects.get(i)); tasksC.add(tasks.get(i));
-                        //priorityC.add(priority.get(i));
-                        subjects.remove(i); tasks.remove(i); priority.remove(i);
+                        for(Assignment assignment : assignments.keySet())
+                        {
+                            if(assignment.getTitle().equalsIgnoreCase(subjects.get(i)))
+                            {
+                                accountList.getStudentList().get(i).checkOffAssignment(assignment);
+                            }
+                        }
                         return true;
                     case "N":
                         return true;
@@ -1044,6 +1042,12 @@ public class PrioridateUI {
     public static void main(String[] args)
     {
         PrioridateUI prioridateUI = new PrioridateUI();
+        try {
+            Thread.sleep(0);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         prioridateUI.run();
     }
 }
