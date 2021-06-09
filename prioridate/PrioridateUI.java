@@ -367,7 +367,7 @@ public class PrioridateUI {
             }
             if(processedWelcome.equals("T"))
             {
-
+                AdminUI.run();
             }
             if(welcomeScreenBack.equals("back"))
             {
@@ -401,7 +401,7 @@ public class PrioridateUI {
             command = command.toUpperCase();
             welcomeCommand = command;
         }
-        if(command.equals("X"))
+        if(command.equals("X") || command.equals("x"))
         {
             System.out.println("Goodbye.");
             System.exit(2000);

@@ -14,9 +14,6 @@ public class AdminUI {
   static boolean run = true;
   static boolean isListView = false;
   static boolean badInput = false;
-  public static void main(String[] args) {
-    run();
-  }
 
   public static void run() {
     String lastCompletedAction = null;
@@ -41,6 +38,9 @@ public class AdminUI {
       System.out.println("[4] Create new assignment."+"   [8] Enroll existing student in course.\n");
       System.out.println("Enter [X] to exit.");
       String menuChoice = keyboard.nextLine();
+      if(menuChoice.equals("X") || menuChoice.equals("x"))
+        System.out.println("Goodbye.");
+        System.exit(2000);
       switch(menuChoice.toLowerCase()) {
         case "1":
           badInput = false;
@@ -124,7 +124,11 @@ public class AdminUI {
                         "[3] Exam\n" +
                         "[4] Reading\n");
                         
-    int choice = Integer.parseInt(keyboard.nextLine());
+    String choiceString = keyboard.nextLine();
+    int choice = Integer.parseInt(choiceString);
+    if(choiceString.equals("X") || choiceString.equals("x"))
+      System.out.println("Goodbye.");
+      System.exit(2000);
     clearScreen();
     System.out.println(header);
     String type = "";
@@ -195,7 +199,11 @@ public class AdminUI {
     clearScreen();
     System.out.println(header);
     System.out.println("Enter number of courses to enroll student in: ");
-    int numCourses = Integer.parseInt(keyboard.nextLine());
+    String courseString = keyboard.nextLine();
+    if(courseString.equals("X") || courseString.equals("x"))
+      System.out.println("Goodbye.");
+      System.exit(2000);
+    int numCourses = Integer.parseInt(courseString);
     clearScreen();
     System.out.println(header);
     for(int i = 1; i<=numCourses;i++) {
@@ -233,7 +241,11 @@ public class AdminUI {
     clearScreen();
     System.out.println(header);
     System.out.println("Enter number of new courses for the teacher: ");
-    int numCourses = Integer.parseInt(keyboard.nextLine());
+    String courseString = keyboard.nextLine();
+    if(courseString.equals("X") || courseString.equals("x"))
+      System.out.println("Goodbye.");
+      System.exit(2000);
+    int numCourses = Integer.parseInt(courseString);
     clearScreen();
     System.out.println(header);
     for(int i = 1; i<=numCourses;i++) {
@@ -255,7 +267,11 @@ public class AdminUI {
     System.out.println("Enter the course name: ");
     String courseName = keyboard.nextLine();
     System.out.println("Enter the number of assignments to create for the course: ");
-    int numAssignments = Integer.parseInt(keyboard.nextLine());
+    String assignmentString = keyboard.nextLine();
+    if(assignmentString.equals("X") || assignmentString.equals("x"))
+      System.out.println("Goodbye.");
+      System.exit(2000);
+    int numAssignments = Integer.parseInt(assignmentString);
     clearScreen();
     System.out.println(header);
     for (int i = 1; i<=numAssignments;i++) {
@@ -274,7 +290,11 @@ public class AdminUI {
     System.out.println(header);
     System.out.println("Please choose a student to enroll: ");
     displayAllCurrentStudents();
-    int studentChoice = Integer.parseInt(keyboard.nextLine());
+    String choiceString = keyboard.nextLine();
+    if(choiceString.equals("X") || choiceString.equals("x"))
+      System.out.println("Goodbye.");
+      System.exit(2000);
+    int studentChoice = Integer.parseInt(choiceString);
     Student studentToEnroll = accountList.getStudentList().get(studentChoice-1);
     System.out.println("Please choose the course to enroll the student in: ");
     displayAllCurrentCourses();
