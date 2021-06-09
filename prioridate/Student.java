@@ -32,6 +32,47 @@ public class Student extends Account
           
     }
 
+    private void viewAssignmentsCompleted() 
+    {
+        for(Assignment assignment : assignments.keySet()) {
+            if(assignments.get(assignment) == true) {
+                System.out.println(assignment.toString());
+            }
+        }
+    }
+
+    private void viewAssignmentsDue()
+    {
+        for(Assignment assignment : assignments.keySet()) {
+            if(assignments.get(assignment) == false) {
+                System.out.println(assignment.toString());
+            }
+        }
+    }
+
+    public double calculateCompletionPercent()
+    {
+        int assignmentsCompleted = 0;
+        int assignmentsDue = 0;
+
+        for(Assignment assignment : assignments.keySet()) {
+            if(assignments.get(assignment) == true) {
+                assignmentsCompleted++;
+            }
+            else if(assignments.get(assignment) == false) {
+                assignmentsDue++;
+            }
+        }
+        double completionPercent = ((double)assignmentsCompleted / (assignmentsCompleted + assignmentsDue));
+        return completionPercent;
+    }
+
+   public void checkOffAssignment(Assignment assignment)
+   {
+        assignments.remove(assignment);
+        assignments.put(assignment, true);
+   }
+
     /**
      * gets student ID
      * @return returns int which is student ID
