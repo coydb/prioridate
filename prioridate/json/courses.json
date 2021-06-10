@@ -1,11 +1,1 @@
-[
-		{
-			"courseId":1,
-			"className":"ENGL 202",
-			"assignments":[1]
-		},{
-			"courseId":2,
-			"className":"ECON 101",
-			"assignments":[2]
-		}
-	]
+[{"assignments":[1],"className":"ENGL 202","courseId":1},{"assignments":[2],"className":"ECON 101","courseId":2},{"assignments":[],"className":"ELCT 101","courseId":3},{"assignments":[],"className":"ELCT 101","courseId":4},{"assignments":[],"className":"ELCT 101","courseId":5},{"assignments":[5],"className":"ELCT 101","courseId":6}]

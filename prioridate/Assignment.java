@@ -129,7 +129,6 @@ public abstract class Assignment {
     public int checkMonthDue(int month) {
         Calendar today = Calendar.getInstance();
         int dueMonth;
-        month = month - 1;  // months stored in array, (i.e. December inputted as 12 but is index 11)
         if(month > 11 || month < 0)  // makes sure due date is a valid month
             dueMonth = today.get(Calendar.MONTH);  // default month is this month    
         else
@@ -184,7 +183,7 @@ public abstract class Assignment {
     /**
      * Accessor for the percent of grade
      * @return The percent of the grade the assignment is worth
-     */
+     */ 
     public double getPercentOfGrade() {
         return this.percentOfGrade;
     }
