@@ -172,7 +172,7 @@ public class PrioridateUI {
                              */
                             assignmentCount = 0; assignmentCCount = 0;
                             /**
-                             * 
+                             * Creates a count of all due assignments.
                              */
                             HashMap<Assignment, Boolean> assignmentsCount = currentStudent.getAssignments();
                             for(Assignment assignment : assignmentsCount.keySet())
@@ -182,6 +182,9 @@ public class PrioridateUI {
                                     assignmentCount++;
                                 }
                             }
+                            /**
+                             * Creates a count of all completed assignments
+                             */
                             HashMap<Assignment, Boolean> assignmentsCCount = currentStudent.getAssignments();
                             for(Assignment assignment : assignmentsCCount.keySet())
                             {
@@ -190,8 +193,17 @@ public class PrioridateUI {
                                     assignmentCCount++;
                                 }
                             }
-                            String homeScreenBack = "default";
+                            /**
+                             * Helps the program navigate back to the home screen.
+                             */
+                            Boolean homeScreenBack = false;
+                            /**
+                             * Prints the student home screen with their username imported to prompt them saying welcome.
+                             */
                             studentHomeScreenView(username);
+                            /**
+                             * Gets and processes the input for the home screen.
+                             */
                             String homeInput = scanner.nextLine();
                             homeInput = getHomeInput(homeInput);
                             if(homeInput.equals("back"))
@@ -199,45 +211,82 @@ public class PrioridateUI {
                                 loginScreenBack = false;
                                 break;
                             }
+                            /**
+                             * A switch case for all possible home screen inputs.
+                             */
                             switch(homeInput)
                             {
+                                /**
+                                 * If the command is invalid, shows a failed screen and resets the loop.
+                                 */
                                 case "error":
                                     failedHomeScreen();
                                     continue;
+                                /**
+                                 * Navigates to the to do list.
+                                 */
                                 case "1":
                                 {
                                     toDoLoop: while(true)
                                     {
-                                        String toDoScreenBack = "default";
                                         while(true)
                                         {
+                                            /**
+                                             * Two Boolean values, completed and checkOff that exist to
+                                             * re-use the toDoListScreen method depending on what context
+                                             * it's being used in. In this case, it's for due assignments.
+                                             */
                                             Boolean completed = false; Boolean checkOff = false;
+                                            /**
+                                             * Prints the todoListScreen while importing all the necessary variables.
+                                             */
                                             todoListScreen(assignmentCount, pageCounter, completed, checkOff);
                                             String toDoInput = scanner.nextLine();
                                             toDoInput = getToDoInput(toDoInput);
+                                            /**
+                                             * If a user tries to go to a previous page without a previous page existing, 
+                                             * prints out the error page.
+                                             */
                                             if(toDoInput.equals("<") && pageCounter == 0)
                                             {
                                                 failedListScreen(completed);
                                                 continue;
                                             }
+                                            /**
+                                             * Switch case for inputs for the todolist.
+                                             */
                                             switch(toDoInput)
                                             {
+                                                /**
+                                                 * If the user inputs B or b, sends them back to the home screen.
+                                                 */
                                                 case "back":
                                                 {
-                                                    toDoScreenBack = "back";
                                                     break toDoLoop;
                                                 }
+                                                /**
+                                                 * If the user inputs a value that isn't valid, returns with a failed
+                                                 * screen and resets the loop.
+                                                 */
                                                 case "error":
                                                 {
                                                     failedListScreen(completed);
                                                     continue;
                                                 }
+                                                /**
+                                                 * Goes back to the previous page, setting the pageCounter and
+                                                 * assignmentCount to the appropiate number.
+                                                 */
                                                 case "<":
                                                 {
                                                     assignmentCount = assignmentCount + 5;
                                                     pageCounter = pageCounter - 1;
                                                     continue;
                                                 }
+                                                /**
+                                                 * Goes forward to the next page, setting the pageCounter and 
+                                                 * assignmentCount to the appropiate number.
+                                                 */
                                                 case ">":
                                                 {
                                                     assignmentCount = assignmentCount - 5;
@@ -247,6 +296,9 @@ public class PrioridateUI {
                                             }
                                         }
                                     }
+                                    /**
+                                     * Resets values so they don't double up.
+                                     */
                                     pageCounter = 0;
                                     assignmentCount = 0;
                                     assignmentsCount = currentStudent.getAssignments();
@@ -259,13 +311,19 @@ public class PrioridateUI {
                                     }
                                     break;
                                 }
+                                /**
+                                 * Navigates to the completed assignments.
+                                 */
                                 case "2":
                                 {
                                     toDoLoop: while(true)
                                     {
-                                        String toDoScreenBack = "default";
                                         while(true)
                                         {
+                                            /**
+                                             * The same as the due assignment code but it has the completed Boolean checked
+                                             * true.
+                                             */
                                             Boolean completed = true; Boolean checkOff = false;
                                             todoListScreen(assignmentCCount, pageCounter, completed, checkOff);
                                             String toDoInput = scanner.nextLine();
@@ -279,7 +337,6 @@ public class PrioridateUI {
                                             {
                                                 case "back":
                                                 {
-                                                    toDoScreenBack = "back";
                                                     break toDoLoop;
                                                 }
                                                 case "error":
@@ -314,16 +371,20 @@ public class PrioridateUI {
                                     }
                                     break;
                                 }
+                                /**
+                                 * Goes to the check off screen.
+                                 */
                                 case "3":
                                 {
                                     toDoLoop: while(true)
                                     {
+                                        /**
+                                         * Resets the checkOffPointer.
+                                         */
                                         checkOffPointer = -1;
-                                        String toDoScreenBack = "default";
                                         while(true)
                                         {
-                                            listSelector = 0;
-                                            Boolean completed = false;
+                                            listSelector = 0;Boolean completed = false;
                                             Boolean deleted = checkOffAssignment(assignmentCount, pageCounter);
                                             if(deleted==true)
                                                 break toDoLoop;
@@ -338,7 +399,6 @@ public class PrioridateUI {
                                             {
                                                 case "back":
                                                 {
-                                                    toDoScreenBack = "back";
                                                     break toDoLoop;
                                                 }
                                                 case "error":
@@ -360,6 +420,10 @@ public class PrioridateUI {
                                                     pageCounter = pageCounter + 1;
                                                     continue;
                                                 }
+                                                /**
+                                                 * Sets checkOffPointer to any of the numbers inputted to figure
+                                                 * out which assignment to check off.
+                                                 */
                                                 case "1":
                                                 {
                                                     checkOffPointer = 1;
@@ -401,23 +465,38 @@ public class PrioridateUI {
                                     break; 
                                 }
                             }
+                            /**
+                             * Goes back to the home screen.
+                             */
                             if(homeScreenBack.equals(true))
                             {
                                 continue;
                             }
                         }
                     }
+                    /**
+                     * Goes back to the login Screen.
+                     */
                     if(loginScreenBack.equals(true))
                     {
                         continue;
                     }
                 }
             }
+            /**
+             * Goes to the create account screen.
+             */
             if(processedWelcome.equals("C"))
             {
                 while(true)
                 {
+                    /**
+                     * Prints the blank create account screen.
+                     */
                     blankCreateAccountScreen();
+                    /**
+                     * Essentially has the same code as the login screen.
+                     */
                     String createInput = scanner.next();
                     String username = getUsername(createInput);
                     if(username.equals("back"))
@@ -433,6 +512,9 @@ public class PrioridateUI {
                         welcomeScreenBack = true;
                         break;
                     }
+                    /**
+                     * Exists to easily quit the check off menu once it's done checking off the assignment.
+                     */
                     Boolean confirm =confirmCreateAccountScreen(username, password);
                     if(confirm==true)
                     {
@@ -440,8 +522,15 @@ public class PrioridateUI {
                     }
                 }
             }
+            /**
+             * Goes to the teacher login menu.
+             */
             if(processedWelcome.equals("T"))
             {
+                /**
+                 * Sets a boolean value to indicate this isnt for student logins for the code. Basically
+                 * the same code as the original login screen.
+                 */
                 Boolean student = false; invalidLogin = false;
                 blankLoginPage();
                 String loginInput = scanner.next();
@@ -465,11 +554,17 @@ public class PrioridateUI {
                     invalidLoginScreen();
                     continue;
                 }
+                /**
+                 * Navigates to the AdminUI once it logs in.
+                 */
                 else if(invalidLogin == false)
                 {
                     AdminUI.run();
                 }   
             }
+            /**
+             * Navigates back to the welcome screen.
+             */
             if(welcomeScreenBack.equals(true))
             {
                 continue;
@@ -492,6 +587,11 @@ public class PrioridateUI {
         System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
     }
 
+    /**
+     * Processes the welcome screen command.
+     * @param command is imported from the run method
+     * @return with the processed welcome command.
+     */
     private String getWelcomeUserCommand(String command)
     {
         String welcomeCommand = command;
@@ -538,6 +638,11 @@ public class PrioridateUI {
         System.out.print("Username: ");
     }
 
+    /**
+     * Processes the username command.
+     * @param command is imported from the run method
+     * @return with the username.
+     */
     private String getUsername(String command)
     {
         String loginCommand = command;
@@ -577,6 +682,11 @@ public class PrioridateUI {
         System.out.print("Password: ");
     }
 
+    /**
+     * Processes the password command
+     * @param command is imported from the run method
+     * @return with the processed password command
+     */
     private String getPassword(String command)
     {
         String loginCommand = command;
@@ -601,10 +711,21 @@ public class PrioridateUI {
         return loginCommand;
     }
 
+    /**
+     * Confirms whether or not the login information is valid.
+     * @param isStudent is imported from run and determines whether or not to compare the username
+     * and passwords to the teachers or students
+     * @param username is imported from run
+     * @param password is imported from run
+     */
     private void confirmLogin(Boolean isStudent, String username, String password)
     {
         if(isStudent==true)
         {
+            /**
+             * Creates String ArrayLists for the usernames and passwords from the student ArrayList.
+             * Used to compare to the input later.
+             */
             ArrayList<String> usernames = new ArrayList<String>();
             for (Student student : accountList.getStudentList())
             {
@@ -615,6 +736,9 @@ public class PrioridateUI {
             {
                 passwords.add(student.getPassword());
             }
+            /**
+             * A for loop designed to loop through the the lists of usernames and passwords and end the method if they find a match.
+             */
             for(int i = 0; i < accountList.getStudentList().size(); i++)
             {
                 if(username.equals(usernames.get(i)) && password.equals(passwords.get(i)))
@@ -630,6 +754,9 @@ public class PrioridateUI {
         }
         else
         {
+            /**
+             * Same as student but for teacher usernames and passwords.
+             */
             ArrayList<String> usernames = new ArrayList<String>();
             for (Teacher teacher : accountList.getTeacherList())
             {
@@ -679,6 +806,11 @@ public class PrioridateUI {
         System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
     }
 
+    /**
+     * Processes the command entered into the home screen.
+     * @param command is imported from run
+     * @return with the processed home screen command
+     */
     private String getHomeInput(String command)
     {
         String homeCommand = command;
@@ -713,15 +845,38 @@ public class PrioridateUI {
         scanner.nextLine();
     }
 
+    /**
+     * Goes through each assignment assigned to a student and prints it out different depending on the context.
+     * @param assignmentCount is the current count of due assignments.
+     * @param pageCounter is the current count of the page.
+     * @param completed is a boolean expression meant to check if the todolist is looping through completed
+     * assignments.
+     * @param checkOff is a boolean expression meant to check if the todoList will be used to check off assignments.
+     */
     private void todoListScreen(int assignmentCount, int pageCounter, Boolean completed, Boolean checkOff)
     {
+        /**
+         * Creates a hashMap using the values of the current student's assignment HashMap.
+         */
         HashMap<Assignment,Boolean> assignments = currentStudent.getAssignments();
+        /**
+         * Creates String ArrayLists for the different parts of the assignment we will be pulling.
+         */
         ArrayList<String> subjects = new ArrayList<String>();
         ArrayList<String> tasks = new ArrayList<String>();
         ArrayList<String> priority = new ArrayList<String>();
         ArrayList<String> dates = new ArrayList<String>();
+        /**
+         * Changes depending on whether or not the completed boolean is true or not, the only
+         * difference is it will check for assignments with "true" in the HashMap next to it 
+         * if it's completed and "false" if it's due.
+         */
         if(completed == false)
         {
+            /**
+             * Sifts through the HashMaps and uses the method to return with specific values from
+             * these assignments. Only adds if it has a false key.
+             */
             for(Assignment assignment : assignments.keySet())
             {
                 if(assignments.get(assignment) == false)
@@ -745,6 +900,10 @@ public class PrioridateUI {
         }
         else
         {
+            /**
+             * Sifts through the HashMaps and uses the method to return with specific values from
+             * these assignments. Only adds if it has a true key.
+             */
             for(Assignment assignment : assignments.keySet())
             {
                 if(assignments.get(assignment) == true)
@@ -767,6 +926,9 @@ public class PrioridateUI {
             }
         }
         clearScreen();
+        /**
+         * Changes the beginning statement based on the completed boolean.
+         */
         if(completed == false)
         {
             System.out.println(":::::::::::::::::::::::::::::: To-Do List ::::::::::::::::::::::::::::::\n");
@@ -781,15 +943,29 @@ public class PrioridateUI {
                         +  "     Due Date");
         System.out.println(" ");
 
+        /**
+         * Changes based on the boolean expression. Will go through and print out assignments in the list.
+         */
         if(completed == false)
         {
+            /**
+             * If the assignment count is greater than 5, creates a first page, and continues until it 
+             * has less than 5 assignments in the count.
+             */
             if(assignmentCount > 5)
             {
+                /**
+                 * runs the processAssignmentLine 5 times and sets the value j to the current count of 
+                 * the for loop plus the pageCount * 5 to make an accurate count of which assignment to grab.
+                 */
                 for(int i = 0; i < 5; i++)
                 {
                     int j = i + pageCounter*5;
                     processAssignmentLine(subjects, tasks, priority, dates, j, checkOff);
                 }
+                /**
+                 * If it's the first page, don't print out a previous page button.
+                 */
                 if(pageCounter == 0)
                 {
                     System.out.println("\n\n                  [>] Next Page\n");
@@ -801,20 +977,39 @@ public class PrioridateUI {
                 System.out.println("\nOptions: [B] Go Back [X] Exit");
                 System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
             }
+            /**
+             * If the assignment count has less than 5 values, prints out a page with less than 5 values, typically 
+             * the last page.
+             */
             else
             {
+                /**
+                 * Runs the processAssignmentLine method as many times as it needs to to get through the assignment
+                 * count.
+                 */
                 for(int i = 0; i < assignmentCount; i++)
                 {
                     int j = i + pageCounter*5;
                     processAssignmentLine(subjects, tasks, priority, dates, j, checkOff);
                 }
-                System.out.println("\n\n[<] Previous Page\n");
+                /**
+                 * if its the only page, doesnt print out buttons.
+                 */
+                if(pageCounter == 0)
+                {
+                    System.out.println("\n\n\n");
+                }
+                else
+                    System.out.println("\n\n[<] Previous Page\n");
                 System.out.println("\nOptions: [B] Go Back [X] Exit");
                 System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
             }
         }
         else
         {
+            /**
+             * The same code but for the completed assignments.
+             */
             if(assignmentCCount > 5)
             {
                 for(int i = 0; i < 5; i++)
@@ -847,17 +1042,41 @@ public class PrioridateUI {
         }
     }
 
+    /**
+     * Processes the assignments entered from todoListScreen, printing them out in the right format.
+     * @param subjects imported from todoListScreen.
+     * @param tasks imported from todoListScreen.
+     * @param priority imported from todoListScreen.
+     * @param dates imported from todoListScreen.
+     * @param i imported from todoListScreen.
+     * @param checkOff imported from todoListScreen.
+     */
     private void processAssignmentLine(ArrayList<String> subjects, ArrayList<String> tasks, ArrayList<String> priority,
     ArrayList<String> dates, int i, Boolean checkOff)
     {
+        /**
+         * Adds one to listSelector for getting the right number before the assignment.
+         */
         listSelector = listSelector + 1; 
+        /**
+         * Formatting spacing for the list.
+         */
         String courseSpacing = "            ";
         String examSingleDigit = "                "; String quizSingleDigit = "                ";
         String homeworkSingleDigit = "            "; String readingSingleDigit = "             ";
 
+        /**
+         * Prints out the number followed by the assignment title, followed by the spacing.
+         */
         System.out.print((i+1)+"    ");
         System.out.print(subjects.get(i)+courseSpacing);
         switch(tasks.get(i))
+            /**
+             * Depending on the type of assignment, returns with different spacing but is the same code.
+             * prints out the type of assignment, followed by the priority, followed by the date it's due.
+             * In the case of it being for checking off an assignment, itll be followed by a number indicating
+             * which button to press.
+             */
             {
                 case "Exam":
                     System.out.print(tasks.get(i)+examSingleDigit);
@@ -891,6 +1110,11 @@ public class PrioridateUI {
                     
     }
 
+    /**
+     * processes the toDoList input.
+     * @param command is imported from run
+     * @return with the processed toDoList command.
+     */
     private String getToDoInput(String command)
     {
         String toDoCommand = command;
@@ -931,8 +1155,17 @@ public class PrioridateUI {
         scanner.nextLine();
     }
 
+    /**
+     * Checks off an assignment, switching it's false key to true.
+     * @param assignmentCount imported from run
+     * @param pageCounter imported from run
+     * @return with a Boolean value meant to make it end easier.
+     */
     private Boolean checkOffAssignment(int assignmentCount, int pageCounter)
     {
+        /**
+         * Seen earlier, makes ArrayLists of different portions of the assignment.
+         */
         HashMap<Assignment,Boolean> assignments = currentStudent.getAssignments();
         ArrayList<String> subjects = new ArrayList<String>();
         ArrayList<String> tasks = new ArrayList<String>();
@@ -958,13 +1191,22 @@ public class PrioridateUI {
             if(assignments.get(assignment) == false)
                 dates.add(assignment.dueDateToString());
         }
+        /**
+         * Sets i to the checkOffPointer.
+         */
         int i = checkOffPointer;
         Boolean completed = false; Boolean checkOff = true;
+        /**
+         * If the pointer is at it's default value, print out the todo screen like normal
+         */
         if(i == -1)
         {
             todoListScreen(assignmentCount, pageCounter, completed, checkOff);
             return false;
         }
+        /**
+         * Print out the confirm check off screen.
+         */
         else
         {
             pageCounter = pageCounter*5;
@@ -982,11 +1224,18 @@ public class PrioridateUI {
                 System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
                 String checkOffCommand = scanner.nextLine();
                 checkOffCommand = getCheckOffInput(checkOffCommand);
+                /**
+                 * Switch case for the checkOffCommand.
+                 */
                 switch(checkOffCommand)
                 {
                     case "error":
                         failedListScreen(completed);
                         break;
+                    /**
+                     * If the input is Y, grabs the current assignment, and overwrites it to have true be it's key,
+                     * then adds the student to the json again, overwriting them and adding the new assignment
+                     */
                     case "Y":
                         for(Assignment assignment : assignments.keySet())
                         {
@@ -997,6 +1246,9 @@ public class PrioridateUI {
                             }
                         }
                         return true;
+                    /**
+                     * Returns to the home screen if the input is N.
+                     */
                     case "N":
                         return true;
                 }
@@ -1004,6 +1256,11 @@ public class PrioridateUI {
         }
     }
 
+    /**
+     * Processes the command for checking off an assignment.
+     * @param command is imported from checkOffAssignment
+     * @return with the processed input
+     */
     private String getCheckOffInput(String command)
     {
         String checkOffCommand = command;
@@ -1064,6 +1321,12 @@ public class PrioridateUI {
         System.out.print("Password: ");
     }
 
+    /**
+     * Exists to prompt the user to confirm if an account looks correct and will add the account.
+     * @param username is imported from run
+     * @param password is imported from run
+     * @return with a Boolean expression meant to end the code easier.
+     */
     private Boolean confirmCreateAccountScreen(String username, String password)
     {
         clearScreen();
@@ -1086,6 +1349,10 @@ public class PrioridateUI {
                 case "error":
                     genericFailScreen();
                     break;
+                /**
+                 * If the command is Y, goes through the steps laid out in AdminUI to create a brand new 
+                 * Student account.
+                 */
                 case "Y":
                 {
                     addTypeAccountScreen();
@@ -1121,6 +1388,11 @@ public class PrioridateUI {
         }
     }
 
+    /**
+     * Processes the confirmInput command
+     * @param command is imported from confirmCreateAccountScreen
+     * @return with the processed input.
+     */
     private String getConfirmInput(String command)
     {
         String confirmCommand = command;
@@ -1216,12 +1488,6 @@ public class PrioridateUI {
         System.out.println("\n\n\n\n\n\n\n\n");
         System.out.println("Options: [X] Exit");
         System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
-    }
-
-    private String getField(String prompt)
-    {
-        String one = "one";
-        return one;
     }
 
     public static void displayAllCurrentCourses()
