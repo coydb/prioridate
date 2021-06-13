@@ -1,6 +1,7 @@
 {
   "java.project.referencedLibraries": [
     "lib/**/*.jar",
-    "prioridate/lib/json-simple-1.1.1.jar"
+    "prioridate/lib/json-simple-1.1.1.jar",
+    "prioridate/lib/junit-platform-console-standalone-1.7.2.jar"
   ]
 }
