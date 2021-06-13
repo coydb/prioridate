@@ -105,7 +105,7 @@ public class AdminUI {
     clearScreen();
     System.out.println(header);
     System.out.println("Enter the month the assignment is due (ex: 01, 09, 12)");
-    int dueMonth = Integer.parseInt(keyboard.nextLine());
+    int dueMonth = Integer.parseInt(keyboard.nextLine()) - 1;
     System.out.println("Enter the day the assignment is due (ex: 01, 15, 31)");
     int dueDay = Integer.parseInt(keyboard.nextLine());
     System.out.println("Enter the year the assignment is due (ex: 2020)");
