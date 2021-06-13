@@ -7,7 +7,7 @@ import java.util.HashMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-public class DataLoadWriteTest {
+public class DataTest {
   AssignmentList assignmentList = AssignmentList.getInstance();
   CourseList courseList = CourseList.getInstance();
   AccountList accountList = AccountList.getInstance();
@@ -110,8 +110,8 @@ public class DataLoadWriteTest {
 
   @Test
   void testWriteCourseEmptyCourseName() {
-    ArrayList<Assignment> assignmentsEmpty = new ArrayList<Assignment>();
-    Course course = new Course(1, "", assignmentsEmpty);
+    ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+    Course course = new Course(1, "", assignments);
     courseList.addCourse(course);
     assertNotEquals("", courseList.getCourse(1).getClassName());
   }
@@ -146,4 +146,45 @@ public class DataLoadWriteTest {
     assertNotEquals("", students.get(1).getStudentName());
   }
 
+  @Test
+  void testWriteAssignmentInvalidId() {
+    Assignment newAssignment = new Homework(-1, "New Assignment 1", "Homework",
+                                            2021, 06, 25, 23, 59, 5.5, 15);
+    assignmentList.addAssignment(newAssignment);
+    boolean isInvalidId = assignments.get(0).getAssignmentId() <= 0;
+    assertFalse(isInvalidId);
+  }
+
+  @Test
+  void testWriteCourseInvalidId() {
+    ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+    Course course = new Course(-1, "New Course 1", assignments);
+    courseList.addCourse(course);
+    boolean isInvalidId = courses.get(0).getCourseId() <= 0;
+    assertFalse(isInvalidId);
+  }
+
+  @Test
+  void testWriteAccountInvalidId() {
+    ArrayList<Course> courses = new ArrayList<Course>();
+    HashMap<Assignment, Boolean> assignments = new HashMap<Assignment, Boolean>();
+    Student student = new Student("username1", "password", "Student", -1,
+                                  "New User", assignments, courses);
+    accountList.addStudent(student);
+    boolean isInvalidId = students.get(0).getStudentId() <=0;
+    assertFalse(isInvalidId);
+  }
+
+  @Test
+  void testWriteDuplicateUsername() {
+    ArrayList<Course> courses = new ArrayList<Course>();
+    HashMap<Assignment, Boolean> assignments = new HashMap<Assignment, Boolean>();
+    Student student1 = new Student("duplicate", "password", "Student", 1,
+                                   "New User 1", assignments, courses);
+    Student student2 = new Student("duplicate", "password", "Student", 2,
+                                   "New User 2", assignments, courses);
+    accountList.addStudent(student1);
+    accountList.addStudent(student2);
+    assertNotEquals("duplicate", accountList.getAccount(2).getUsername());
+  }
 }
