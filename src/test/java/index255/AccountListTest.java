@@ -156,4 +156,29 @@ public class AccountListTest {
     // newly added assignment should now be present in the student's assignments list
     assertEquals(false, studentAfterEdit.getAssignments().get(newAssignment));
   }
+
+  @Test
+  void addLargeNameToTeacher() {
+    ArrayList<Course> courses = new ArrayList<Course>();
+    String teacherName = "usernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusername"
+    + "usernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusername"
+    + "usernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusername";
+    Teacher teacher = new Teacher(teacherName, "password", "Teacher", 1,
+                                  "New Teacher", courses);
+    accountList.addTeacher(teacher);
+    assertEquals(teacherName, accountList.getAccount(1).getUsername());
+  }
+
+  @Test
+  void addLargeNameToStudent() {
+    String studentName = "usernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusername"
+    + "usernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusername"
+    + "usernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusernameusername";
+    ArrayList<Course> courses = new ArrayList<Course>();
+    HashMap<Assignment, Boolean> assignments = new HashMap<Assignment, Boolean>();
+    Student student = new Student(studentName, "password", "Student", 1,
+                                  "New User", assignments, courses);
+    accountList.addStudent(student);
+    assertEquals(studentName, accountList.getAccount(1).getUsername());
+  }
 }
