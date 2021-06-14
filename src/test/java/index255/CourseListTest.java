@@ -71,4 +71,60 @@ public class CourseListTest {
     // an int is return above
     assertEquals(0, highestId);
   }
+
+  @Test
+  void testMakeDuplicateCourses() {
+    for(int i = 1; i <= 2; i++) {
+      ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+      Course course = new Course(i, "New Course", assignments);
+      courseList.addCourse(course);
+    }
+
+    for(int i = 2; i > 0; i--) {
+      assertEquals("New Course", courseList.getCourse(i).getClassName());
+    }
+  }
+
+  @Test
+  void testAddLargeCourseName() {
+    String largeName = "a";
+    for(int i = 1; i <= 1000; i++) {
+      largeName = largeName + "a";
+    }
+    ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+    Course course = new Course(1, largeName, assignments);
+    courseList.addCourse(course);
+    assertEquals(largeName, courseList.getCourse(1).getClassName());
+  }
+
+  @Test
+  void testAddLargeNumofAssignments() {
+    ArrayList<Assignment> assignments = new ArrayList<Assignment>();
+    for(int i = 1; i <= 1000; i++) {
+      Homework homework = new Homework(i, "Assignment title"+i, "Homework", 2022, 11, 6, 11, 59, 5.0, 20);
+      assignments.add(homework);
+    }
+    Course course = new Course(1, "New Course", assignments);
+    courseList.addCourse(course);
+    for(int i = 1; i <= 1000; i++) {
+      assertEquals(assignments.get(i), courseList.getCourse(1).getAssignments().get(i));
+    }
+    
+  }
+  
+  @Test
+  void testSkipCourseId() {
+    ArrayList<Assignment> assignmentsEmpty = new ArrayList<Assignment>();
+    Course course = new Course(1, "New Course", assignmentsEmpty);
+    Course course2 = new Course(2, "New Course", assignmentsEmpty);
+    Course course3 = new Course(3, "New Course", assignmentsEmpty);
+    Course course5 = new Course(5, "New Course", assignmentsEmpty);
+    courseList.addCourse(course);
+    courseList.addCourse(course2);
+    courseList.addCourse(course3);
+    courseList.addCourse(course5);
+    int highestId = courseList.getHighestCourseId();
+    assertEquals(5, highestId);
+  }
+
 }
